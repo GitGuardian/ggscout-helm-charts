@@ -11,7 +11,7 @@ helm repo add ggscout-charts https://gitguardian.github.io/ggscout-helm-charts
 Then install the scout, with a values file (examples below):
 
 ```shell
-helm upgrade ggscout ggscout-charts --install --values values.yml
+helm upgrade ggscout ggscout-charts/ggscout --install --values values.yml
 ```
 
 An example values file that fetches from HashiCorp Vault and GitLab CI:

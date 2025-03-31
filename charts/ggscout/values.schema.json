@@ -111,14 +111,13 @@
             },
             {
               "title": "Kubernetes authentication",
-              "description": "Use k8s authentication. If gg-scout is running outside a K8s cluster, it uses the kubeconfig file, otherwise it uses an in-cluster K8s client",
+              "description": "Use k8s authentication. If ggscout is running outside a K8s cluster, it uses the kubeconfig file, otherwise it uses an in-cluster K8s client",
               "type": "object",
               "required": [
                 "auth_mode",
-                "role",
-                "service_account"
+                "role"
               ],
-              "minProperties": 3,
+              "minProperties": 2,
               "properties": {
                 "auth_mode": {
                   "enum": [
@@ -145,7 +144,8 @@
                 "service_account": {
                   "description": "Kubernetes service account used for authentication",
                   "type": "string",
-                  "minLength": 0
+                  "minLength": 0,
+                  "nullable": true
                 },
                 "token_expiration_seconds": {
                   "description": "Token expiration time in second. Default to 30 minutes",
