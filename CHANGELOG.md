@@ -1,3 +1,9 @@
+## ggscout-0.4.0 (2025-03-31)
+
+### Feat
+
+- **release**: set 0.16.1 ggscout release
+
 ## ggscout-0.3.1 (2025-03-14)
 
 ## ggscout-0.3.0 (2025-03-12)
