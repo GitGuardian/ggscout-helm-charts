@@ -80,9 +80,15 @@ stringData:
 
 To apply the secrets to your cluster/namespace, run the following command: `kubectl apply -f secrets.yaml`
 
-If you want to only fetch the identities without sending them, please see this [example](charts/ggscout/examples/fetch_only)
-
 Other examples can be found in [charts/ggscout/examples](charts/ggscout/examples).
+
+> [!IMPORTANT]
+> If you want to only fetch the identities without sending them, please see this [example](charts/ggscout/examples/fetch_only)
+
+
+> [!CAUTION]
+> If you are using Rancher fleet to deploy ggscout, please refer to this [section](#rancher-fleet)
+
 
 ## Development
 
@@ -91,3 +97,98 @@ Install [mise](https://mise.jdx.dev/), then run the following command to run tes
 ```shell
 $ mise run test
 ```
+
+## Rancher fleet
+
+Rancher fleet uses its own [templating language](https://fleet.rancher.io/ref-fleet-yaml#templating).
+If you have created a bundle from this charts repository, make sure to properly escape environment variables.
+
+For example in your values.yml: 
+```
+api_token: ${GG_API_TOKEN}
+```
+
+must be declared instead as:
+```
+api_token: ${` ${GG_API_TOKEN} `}
+```
+
+### Full example with Rancher fleet
+
+The previous values example must be changed to:
+
+```yaml
+inventory:
+  config:
+    sources:
+      vault-secrets:
+        type: hashicorpvault
+        vault_address: "https://your-vault-address-here"
+        # If auth is not set, the env variable `VAULT_TOKEN` is used with a `token` auth_mode
+        auth:
+          auth_mode: "token"
+          # Token configuration can be read from environment variables like so:
+          token: "${`${HASHICORP_VAULT_TOKEN}`}"
+        fetch_all_versions: true
+        path: "secret/"
+      gitlabci:
+        type: gitlabci
+        token: "${`${GITLAB_TOKEN}`}"
+        url: "https://gitlab.gitguardian.ovh"
+    # To upload, set the gitguardian URL and tokens. Ensure the endpoint path ends with /v1
+    # This is optional: omit this to prevent uploading and to only test collection.
+    gitguardian:
+      endpoint: "https://my-gg-instance/v1"
+      api_token: "${`${GITGUARDIAN_API_KEY}`}"
+  jobs:
+    # Job to fetch defined sources
+    fetch:
+        # Set to `false` to disable the job
+        enabled: true
+        # Run every 15 minutes
+        schedule: '*/15 * * * *'
+        # If set to `false`, see the fetch-only configuration example in charts/ggscout/examples/fetch_only
+        send: true
+    # Job to be able to sync/write secrets from GitGuardian into you vault
+    sync:
+      # Set to `false` to disable the job
+      enabled: true
+      # Run every minute
+      schedule: '* * * * *'
+
+# This needs to be created separately (read instructions below), and contain the following keys:
+# - `HASHICORP_VAULT_TOKEN` - the hashicorp vault token to use
+# - `GITLAB_TOKEN` - the GitLab access token to use
+# - `GITGUARDIAN_API_KEY` - the GitGuardian token to send results with
+envFrom:
+  - secretRef:
+      name: gitguardian-ggscout-secrets
+```
+
+If you save this config as `values.yaml` and you declare the following `fleet.yaml` config file:
+
+```yaml
+name: ggscout
+helm:
+  releaseName: ggscout
+  repo: https://gitguardian.github.io/ggscout-helm-charts
+  branch: main
+  chart: ggscout
+  valuesFiles:
+    - values.yaml
+```
+
+You can create a bundle with the following [rancher cli](https://formulae.brew.sh/formula/fleet-cli) command:
+
+```
+fleet apply fleet.yaml -o - > ggscout.bdl 
+```
+
+Then test that the created bundle is correctly parsed by fleet:
+
+```
+fleet target --bundle-file ggscout.bdl
+```
+
+If you have any error, it probably means you have some variables that are not properly escaped in you `values.yaml` file
+
