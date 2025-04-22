@@ -14,7 +14,7 @@ inventory:
         access_key: "${AKEYLESS_ACCESS_KEY}"
 
     gitguardian:
-      endpoint: "https://my-gg-instance/v1"
+      endpoint: "${GITGUARDIAN_API_URL}"
       api_token: "${GITGUARDIAN_API_KEY}"
   jobs:
     # Job to fetch defined sources

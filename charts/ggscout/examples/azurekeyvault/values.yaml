@@ -10,7 +10,7 @@ inventory:
         fetch_all_versions: true
 
     gitguardian:
-      endpoint: "https://my-gg-instance/v1"
+      endpoint: "${GITGUARDIAN_API_URL}"
       api_token: "${GITGUARDIAN_API_KEY}"
   jobs:
     # Job to fetch defined sources
