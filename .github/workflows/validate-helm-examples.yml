@@ -1,0 +1,353 @@
+name: Validate Helm Chart Examples
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'charts/ggscout/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'charts/ggscout/**'
+  workflow_dispatch:
+
+jobs:
+  validate-examples:
+    runs-on: ubuntu-latest
+
+    strategy:
+      # Fail-fast set to false ensures all examples are tested even if one fails
+      fail-fast: false
+      matrix:
+        example-group:
+          - secret_manager_group_1: ["akeyless", "conjurcloud", "hashicorpvault", "azurekeyvault"]
+          - secret_manager_group_2: ["delinea", "gcpsecretmanager", "awssecretsmanager"]  # TODO: add fetch-only
+          # - consumers: ["k8s_incluster", "k8s_kubeconfigfile", "gitlabci"]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: 'latest'
+
+      # Create a kind cluster for actual deployment testing
+      - name: Create kind cluster
+        uses: helm/kind-action@v1.8.0
+        with:
+          cluster_name: ggscout-test
+          wait: 120s
+
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'latest'
+
+      - name: Install yq
+        run: |
+          sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq
+          sudo chmod +x /usr/bin/yq
+
+      # Get the example directories from the matrix
+      - name: Set example directories
+        id: set-examples
+        run: |
+          # Parse the JSON object from matrix
+          GROUP_NAME=$(jq -n -r --argjson examples '${{ toJSON(matrix.example-group) }}' '$examples | keys[0]')
+          DIRS=$(jq -n -r --argjson examples '${{ toJSON(matrix.example-group) }}' --arg group "$GROUP_NAME" '$examples[$group] | .[]')
+
+          echo "group=$GROUP_NAME" >> $GITHUB_OUTPUT
+          echo "directories<<EOF" >> $GITHUB_OUTPUT
+          echo "$DIRS" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      # Create test namespace
+      - name: Create test namespace
+        run: |
+          kubectl create namespace ggscout-test
+
+      # Create GCP SA Key Secret in Kubernetes
+      - name: Create GCP SA Key Secret
+        run: |
+          echo "Creating GCP service account key secret..."
+          # Decode the Base64 encoded secret and create a Kubernetes secret
+          echo "${{ secrets.GCP_SA_KEY }}" | base64 --decode > gcp_key.json
+          kubectl create secret generic gcp-key-secret --namespace ggscout-test --from-file=gcp_key.json
+          echo "✅ Secret gcp-key-secret created with GCP credentials"
+
+      # Deploy and validate each example in the cluster
+      - name: Deploy and validate examples
+        env:
+          GITGUARDIAN_API_URL: ${{ secrets.GITGUARDIAN_API_URL }}
+          GITLAB_URL: ${{ secrets.GITLAB_URL }}
+          HASHICORP_VAULT_URL: ${{ secrets.HASHICORP_VAULT_URL }}
+        run: |
+          GROUP="${{ steps.set-examples.outputs.group }}"
+          DIRS="${{ steps.set-examples.outputs.directories }}"
+
+          for example in $DIRS; do
+            echo "🔍 Validating example: $example"
+            release_name="ggscout-test-${example}-${GITHUB_SHA::7}"
+
+            # Create values-ci.yaml with the correct endpoint URL
+            # This is needed to pass the helm lint step which checks the schema
+            echo "Creating values-ci.yaml for $example"
+            cp "charts/ggscout/examples/$example/values.yaml" "charts/ggscout/examples/$example/values-ci.yaml"
+            # Ensure the endpoint is properly set with the GitHub secret value
+            yq -i '.inventory.config.gitguardian.endpoint = env(GITGUARDIAN_API_URL)' "charts/ggscout/examples/$example/values-ci.yaml"
+
+            # Replace HashiCorp Vault URL environment variable for validation
+            if [[ "$example" == "hashicorpvault" || "$example" == "fetch-only" ]]; then
+              echo "Replacing HashiCorp Vault URL for validation with \"$HASHICORP_VAULT_URL\""
+              yq -i '.inventory.config.sources.hashicorpvault.vault_address = env(HASHICORP_VAULT_URL)' "charts/ggscout/examples/$example/values-ci.yaml"
+            fi
+            if [[ "$example" == "gitlabci" ]]; then
+              echo "Replacing GitLab URL for validation with \"$GITLAB_URL\""
+              yq -i '.inventory.config.sources.gitlab.url = env(GITLAB_URL)' "charts/ggscout/examples/$example/values-ci.yaml"
+            fi
+
+            # First run basic helm lint for quick failures
+            echo "🔍 Running helm lint for $example"
+            if ! helm lint charts/ggscout -f "charts/ggscout/examples/$example/values-ci.yaml"; then
+              echo "❌ Helm lint failed for $example"
+              rm "charts/ggscout/examples/$example/values-ci.yaml"
+              exit 1
+            fi
+
+            # Install the Helm chart to the cluster
+            echo "🚀 Installing $example to test cluster"
+
+            # For fetch-only example, create a special configuration to fix permission issues
+            if [[ "$example" == "fetch-only" ]]; then
+              echo "📋 Creating special configuration for fetch-only example to fix permission issues"
+
+              # Create a complete values file with all necessary overrides
+              cp "charts/ggscout/examples/$example/values-ci.yaml" "charts/ggscout/examples/$example/values-fixed.yaml"
+
+              # Modify the new values file to use emptyDir instead of hostPath
+              yq -i '.volumes[0].hostPath = null' "charts/ggscout/examples/$example/values-fixed.yaml"
+              yq -i '.volumes[0].emptyDir = {}' "charts/ggscout/examples/$example/values-fixed.yaml"
+
+              # Install with the fixed values file and appropriate security context
+              if ! helm install $release_name charts/ggscout \
+                   --namespace ggscout-test \
+                   -f "charts/ggscout/examples/$example/values-fixed.yaml" \
+                   --set "podSecurityContext.fsGroup=65532" \
+                   --set "podSecurityContext.runAsUser=65532" \
+                   --set "podSecurityContext.runAsNonRoot=true" \
+                   --wait --timeout 3m; then
+                echo "❌ Failed to install $example to the cluster"
+                kubectl get pods -n ggscout-test -l "app.kubernetes.io/instance=$release_name"
+                kubectl get events -n ggscout-test
+                kubectl describe pod -n ggscout-test -l "app.kubernetes.io/instance=$release_name"
+                helm uninstall $release_name --namespace ggscout-test || true
+                rm "charts/ggscout/examples/$example/values-ci.yaml"
+                rm "charts/ggscout/examples/$example/values-fixed.yaml"
+                exit 1
+              fi
+            else
+              # Regular installation for other examples
+              if ! helm install $release_name charts/ggscout \
+                   --namespace ggscout-test \
+                   -f "charts/ggscout/examples/$example/values-ci.yaml" \
+                   --wait --timeout 3m; then
+                echo "❌ Failed to install $example to the cluster"
+                kubectl get pods -n ggscout-test -l "app.kubernetes.io/instance=$release_name"
+                kubectl get events -n ggscout-test
+                helm uninstall $release_name --namespace ggscout-test || true
+                rm "charts/ggscout/examples/$example/values-ci.yaml"
+                exit 1
+              fi
+            fi
+
+            # Get all CronJobs for this release
+            CRONJOBS=$(kubectl get cronjobs -n ggscout-test -l "app.kubernetes.io/instance=$release_name" -o name)
+
+            if [ -z "$CRONJOBS" ]; then
+              echo "⚠️ No CronJobs found for $example. Checking if this is expected..."
+
+              # Check if jobs are enabled in the values file
+              FETCH_ENABLED=$(grep -A5 "fetch:" "charts/ggscout/examples/$example/values.yaml" | grep "enabled:" | grep "true" || echo "")
+              SYNC_ENABLED=$(grep -A5 "sync:" "charts/ggscout/examples/$example/values.yaml" | grep "enabled:" | grep "true" || echo "")
+
+              if [ -n "$FETCH_ENABLED" ] || [ -n "$SYNC_ENABLED" ]; then
+                echo "❌ Expected CronJobs but none were found"
+                kubectl get all -n ggscout-test
+                helm uninstall $release_name --namespace ggscout-test || true
+                rm "charts/ggscout/examples/$example/values-ci.yaml"
+                exit 1
+              else
+                echo "ℹ️ No CronJobs expected for this example, continuing validation"
+              fi
+            else
+              echo "Found CronJobs: $CRONJOBS"
+              # Check if the secret already exists before creating it
+              echo "🔍 Checking if ggscout-secrets secret already exists"
+              if ! kubectl get secret ggscout-secrets --namespace ggscout-test &>/dev/null; then
+                # Create the secret only if it doesn't exist
+                SECRET_CMD="kubectl create secret generic ggscout-secrets --namespace ggscout-test"
+
+                # Add all GitHub secrets to the command
+                for SECRET_NAME in $(echo '${{ toJSON(secrets) }}' | jq -r 'keys[]'); do
+                  SECRET_VALUE=$(echo '${{ toJSON(secrets) }}' | jq -r --arg name "$SECRET_NAME" '.[$name]')
+                  SECRET_CMD="$SECRET_CMD --from-literal=$SECRET_NAME=$SECRET_VALUE"
+                done
+
+                # Execute the command
+                eval "$SECRET_CMD"
+              else
+                echo "ℹ️ ggscout-secrets secret already exists, skipping creation"
+              fi
+
+              # Manually trigger each CronJob by creating a Job from it
+              for cronjob in $CRONJOBS; do
+                CRONJOB_NAME=$(echo $cronjob | cut -d'/' -f2)
+                JOB_NAME="${CRONJOB_NAME}-$(date +%s)"
+
+                echo "🔄 Manually triggering CronJob $CRONJOB_NAME as Job $JOB_NAME"
+
+                # Create a Job from the CronJob spec
+                kubectl create job --from=cronjob/$CRONJOB_NAME $JOB_NAME -n ggscout-test
+
+                # Wait for job to complete
+                echo "⏳ Waiting for job $JOB_NAME to complete"
+
+                # Set timeout and interval for checking job status
+                TIMEOUT=180
+                INTERVAL=10
+                ELAPSED=0
+
+                # Loop until job completes or times out
+                while [ $ELAPSED -lt $TIMEOUT ]; do
+                  # Check if job completed successfully
+                  STATUS=$(kubectl get job/$JOB_NAME -n ggscout-test -o jsonpath='{.status.conditions[?(@.type=="Complete")].status}')
+                  if [ "$STATUS" == "True" ]; then
+                    echo "✅ Job $JOB_NAME completed successfully"
+                    kubectl logs job/$JOB_NAME -n ggscout-test
+                    break
+                  fi
+
+                  # Check if job failed
+                  FAILED=$(kubectl get job/$JOB_NAME -n ggscout-test -o jsonpath='{.status.conditions[?(@.type=="Failed")].status}')
+                  if [ "$FAILED" == "True" ]; then
+                    echo "❌ Job $JOB_NAME failed"
+                    kubectl logs job/$JOB_NAME -n ggscout-test || true
+                    kubectl describe job/$JOB_NAME -n ggscout-test
+                    kubectl describe pods -n ggscout-test -l "job-name=$JOB_NAME"
+                    kubectl get pods -n ggscout-test -l "job-name=$JOB_NAME" -o yaml
+
+                    # Debug - Get the pod name and execute commands to check files
+                    POD_NAME=$(kubectl get pods -n ggscout-test -l "job-name=$JOB_NAME" -o jsonpath='{.items[0].metadata.name}')
+                    if [ -n "$POD_NAME" ]; then
+                      echo "📂 Debugging file locations in pod $POD_NAME"
+                      kubectl exec -n ggscout-test $POD_NAME -- sh -c "ls -la / || echo 'Cannot list root'"
+                      kubectl exec -n ggscout-test $POD_NAME -- sh -c "ls -la /app || echo 'No /app directory'"
+                      kubectl exec -n ggscout-test $POD_NAME -- sh -c "ls -la /etc || echo 'Cannot list /etc'"
+                      kubectl exec -n ggscout-test $POD_NAME -- sh -c "ls -la /etc/inventory || echo 'No /etc/inventory directory'"
+                      kubectl exec -n ggscout-test $POD_NAME -- sh -c "cat /etc/inventory/config.yml || echo 'Cannot read config'"
+                      kubectl exec -n ggscout-test $POD_NAME -- sh -c "find / -name gcp_key.json 2>/dev/null || echo 'gcp_key.json not found'"
+                      kubectl exec -n ggscout-test $POD_NAME -- sh -c "find / -name '*.json' 2>/dev/null || echo 'No JSON files found'"
+                    fi
+                    helm uninstall $release_name --namespace ggscout-test || true
+                    rm "charts/ggscout/examples/$example/values-ci.yaml"
+                    exit 1
+                  fi
+
+                  # Show current logs while waiting
+                  echo "📋 Current logs for job $JOB_NAME (elapsed: ${ELAPSED}s):"
+                  kubectl logs job/$JOB_NAME -n ggscout-test --tail=10 || echo "No logs available yet"
+
+                  # Wait before checking again
+                  sleep $INTERVAL
+                  ELAPSED=$((ELAPSED + INTERVAL))
+                  echo "⏳ Still waiting... ($ELAPSED/$TIMEOUT sec)"
+                done
+
+                # Check if we timed out
+                if [ $ELAPSED -ge $TIMEOUT ]; then
+                  echo "❌ Job $JOB_NAME timed out"
+                  kubectl logs job/$JOB_NAME -n ggscout-test || true
+                  kubectl describe job/$JOB_NAME -n ggscout-test
+                  kubectl describe pods -n ggscout-test -l "job-name=$JOB_NAME"
+                  kubectl get pods -n ggscout-test -l "job-name=$JOB_NAME" -o yaml
+                  helm uninstall $release_name --namespace ggscout-test || true
+                  rm "charts/ggscout/examples/$example/values-ci.yaml"
+                  exit 1
+                fi
+              done
+            fi
+
+            # Wait for all jobs to complete
+            echo "⏳ Waiting for jobs to complete for $example"
+
+            # Get all jobs for this release
+            JOBS=$(kubectl get jobs -n ggscout-test -l "app.kubernetes.io/instance=$release_name" -o name)
+
+            if [ -z "$JOBS" ]; then
+              echo "⚠️ No jobs found for $example, skipping job completion check"
+            else
+              for job in $JOBS; do
+                echo "Checking job $job"
+
+                # Wait for job to complete (or fail)
+                TIMEOUT=300
+                INTERVAL=10
+                ELAPSED=0
+
+                while [ $ELAPSED -lt $TIMEOUT ]; do
+                  # Check if job completed successfully
+                  STATUS=$(kubectl get $job -n ggscout-test -o jsonpath='{.status.conditions[?(@.type=="Complete")].status}')
+                  if [ "$STATUS" == "True" ]; then
+                    echo "✅ Job $job completed successfully"
+                    break
+                  fi
+
+                  # Check if job failed
+                  FAILED=$(kubectl get $job -n ggscout-test -o jsonpath='{.status.conditions[?(@.type=="Failed")].status}')
+                  if [ "$FAILED" == "True" ]; then
+                    echo "❌ Job $job failed"
+                    kubectl logs $job -n ggscout-test
+                    helm uninstall $release_name --namespace ggscout-test || true
+                    rm "charts/ggscout/examples/$example/values-ci.yaml"
+                    exit 1
+                  fi
+
+                  sleep $INTERVAL
+                  ELAPSED=$((ELAPSED + INTERVAL))
+                  echo "Still waiting... ($ELAPSED sec)"
+                done
+
+                if [ $ELAPSED -ge $TIMEOUT ]; then
+                  echo "❌ Timed out waiting for job $job to complete"
+                  kubectl logs $job -n ggscout-test
+                  helm uninstall $release_name --namespace ggscout-test || true
+                  rm "charts/ggscout/examples/$example/values-ci.yaml"
+                  exit 1
+                fi
+              done
+            fi
+
+            # Uninstall the release
+            helm uninstall $release_name --namespace ggscout-test
+
+            # Clean up the temporary values-ci.yaml file
+            rm "charts/ggscout/examples/$example/values-ci.yaml"
+
+            echo "✅ Example $example passed validation with successful job completion"
+          done
+
+      # Generate summary report
+      - name: Generate summary
+        run: |
+          GROUP="${{ steps.set-examples.outputs.group }}"
+          DIRS="${{ steps.set-examples.outputs.directories }}"
+
+          echo "## Helm Chart Validation Summary for $GROUP examples" >> $GITHUB_STEP_SUMMARY
+          echo "|Example|Status|" >> $GITHUB_STEP_SUMMARY
+          echo "|-------|------|" >> $GITHUB_STEP_SUMMARY
+
+          for example in $DIRS; do
+            echo "|$example|✅ Passed with job completion|" >> $GITHUB_STEP_SUMMARY
+          done

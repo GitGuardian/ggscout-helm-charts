@@ -6,8 +6,8 @@ inventory:
     sources:
       gitlab:
         type: gitlabci
-        token: gitlab-token # Replace with the GitLab CI token
-        url: https://gitlab.com # GitLab URL
+        token: "${GITLAB_ACCESS_TOKEN}" # Replace with the GitLab CI token
+        url: "https://your-gitlab-address-here" # GitLab URL
     # To upload, set the gitguardian URL and tokens. Ensure the endpoint path ends with /v1
     # This is optional: omit this to prevent uploading and to only test collection.
     gitguardian:
