@@ -12,6 +12,7 @@ inventory:
           token: "${VAULT_TOKEN}"
         fetch_all_versions: false # Fetch all versions of secrets or not
         path: null # Vault path or null
+        mode: "read/write" # Can be `read`, `write` or `read/write` depending on wether fetch and/or sync are enabled
     # To upload, set the gitguardian URL and tokens. Ensure the endpoint path ends with /v1
     # This is optional: omit this to prevent uploading and to only test collection.
     gitguardian:

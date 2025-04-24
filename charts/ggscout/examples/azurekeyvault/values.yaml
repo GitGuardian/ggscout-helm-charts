@@ -8,6 +8,7 @@ inventory:
         type: azurekeyvault
         subscription_id: "${AZURE_SUBSCRIPTION_ID}"
         fetch_all_versions: true
+        mode: "read/write" # Can be `read`, `write` or `read/write` depending on wether fetch and/or sync are enabled
 
     gitguardian:
       endpoint: "https://my-gg-instance/v1"

@@ -11,7 +11,7 @@ inventory:
         auth_mode: "workload"
         login: "${CONJUR_WORKLOAD_ID}"
         api_key: "${CONJUR_WORKLOAD_API_KEY}"
-
+        mode: "read/write" # Can be `read`, `write` or `read/write` depending on wether fetch and/or sync are enabled
     gitguardian:
       endpoint: "https://my-gg-instance/v1"
       api_token: "${GITGUARDIAN_API_KEY}"

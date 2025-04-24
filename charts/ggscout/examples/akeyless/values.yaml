@@ -12,6 +12,7 @@ inventory:
         accessibility: "regular" # Can be `regular` or `personal`
         access_id: "${AKEYLESS_ACCESS_ID}"
         access_key: "${AKEYLESS_ACCESS_KEY}"
+        mode: "read/write" # Can be `read`, `write` or `read/write` depending on wether fetch and/or sync are enabled
 
     gitguardian:
       endpoint: "https://my-gg-instance/v1"
