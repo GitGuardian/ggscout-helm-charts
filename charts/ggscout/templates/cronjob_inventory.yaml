@@ -1,4 +1,4 @@
-{{- if and (ne .Values.inventory.config.gitguardian nil) (ne .Values.inventory.jobs nil) (ne .Values.inventory.jobs.fetch nil) (.Values.inventory.jobs.fetch.enabled) }}
+{{- if and .Values.inventory.config.gitguardian .Values.inventory.jobs .Values.inventory.jobs.fetch .Values.inventory.jobs.fetch.enabled }}
 
 {{ $command := "fetch" -}}
 

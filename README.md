@@ -37,7 +37,7 @@ inventory:
     # To upload, set the gitguardian URL and tokens. Ensure the endpoint path ends with /v1
     # This is optional: omit this to prevent uploading and to only test collection.
     gitguardian:
-      endpoint: "https://my-gg-instance/v1"
+      endpoint: "${GITGUARDIAN_API_URL}"
       api_token: "${GITGUARDIAN_API_KEY}"
   jobs:
     # Job to fetch defined sources
@@ -103,7 +103,7 @@ $ mise run test
 Rancher fleet uses its own [templating language](https://fleet.rancher.io/ref-fleet-yaml#templating).
 If you have created a bundle from this charts repository, make sure to properly escape environment variables.
 
-For example in your values.yml: 
+For example in your values.yml:
 ```
 api_token: ${GG_API_TOKEN}
 ```
@@ -138,7 +138,7 @@ inventory:
     # To upload, set the gitguardian URL and tokens. Ensure the endpoint path ends with /v1
     # This is optional: omit this to prevent uploading and to only test collection.
     gitguardian:
-      endpoint: "https://my-gg-instance/v1"
+      endpoint: "${GITGUARDIAN_API_URL}"
       api_token: "${`${GITGUARDIAN_API_KEY}`}"
   jobs:
     # Job to fetch defined sources
@@ -181,7 +181,7 @@ helm:
 You can create a bundle with the following [rancher cli](https://formulae.brew.sh/formula/fleet-cli) command:
 
 ```
-fleet apply fleet.yaml -o - > ggscout.bdl 
+fleet apply fleet.yaml -o - > ggscout.bdl
 ```
 
 Then test that the created bundle is correctly parsed by fleet:
@@ -191,4 +191,3 @@ fleet target --bundle-file ggscout.bdl
 ```
 
 If you have any error, it probably means you have some variables that are not properly escaped in you `values.yaml` file
-
