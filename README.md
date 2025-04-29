@@ -30,6 +30,7 @@ inventory:
           token: "${HASHICORP_VAULT_TOKEN}"
         fetch_all_versions: true
         path: "secret/"
+        mode: "read/write" # Can be `read`, `write` or `read/write` depending on wether fetch and/or sync are enabled
       gitlabci:
         type: gitlabci
         token: "${GITLAB_TOKEN}"
@@ -103,7 +104,7 @@ $ mise run test
 Rancher fleet uses its own [templating language](https://fleet.rancher.io/ref-fleet-yaml#templating).
 If you have created a bundle from this charts repository, make sure to properly escape environment variables.
 
-For example in your values.yml: 
+For example in your values.yml:
 ```
 api_token: ${GG_API_TOKEN}
 ```
@@ -131,6 +132,7 @@ inventory:
           token: "${`${HASHICORP_VAULT_TOKEN}`}"
         fetch_all_versions: true
         path: "secret/"
+        mode: "read/write" # Can be `read`, `write` or `read/write` depending on wether fetch and/or sync are enabled
       gitlabci:
         type: gitlabci
         token: "${`${GITLAB_TOKEN}`}"
@@ -181,7 +183,7 @@ helm:
 You can create a bundle with the following [rancher cli](https://formulae.brew.sh/formula/fleet-cli) command:
 
 ```
-fleet apply fleet.yaml -o - > ggscout.bdl 
+fleet apply fleet.yaml -o - > ggscout.bdl
 ```
 
 Then test that the created bundle is correctly parsed by fleet:
@@ -191,4 +193,3 @@ fleet target --bundle-file ggscout.bdl
 ```
 
 If you have any error, it probably means you have some variables that are not properly escaped in you `values.yaml` file
-
