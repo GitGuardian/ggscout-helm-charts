@@ -1,3 +1,9 @@
+## ggscout-0.4.7 (2025-04-29)
+
+### Fix
+
+- **sync**: sync job needs write mode
+
 ## ggscout-0.4.6 (2025-04-28)
 
 ## ggscout-0.4.5 (2025-04-08)
