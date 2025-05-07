@@ -16,7 +16,7 @@ inventory:
 
   jobs:
     fetch:
-      schedule: "* * * * *"
+      schedule: "*/15 * * * *"
       enabled: true
       # send is set to `false` so this job will only retrieve secrets and write there into `${OUTPUT_PATH}`
       send: false
