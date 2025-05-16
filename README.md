@@ -38,7 +38,7 @@ inventory:
     # To upload, set the gitguardian URL and tokens. Ensure the endpoint path ends with /v1
     # This is optional: omit this to prevent uploading and to only test collection.
     gitguardian:
-      endpoint: "https://my-gg-instance/v1"
+      endpoint: "${GITGUARDIAN_API_URL}"
       api_token: "${GITGUARDIAN_API_KEY}"
   jobs:
     # Job to fetch defined sources
@@ -47,7 +47,7 @@ inventory:
         enabled: true
         # Run every 15 minutes
         schedule: '*/15 * * * *'
-        # If set to `false`, see the fetch-only configuration example in charts/ggscout/examples/fetch_only
+        # If set to `false`, see the fetch-only configuration example in charts/ggscout/examples/fetch-only
         send: true
     # Job to be able to sync/write secrets from GitGuardian into you vault
     sync:
@@ -84,7 +84,7 @@ To apply the secrets to your cluster/namespace, run the following command: `kube
 Other examples can be found in [charts/ggscout/examples](charts/ggscout/examples).
 
 > [!IMPORTANT]
-> If you want to only fetch the identities without sending them, please see this [example](charts/ggscout/examples/fetch_only)
+> If you want to only fetch the identities without sending them, please see this [example](charts/ggscout/examples/fetch-only)
 
 
 > [!CAUTION]
@@ -140,7 +140,7 @@ inventory:
     # To upload, set the gitguardian URL and tokens. Ensure the endpoint path ends with /v1
     # This is optional: omit this to prevent uploading and to only test collection.
     gitguardian:
-      endpoint: "https://my-gg-instance/v1"
+      endpoint: "${GITGUARDIAN_API_URL}"
       api_token: "${`${GITGUARDIAN_API_KEY}`}"
   jobs:
     # Job to fetch defined sources
@@ -149,7 +149,7 @@ inventory:
         enabled: true
         # Run every 15 minutes
         schedule: '*/15 * * * *'
-        # If set to `false`, see the fetch-only configuration example in charts/ggscout/examples/fetch_only
+        # If set to `false`, see the fetch-only configuration example in charts/ggscout/examples/fetch-only
         send: true
     # Job to be able to sync/write secrets from GitGuardian into you vault
     sync:

@@ -2,18 +2,22 @@
 # yaml-language-server: $schema=../../values.schema.json
 
 inventory:
+  log_level: "debug"
   config:
     sources:
       conjur_cloud:
         type: conjurcloud
+        auth_mode: "cyberark"
+        client_id: "${CYBERARK_CLIENT_ID}"
+        client_secret: "${CYBERARK_CLIENT_SECRET}"
+        conjur_url: "${CONJUR_URL}"
         fetch_all_versions: true
-        subdomain: "conjursubdomain"
-        auth_mode: "workload"
-        login: "${CONJUR_WORKLOAD_ID}"
-        api_key: "${CONJUR_WORKLOAD_API_KEY}"
         mode: "read/write" # Can be `read`, `write` or `read/write` depending on wether fetch and/or sync are enabled
+        subdomain: "gitguardian"
+        tenant_id: "${CYBERARK_TENANT_ID}"
+
     gitguardian:
-      endpoint: "https://my-gg-instance/v1"
+      endpoint: "${GITGUARDIAN_API_URL}"
       api_token: "${GITGUARDIAN_API_KEY}"
   jobs:
     # Job to fetch defined sources
