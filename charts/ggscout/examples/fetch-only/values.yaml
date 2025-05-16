@@ -4,16 +4,15 @@
 inventory:
   config:
     sources:
-      vault-secrets:
+      hashicorpvault:
         type: hashicorpvault
-        vault_address: "https://your-vault-address-here"
-        # Token configuration can be read from environment variables like so:
+        vault_address: "${HASHICORP_VAULT_URL}"
         auth:
           auth_mode: "token"
           token: "${HASHICORP_VAULT_TOKEN}"
-        fetch_all_versions: true
-        path: "secret/"
-
+        fetch_all_versions: true # Fetch all versions of secrets or not
+        path: "secret/dev" # Vault path or unspecified
+        mode: "read/write" # Can be `read`, `write` or `read/write` depending on wether fetch and/or sync are enabled
   jobs:
     fetch:
       schedule: "* * * * *"

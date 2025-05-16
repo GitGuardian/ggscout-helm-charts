@@ -20,9 +20,9 @@ jobs:
       fail-fast: false
       matrix:
         example-group:
-          - vault_1: ["conjurcloud", "hashicorpvault", "delinea"]
+          - secret_manager_group_1: ["conjurcloud", "hashicorpvault"]  # TODO: add akeyless, azurekeyvault
+          - secret_manager_group_2: ["delinea", "fetch-only"]  # TODO: add gcpsecretmanager
           # - consumers: ["k8s_incluster", "k8s_kubeconfigfile", "gitlabci"]
-          # - vault_2: ["akeyless", "azurekeyvault", "fetch_only"]  # TODO: add gcpsecretmanager
 
     steps:
       - name: Checkout code
@@ -88,18 +88,20 @@ jobs:
             yq -i '.inventory.config.gitguardian.endpoint = env(GITGUARDIAN_API_URL)' "charts/ggscout/examples/$example/values-ci.yaml"
 
             # Replace HashiCorp Vault URL environment variable for validation
-            if [[ "$example" == "hashicorpvault" ]]; then
+            if [[ "$example" == "hashicorpvault" || "$example" == "fetch-only" ]]; then
               echo "Replacing HashiCorp Vault URL for validation"
               yq -i '.inventory.config.sources.hashicorpvault.vault_address = "https://vault.example.com"' "charts/ggscout/examples/$example/values-ci.yaml"
             fi
 
             # First run basic helm lint for quick failures
-            echo "🔍 Running helm lint for $example"
-            if ! helm lint charts/ggscout -f "charts/ggscout/examples/$example/values-ci.yaml"; then
-              echo "❌ Helm lint failed for $example"
-              rm "charts/ggscout/examples/$example/values-ci.yaml"
-              exit 1
-            fi
+            # TODO: for fetch-only it doesn't work as helm lint expects a gitguardian config but ggscout doesn't need it
+            if [[ "$example" != "fetch-only" ]]; then
+              echo "🔍 Running helm lint for $example"
+              if ! helm lint charts/ggscout -f "charts/ggscout/examples/$example/values-ci.yaml"; then
+                echo "❌ Helm lint failed for $example"
+                rm "charts/ggscout/examples/$example/values-ci.yaml"
+                exit 1
+              fi
 
             # Install the Helm chart to the cluster
             echo "🚀 Installing $example to test cluster"
