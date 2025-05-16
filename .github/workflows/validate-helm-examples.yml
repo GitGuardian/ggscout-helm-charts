@@ -20,7 +20,7 @@ jobs:
       fail-fast: false
       matrix:
         example-group:
-          - one_group: ["conjurcloud"]
+          - one_group: ["conjurcloud", "azurekeyvault"]
           # - consumers: ["k8s_incluster", "k8s_kubeconfigfile", "gitlabci"]
           # - vault_1: ["hashicorpvault", "delinea", "azurekeyvault"]  # TODO: add awssecretsmanager
           # - vault_2: ["akeyless", "conjurcloud", "fetch_only"]  # TODO: add gcpsecretmanager
@@ -129,21 +129,23 @@ jobs:
                 echo "ℹ️ No CronJobs expected for this example, continuing validation"
               fi
             else
-              echo "Found CronJobs: $CRONJOBS"
+              echo "Found CronJobs: $CRONJOBS"# Check if the secret already exists before creating it
+              echo "🔍 Checking if ggscout-secrets secret already exists"
+              if ! kubectl get secret ggscout-secrets --namespace ggscout-test &>/dev/null; then
+                # Create the secret only if it doesn't exist
+                SECRET_CMD="kubectl create secret generic ggscout-secrets --namespace ggscout-test"
 
-              # Create the required secret
-              echo "Creating required ggscout-secrets secret"
-              # Create a temporary file to store the secret creation command
-              SECRET_CMD="kubectl create secret generic ggscout-secrets --namespace ggscout-test"
+                # Add all GitHub secrets to the command
+                for SECRET_NAME in $(echo '${{ toJSON(secrets) }}' | jq -r 'keys[]'); do
+                  SECRET_VALUE=$(echo '${{ toJSON(secrets) }}' | jq -r --arg name "$SECRET_NAME" '.[$name]')
+                  SECRET_CMD="$SECRET_CMD --from-literal=$SECRET_NAME=$SECRET_VALUE"
+                done
 
-              # Add all GitHub secrets to the command
-              for SECRET_NAME in $(echo '${{ toJSON(secrets) }}' | jq -r 'keys[]'); do
-                SECRET_VALUE=$(echo '${{ toJSON(secrets) }}' | jq -r --arg name "$SECRET_NAME" '.[$name]')
-                SECRET_CMD="$SECRET_CMD --from-literal=$SECRET_NAME=$SECRET_VALUE"
-              done
-
-              # Execute the command
-              eval "$SECRET_CMD"
+                # Execute the command
+                eval "$SECRET_CMD"
+              else
+                echo "ℹ️ ggscout-secrets secret already exists, skipping creation"
+              fi
 
               # Manually trigger each CronJob by creating a Job from it
               for cronjob in $CRONJOBS; do
