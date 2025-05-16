@@ -94,27 +94,57 @@ jobs:
             fi
 
             # First run basic helm lint for quick failures
-            # TODO: for fetch-only it doesn't work as helm lint expects a gitguardian config but ggscout doesn't need it
-            if [[ "$example" != "fetch-only" ]]; then
-              echo "🔍 Running helm lint for $example"
-              if ! helm lint charts/ggscout -f "charts/ggscout/examples/$example/values-ci.yaml"; then
-                echo "❌ Helm lint failed for $example"
-                rm "charts/ggscout/examples/$example/values-ci.yaml"
-                exit 1
-              fi
+            echo "🔍 Running helm lint for $example"
+            if ! helm lint charts/ggscout -f "charts/ggscout/examples/$example/values-ci.yaml"; then
+              echo "❌ Helm lint failed for $example"
+              rm "charts/ggscout/examples/$example/values-ci.yaml"
+              exit 1
+            fi
 
             # Install the Helm chart to the cluster
             echo "🚀 Installing $example to test cluster"
-            if ! helm install $release_name charts/ggscout \
-                 --namespace ggscout-test \
-                 -f "charts/ggscout/examples/$example/values-ci.yaml" \
-                 --wait --timeout 3m; then
-              echo "❌ Failed to install $example to the cluster"
-              kubectl get pods -n ggscout-test -l "app.kubernetes.io/instance=$release_name"
-              kubectl get events -n ggscout-test
-              helm uninstall $release_name --namespace ggscout-test || true
-              rm "charts/ggscout/examples/$example/values-ci.yaml"
-              exit 1
+            
+            # For fetch-only example, create a special configuration to fix permission issues
+            if [[ "$example" == "fetch-only" ]]; then
+              echo "📋 Creating special configuration for fetch-only example to fix permission issues"
+              
+              # Create a complete values file with all necessary overrides
+              cp "charts/ggscout/examples/$example/values-ci.yaml" "charts/ggscout/examples/$example/values-fixed.yaml"
+              
+              # Modify the new values file to use emptyDir instead of hostPath
+              yq -i '.volumes[0].hostPath = null' "charts/ggscout/examples/$example/values-fixed.yaml"
+              yq -i '.volumes[0].emptyDir = {}' "charts/ggscout/examples/$example/values-fixed.yaml"
+              
+              # Install with the fixed values file and appropriate security context
+              if ! helm install $release_name charts/ggscout \
+                   --namespace ggscout-test \
+                   -f "charts/ggscout/examples/$example/values-fixed.yaml" \
+                   --set "podSecurityContext.fsGroup=65532" \
+                   --set "podSecurityContext.runAsUser=65532" \
+                   --set "podSecurityContext.runAsNonRoot=true" \
+                   --wait --timeout 3m; then
+                echo "❌ Failed to install $example to the cluster"
+                kubectl get pods -n ggscout-test -l "app.kubernetes.io/instance=$release_name"
+                kubectl get events -n ggscout-test
+                kubectl describe pod -n ggscout-test -l "app.kubernetes.io/instance=$release_name"
+                helm uninstall $release_name --namespace ggscout-test || true
+                rm "charts/ggscout/examples/$example/values-ci.yaml"
+                rm "charts/ggscout/examples/$example/values-fixed.yaml"
+                exit 1
+              fi
+            else
+              # Regular installation for other examples
+              if ! helm install $release_name charts/ggscout \
+                   --namespace ggscout-test \
+                   -f "charts/ggscout/examples/$example/values-ci.yaml" \
+                   --wait --timeout 3m; then
+                echo "❌ Failed to install $example to the cluster"
+                kubectl get pods -n ggscout-test -l "app.kubernetes.io/instance=$release_name"
+                kubectl get events -n ggscout-test
+                helm uninstall $release_name --namespace ggscout-test || true
+                rm "charts/ggscout/examples/$example/values-ci.yaml"
+                exit 1
+              fi
             fi
 
             # Get all CronJobs for this release
@@ -137,7 +167,8 @@ jobs:
                 echo "ℹ️ No CronJobs expected for this example, continuing validation"
               fi
             else
-              echo "Found CronJobs: $CRONJOBS"# Check if the secret already exists before creating it
+              echo "Found CronJobs: $CRONJOBS"
+              # Check if the secret already exists before creating it
               echo "🔍 Checking if ggscout-secrets secret already exists"
               if ! kubectl get secret ggscout-secrets --namespace ggscout-test &>/dev/null; then
                 # Create the secret only if it doesn't exist

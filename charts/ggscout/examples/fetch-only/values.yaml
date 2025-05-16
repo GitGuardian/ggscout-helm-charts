@@ -1,6 +1,17 @@
 ---
 # yaml-language-server: $schema=../../values.schema.json
 
+# It's a common practice to define podSecurityContext at a level
+# where it can be applied to the Pod template.
+# Adjust the GID (e.g., 65532 for 'nonroot' user/group often found in Chainguard images,
+# or 1000, or another GID that makes sense for your environment/image).
+podSecurityContext:
+  fsGroup: 65532 # Example GID. This group will own the /tmp/output HostPath volume.
+  # You might also consider adding:
+  runAsUser: 65532
+  runAsNonRoot: true
+  # if your image supports it and you want to enforce non-root execution.
+
 inventory:
   config:
     sources:
@@ -13,6 +24,9 @@ inventory:
         fetch_all_versions: true # Fetch all versions of secrets or not
         path: "secret/dev" # Vault path or unspecified
         mode: "read/write" # Can be `read`, `write` or `read/write` depending on wether fetch and/or sync are enabled
+    gitguardian:
+      endpoint: "${GITGUARDIAN_API_URL}"
+      api_token: "${GITGUARDIAN_API_KEY}"
   jobs:
     fetch:
       schedule: "* * * * *"
