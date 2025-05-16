@@ -7,10 +7,10 @@ inventory:
       delinea_secret_server:
         type: delineasecretserver
         fetch_all_versions: true
-        tenant: your_tenant
-        client_id: ${DELINEA_CLIENT_ID}
-        client_secret: ${DELINEA_CLIENT_SECRET}
-        tld: ${DELINEA_TLD} # Top-level domain
+        tenant: "${DELINEA_TENANT}"
+        client_id: "${DELINEA_CLIENT_ID}"
+        client_secret: "${DELINEA_CLIENT_SECRET}"
+        tld: "${DELINEA_TLD}" # Top-level domain e.g. "com", "eu", ...
         auth_mode: "oauth"
         mode: "read/write" # Can be `read`, `write` or `read/write` depending on wether fetch and/or sync are enabled
 

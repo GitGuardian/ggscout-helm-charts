@@ -20,10 +20,9 @@ jobs:
       fail-fast: false
       matrix:
         example-group:
-          - one_group: ["conjurcloud", "hashicorpvault"]
+          - vault_1: ["conjurcloud", "hashicorpvault", "delinea"]
           # - consumers: ["k8s_incluster", "k8s_kubeconfigfile", "gitlabci"]
-          # - vault_1: ["hashicorpvault", "delinea", "azurekeyvault"]  # TODO: add awssecretsmanager
-          # - vault_2: ["akeyless", "conjurcloud", "fetch_only"]  # TODO: add gcpsecretmanager
+          # - vault_2: ["akeyless", "azurekeyvault", "fetch_only"]  # TODO: add gcpsecretmanager
 
     steps:
       - name: Checkout code
@@ -82,6 +81,7 @@ jobs:
             release_name="ggscout-test-${example}-${GITHUB_SHA::7}"
 
             # Create values-ci.yaml with the correct endpoint URL
+            # This is needed to pass the helm lint step which checks the schema
             echo "Creating values-ci.yaml for $example"
             cp "charts/ggscout/examples/$example/values.yaml" "charts/ggscout/examples/$example/values-ci.yaml"
             # Ensure the endpoint is properly set with the GitHub secret value
