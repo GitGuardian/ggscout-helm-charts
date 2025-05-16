@@ -7,6 +7,7 @@ inventory:
       aws_secrets_manager:
         type: awssecretsmanager
         profile_name: default # AWS profile name or null
+        fetch_all_versions: true
         mode: "read/write" # Can be `read`, `write` or `read/write` depending on wether fetch and/or sync are enabled
     # To upload, set the gitguardian URL and tokens. Ensure the endpoint path ends with /v1
     # This is optional: omit this to prevent uploading and to only test collection.
