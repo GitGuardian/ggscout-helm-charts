@@ -47,7 +47,9 @@ inventory:
         enabled: true
         # Run every 15 minutes
         schedule: '*/15 * * * *'
-        # If set to `false`, see the fetch-only configuration example in charts/ggscout/examples/fetch_only
+        # If you wish to disable sending the fetched secrets to GitGuardian, we recommend
+        # doing so by using docker run instead of a helm install
+        # see https://docs.gitguardian.com/ggscout-docs/configuration#audit-mode for more details
         send: true
     # Job to be able to sync/write secrets from GitGuardian into you vault
     sync:
@@ -149,7 +151,9 @@ inventory:
         enabled: true
         # Run every 15 minutes
         schedule: '*/15 * * * *'
-        # If set to `false`, see the fetch-only configuration example in charts/ggscout/examples/fetch_only
+        # If you wish to disable sending the fetched secrets to GitGuardian, we recommend
+        # doing so by using docker run instead of a helm install
+        # see https://docs.gitguardian.com/ggscout-docs/configuration#audit-mode for more details
         send: true
     # Job to be able to sync/write secrets from GitGuardian into you vault
     sync:
