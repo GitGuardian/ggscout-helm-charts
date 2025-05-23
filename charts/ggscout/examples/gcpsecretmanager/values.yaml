@@ -7,10 +7,10 @@ inventory:
       gcp:
         type: gcpsecretmanager
         fetch_all_versions: true # Fetch all versions of secrets or not
-        service_account_key_file: /path/to/key.json # Replace with actual key file path
-        projects: # List of GCP projects or null
-        - project-id-1
-        - project-id-2
+        service_account_key_file: /gcp-key-secret/gcp_key.json # Path to GCP key file mounted from Secret
+        # projects: # List of GCP project ids or null
+        #   - project-id-1
+        #   - project-id-2
         mode: "read/write" # Can be `read`, `write` or `read/write` depending on wether fetch and/or sync are enabled
     # To upload, set the gitguardian URL and tokens. Ensure the endpoint path ends with /v1
     # This is optional: omit this to prevent uploading and to only test collection.
@@ -27,11 +27,22 @@ inventory:
       send: true
     # Job to be able to sync/write secrets from GitGuardian into you vault
     sync:
-      # Set to `false` to disable the job
-      enabled: true
+      # Set to `true` to enable the job
+      enabled: false
       # Run every minute
       schedule: '* * * * *'
 
 envFrom:
 - secretRef:
     name: ggscout-secrets
+
+# Mount the GCP service account key from a Kubernetes Secret
+volumes:
+- name: gcp-key-volume
+  secret:
+    secretName: gcp-key-secret
+
+volumeMounts:
+- name: gcp-key-volume
+  mountPath: /gcp-key-secret
+  readOnly: true

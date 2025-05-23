@@ -24,7 +24,7 @@ inventory:
     # Job to be able to sync/write secrets from GitGuardian into you vault
     sync:
       # Set to `false` to disable the job
-      enabled: true
+      enabled: false
       # Run every minute
       schedule: '* * * * *'
 

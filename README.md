@@ -22,7 +22,7 @@ inventory:
     sources:
       vault-secrets:
         type: hashicorpvault
-        vault_address: "https://your-vault-address-here"
+        vault_address: "https://your-vault-address-here.com"
         # If auth is not set, the env variable `VAULT_TOKEN` is used with a `token` auth_mode
         auth:
           auth_mode: "token"
@@ -86,7 +86,7 @@ To apply the secrets to your cluster/namespace, run the following command: `kube
 Other examples can be found in [charts/ggscout/examples](charts/ggscout/examples).
 
 > [!IMPORTANT]
-> If you want to only fetch the identities without sending them, please see this [example](charts/ggscout/examples/fetch_only)
+> If you want to only fetch the identities without sending them, please see this [example](charts/ggscout/examples/fetch-only)
 
 
 > [!CAUTION]
@@ -126,7 +126,7 @@ inventory:
     sources:
       vault-secrets:
         type: hashicorpvault
-        vault_address: "https://your-vault-address-here"
+        vault_address: "https://your-vault-address-here.com"
         # If auth is not set, the env variable `VAULT_TOKEN` is used with a `token` auth_mode
         auth:
           auth_mode: "token"
