@@ -8,4 +8,4 @@ version_files = [
   "charts/ggscout/Chart.yaml:^version: ",
 ]
 version_scheme = "semver2"
-version = "0.4.8"
+version = "0.4.9"
