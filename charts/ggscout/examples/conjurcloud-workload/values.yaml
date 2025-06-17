@@ -4,18 +4,15 @@
 inventory:
   config:
     sources:
-      hashicorpvault:
-        type: hashicorpvault
-        vault_address: "https://your-vault-address-here.com"
-        auth:
-          auth_mode: "k8s"
-          k8s:
-            role: "${VAULT_K8S_ROLE}"
-        fetch_all_versions: true # Fetch all versions of secrets or not
-        path: "secret/dev" # Vault path or unspecified
+      conjur_cloud:
+        type: conjurcloud
+        auth_mode: "workload"
+        login: "${CONJUR_WORKLOAD_LOGIN}"
+        api_key: "${CONJUR_WORKLOAD_API_KEY}"
+        fetch_all_versions: true
         mode: "read/write" # Can be `read`, `write` or `read/write` depending on wether fetch and/or sync are enabled
-    # To upload, set the gitguardian URL and tokens. Ensure the endpoint path ends with /v1
-    # This is optional: omit this to prevent uploading and to only test collection.
+        subdomain: "${CONJUR_SUBDOMAIN}"
+
     gitguardian:
       endpoint: "https://api.gitguardian.com/v1"
       api_token: "${GITGUARDIAN_API_KEY}"

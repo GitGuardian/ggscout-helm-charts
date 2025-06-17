@@ -55,8 +55,7 @@ EOF
 ```bash
 # Create Kubernetes auth role
 vault write auth/kubernetes/role/ggscout \
-    bound_service_account_names=ggscout-vault \
-    bound_service_account_namespaces=default \
+    bound_service_account_names=ggscout \
     policies=ggscout-policy \
     ttl=24h
 ```
@@ -67,8 +66,6 @@ vault write auth/kubernetes/role/ggscout \
 
 Edit the `secret.yaml` file to match your environment:
 
-- `KUBERNETES_SERVICE_ACCOUNT`: Must match the service account name in values.yaml
-- `KUBERNETES_NAMESPACE`: The namespace where ggscout will be deployed
 - `VAULT_K8S_ROLE`: The Vault role created above
 - `GITGUARDIAN_API_KEY`: Your GitGuardian API token
 
@@ -77,6 +74,8 @@ Edit the `values.yaml` file:
 - `vault_address`: Your Vault server URL
 - `path`: The Vault path to collect secrets from
 - `gitguardian.endpoint`: Your GitGuardian instance URL
+- `auth.k8s.service_account`: (Optional) Custom service account name
+- `auth.k8s.namespace`: (Optional) Kubernetes namespace for the service account
 
 ### 2. Deploy with Helm
 
@@ -101,7 +100,7 @@ Check that ggscout can authenticate with Vault:
 kubectl logs -l app.kubernetes.io/name=ggscout
 
 # Verify the service account was created
-kubectl get serviceaccount ggscout-vault
+kubectl get serviceaccount ggscout
 
 # Check if the CronJobs are running
 kubectl get cronjobs
@@ -114,4 +113,4 @@ kubectl get cronjobs
 3. **Network Connectivity**: Ensure ggscout pods can reach your Vault instance
 4. **Token Permissions**: Verify the Vault policy grants the necessary permissions
 
-For more detailed troubleshooting, enable debug logging by setting `log_level: debug` in the values.yaml file. 
+For more detailed troubleshooting, enable debug logging by setting `log_level: debug` in the values.yaml file.
