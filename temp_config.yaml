@@ -1,0 +1,5 @@
+---
+sources:
+  kube:
+    config_source: kubeconfigfile
+    type: k8s
