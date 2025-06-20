@@ -21,7 +21,7 @@ jobs:
       matrix:
         example-group:
           - secret_manager_group_1: ["akeyless", "conjurcloud", "hashicorpvault", "azurekeyvault"]
-          - secret_manager_group_2: ["delinea", "gcpsecretmanager", "awssecretsmanager"]  # TODO: add fetch-only
+          - secret_manager_group_2: ["delinea", "gcpsecretmanager", "awssecretsmanager", "conjurcloud-workload"]
           # - consumers: ["k8s_incluster", "k8s_kubeconfigfile", "gitlabci"]
 
     steps:

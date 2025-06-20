@@ -6,14 +6,12 @@ inventory:
     sources:
       conjur_cloud:
         type: conjurcloud
-        auth_mode: "cyberark"
-        client_id: "${CYBERARK_CLIENT_ID}"
-        client_secret: "${CYBERARK_CLIENT_SECRET}"
-        conjur_url: "${CONJUR_URL}"
+        auth_mode: "workload"
+        login: "${CONJUR_WORKLOAD_LOGIN}"
+        api_key: "${CONJUR_WORKLOAD_API_KEY}"
         fetch_all_versions: true
         mode: "read" # Can be `read`, `write` or `read/write` depending on wether fetch and/or sync are enabled
         subdomain: "${CONJUR_SUBDOMAIN}"
-        tenant_id: "${CYBERARK_TENANT_ID}"
 
     gitguardian:
       endpoint: "https://api.gitguardian.com/v1"
