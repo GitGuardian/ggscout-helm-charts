@@ -1,0 +1,36 @@
+---
+# yaml-language-server: $schema=../../values.schema.json
+
+inventory:
+  config:
+    sources:
+      conjur_cloud:
+        type: conjurcloud
+        auth_mode: "workload"
+        login: "${CONJUR_WORKLOAD_LOGIN}"
+        api_key: "${CONJUR_WORKLOAD_API_KEY}"
+        fetch_all_versions: true
+        mode: "read/write" # Can be `read`, `write` or `read/write` depending on wether fetch and/or sync are enabled
+        subdomain: "${CONJUR_SUBDOMAIN}"
+
+    gitguardian:
+      endpoint: "https://api.gitguardian.com/v1"
+      api_token: "${GITGUARDIAN_API_KEY}"
+  jobs:
+    # Job to fetch defined sources
+    fetch:
+      # Set to `false` to disable the job
+      enabled: true
+      # Run every 15 minutes
+      schedule: '*/15 * * * *'
+      send: true
+    # Job to be able to sync/write secrets from GitGuardian into you vault
+    sync:
+      # Set to `false` to disable the job
+      enabled: true
+      # Run every minute
+      schedule: '* * * * *'
+
+envFrom:
+- secretRef:
+    name: ggscout-secrets
