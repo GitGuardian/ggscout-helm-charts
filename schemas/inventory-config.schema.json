@@ -110,6 +110,192 @@
         }
       ]
     },
+    "AuthMode2": {
+      "oneOf": [
+        {
+          "title": "Service Account Key File",
+          "description": "Use a service account key file for authentication",
+          "type": "object",
+          "required": [
+            "auth_mode",
+            "key_file"
+          ],
+          "properties": {
+            "auth_mode": {
+              "type": "string",
+              "enum": [
+                "service_account_key_file"
+              ]
+            },
+            "key_file": {
+              "type": "string"
+            }
+          }
+        },
+        {
+          "title": "Kubernetes Workload Identity Federation",
+          "description": "Use Kubernetes API to get service account tokens and authenticate via WIF. This is the most secure and cloud-native authentication method.",
+          "type": "object",
+          "required": [
+            "auth_mode",
+            "gcp_service_account_name",
+            "pool_id",
+            "project_id",
+            "project_number",
+            "provider_id"
+          ],
+          "properties": {
+            "audience": {
+              "description": "Custom audience for the WIF provider. If not specified, defaults to the standard WIF provider URL format: //iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/providers/{provider_id}",
+              "type": "string",
+              "nullable": true
+            },
+            "auth_mode": {
+              "type": "string",
+              "enum": [
+                "k8s"
+              ]
+            },
+            "gcp_service_account_name": {
+              "description": "Google Service Account name (without @project.iam.gserviceaccount.com)",
+              "type": "string"
+            },
+            "kubernetes_namespace": {
+              "description": "Kubernetes namespace where the service account is located",
+              "type": "string",
+              "nullable": true
+            },
+            "kubernetes_service_account": {
+              "description": "Kubernetes service account name to use for authentication",
+              "type": "string",
+              "nullable": true
+            },
+            "pool_id": {
+              "description": "Workload Identity Pool ID",
+              "type": "string"
+            },
+            "project_id": {
+              "description": "GCP Project ID where the service account is located",
+              "type": "string"
+            },
+            "project_number": {
+              "description": "GCP Project Number",
+              "type": "string"
+            },
+            "provider_id": {
+              "description": "Workload Identity Provider ID",
+              "type": "string"
+            },
+            "token_expiration_seconds": {
+              "description": "Token expiration time in seconds. Default to 30 minutes",
+              "default": 1800,
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        }
+      ]
+    },
+    "AuthMode3": {
+      "oneOf": [
+        {
+          "title": "CyberArk authentication",
+          "type": "object",
+          "required": [
+            "auth_mode",
+            "client_id",
+            "client_secret",
+            "tenant_id"
+          ],
+          "properties": {
+            "auth_mode": {
+              "type": "string",
+              "enum": [
+                "cyber_ark"
+              ]
+            },
+            "client_id": {
+              "description": "CyberArk client ID or Conjur workload Client ID",
+              "type": "string"
+            },
+            "client_secret": {
+              "description": "Secret for authenticating",
+              "type": "string"
+            },
+            "tenant_id": {
+              "description": "Cyberark Cloud tenant ID",
+              "type": "string"
+            }
+          }
+        },
+        {
+          "title": "Workload authentication",
+          "type": "object",
+          "required": [
+            "api_key",
+            "auth_mode",
+            "login"
+          ],
+          "properties": {
+            "api_key": {
+              "description": "Workload API key for authenticating",
+              "type": "string"
+            },
+            "auth_mode": {
+              "type": "string",
+              "enum": [
+                "workload"
+              ]
+            },
+            "login": {
+              "description": "Workload login (ID) for authenticating",
+              "type": "string"
+            }
+          }
+        },
+        {
+          "title": "Kubernetes authentication",
+          "type": "object",
+          "required": [
+            "auth_mode"
+          ],
+          "properties": {
+            "auth_mode": {
+              "type": "string",
+              "enum": [
+                "k8s"
+              ]
+            },
+            "host_id": {
+              "description": "Optional Host ID for the K8s authenticator",
+              "type": "string",
+              "nullable": true
+            },
+            "namespace": {
+              "description": "Kubernetes namespace where service account is defined",
+              "type": "string",
+              "nullable": true
+            },
+            "service_account": {
+              "description": "Kubernetes service account used for authentication",
+              "type": "string",
+              "nullable": true
+            },
+            "service_id": {
+              "description": "Service ID for the K8s authenticator",
+              "default": "kubernetes",
+              "type": "string"
+            },
+            "token_expiration_seconds": {
+              "description": "Token expiration time in seconds. Default to 30 minutes",
+              "default": 1800,
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        }
+      ]
+    },
     "Env": {
       "description": "Declare an environment",
       "oneOf": [
@@ -373,10 +559,16 @@
           "type": "object",
           "required": [
             "fetch_all_versions",
-            "service_account_key_file",
             "type"
           ],
           "properties": {
+            "auth": {
+              "description": "Authentication method for GCP If not specified, defaults to Application Default Credentials",
+              "default": {
+                "auth_mode": "application_default"
+              },
+              "$ref": "#/definitions/AuthMode2"
+            },
             "env": {
               "$ref": "#/definitions/Env",
               "nullable": true
@@ -409,9 +601,6 @@
                 "type": "string"
               },
               "nullable": true
-            },
-            "service_account_key_file": {
-              "type": "string"
             },
             "type": {
               "type": "string",
@@ -515,69 +704,16 @@
           "title": "Conjur Cloud",
           "description": "Conjur Cloud fetcher",
           "type": "object",
-          "oneOf": [
-            {
-              "title": "CyberArk authentication",
-              "type": "object",
-              "required": [
-                "auth_mode",
-                "client_id",
-                "client_secret",
-                "tenant_id"
-              ],
-              "properties": {
-                "auth_mode": {
-                  "type": "string",
-                  "enum": [
-                    "cyberark"
-                  ]
-                },
-                "client_id": {
-                  "description": "CyberArk client ID or Conjur workload Client ID",
-                  "type": "string"
-                },
-                "client_secret": {
-                  "description": "Secret for authenticating",
-                  "type": "string"
-                },
-                "tenant_id": {
-                  "description": "Cyberark Cloud tenant ID",
-                  "type": "string"
-                }
-              }
-            },
-            {
-              "title": "Workload authentication",
-              "type": "object",
-              "required": [
-                "api_key",
-                "auth_mode",
-                "login"
-              ],
-              "properties": {
-                "api_key": {
-                  "description": "Workload API key for authenticating",
-                  "type": "string"
-                },
-                "auth_mode": {
-                  "type": "string",
-                  "enum": [
-                    "workload"
-                  ]
-                },
-                "login": {
-                  "description": "Workload login (ID) for authenticating",
-                  "type": "string"
-                }
-              }
-            }
-          ],
           "required": [
+            "auth",
             "fetch_all_versions",
             "subdomain",
             "type"
           ],
           "properties": {
+            "auth": {
+              "$ref": "#/definitions/AuthMode3"
+            },
             "env": {
               "$ref": "#/definitions/Env",
               "nullable": true
