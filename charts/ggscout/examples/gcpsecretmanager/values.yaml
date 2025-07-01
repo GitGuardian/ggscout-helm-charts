@@ -7,7 +7,9 @@ inventory:
       gcp:
         type: gcpsecretmanager
         fetch_all_versions: true # Fetch all versions of secrets or not
-        service_account_key_file: /gcp-key-secret/gcp_key.json # Path to GCP key file mounted from Secret
+        auth:
+          auth_mode: "service_account_key_file"
+          key_file: /gcp-key-secret/gcp_key.json # Path to GCP key file mounted from Secret
         # projects: # List of GCP project ids or null
         #   - project-id-1
         #   - project-id-2
