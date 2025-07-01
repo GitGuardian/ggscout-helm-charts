@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   ggscout:
   - apiVersion: v2
+    appVersion: 0.18.0
+    created: "2025-07-01T12:24:41.215284662Z"
+    description: A Helm chart for Kubernetes
+    digest: e9e17f2ced197b16587b4f8b4914dc4619a6405f12402ce3382b10a25a376319
+    name: ggscout
+    type: application
+    urls:
+    - https://github.com/GitGuardian/ggscout-helm-charts/releases/download/ggscout-0.5.0/ggscout-0.5.0.tgz
+    version: 0.5.0
+  - apiVersion: v2
     appVersion: 0.17.5
     created: "2025-06-19T16:07:07.496261234Z"
     description: A Helm chart for Kubernetes
@@ -423,4 +433,4 @@ entries:
     urls:
     - https://github.com/GitGuardian/GitGuardian-nhi-scout-helm-charts/releases/download/nhi-scout-0.1.11/nhi-scout-0.1.11.tgz
     version: 0.1.11
-generated: "2025-06-19T16:07:07.496446341Z"
+generated: "2025-07-01T12:24:41.215458716Z"
