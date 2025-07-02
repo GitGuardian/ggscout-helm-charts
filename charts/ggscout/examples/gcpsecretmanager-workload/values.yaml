@@ -8,11 +8,12 @@ inventory:
         type: gcpsecretmanager
         fetch_all_versions: true # Fetch all versions of secrets or not
         auth:
-          auth_mode: "service_account_key_file"
-          key_file: /gcp-key-secret/gcp_key.json # Path to GCP key file mounted from Secret
-        # projects: # List of GCP project ids or null
-        #   - project-id-1
-        #   - project-id-2
+          auth_mode: k8s
+          project_id: my-project-id  # GCP Project ID where the service account is located
+          project_number: 1234567890 # GCP Project Number
+          pool_id: my-pool-id # GCP Workload Identity Pool ID
+          provider_id: my-provider-id # Workload Identity Provider ID
+          gcp_service_account_name: my-service-account-name # GCP Service Account Name
         mode: "read" # Can only be "read" for now on GCP Secret Manager
     # To upload, set the gitguardian URL and tokens. Ensure the endpoint path ends with /v1
     # This is optional: omit this to prevent uploading and to only test collection.
@@ -37,14 +38,3 @@ inventory:
 envFrom:
 - secretRef:
     name: ggscout-secrets
-
-# Mount the GCP service account key from a Kubernetes Secret
-volumes:
-- name: gcp-key-volume
-  secret:
-    secretName: gcp-key-secret
-
-volumeMounts:
-- name: gcp-key-volume
-  mountPath: /gcp-key-secret
-  readOnly: true
