@@ -20,7 +20,7 @@ An example values file that fetches from HashiCorp Vault and GitLab CI:
 inventory:
   config:
     sources:
-      vault-secrets:
+      hashicorpvault:
         type: hashicorpvault
         vault_address: "https://your-vault-address-here.com"
         # If auth is not set, the env variable `VAULT_TOKEN` is used with a `token` auth_mode
@@ -124,7 +124,7 @@ The previous values example must be changed to:
 inventory:
   config:
     sources:
-      vault-secrets:
+      hashicorpvault:
         type: hashicorpvault
         vault_address: "https://your-vault-address-here.com"
         # If auth is not set, the env variable `VAULT_TOKEN` is used with a `token` auth_mode
