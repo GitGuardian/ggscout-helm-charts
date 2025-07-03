@@ -28,3 +28,9 @@ inventory:
 envFrom:
 - secretRef:
     name: ggscout-secrets
+
+clusterRole:
+  # Important to set this to true, otherwise you need to manually create the ClusterRole and the ClusterRoleBinding
+  create: true
+
+
