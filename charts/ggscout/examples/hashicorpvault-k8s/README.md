@@ -2,32 +2,35 @@
 
 This example demonstrates how to configure ggscout to authenticate with HashiCorp Vault using Kubernetes authentication when running in a Kubernetes cluster.
 
-## Prerequisites
-
-1. HashiCorp Vault with Kubernetes auth method enabled
-2. Proper Vault policies and roles configured
-3. ggscout deployed in a Kubernetes cluster
-
 ## Vault Configuration
 
 ### 1. Enable Kubernetes Auth Method
 
 ```bash
 # Enable Kubernetes auth method
-vault auth enable kubernetes
+vault auth enable kubernetes --path=kubernetes
 ```
+
+Note: the `--path` argument is not mandatory but lets you rename your authentication path, which must be unique, in case you have multiple kubernetes authentication methods configured.
 
 See HashiCorp Vault reference [documentation](https://developer.hashicorp.com/vault/docs/auth/kubernetes#configuration)
 
 ### 2. Configure Kubernetes Auth Method
 
 ```bash
+
+CA_CRT=$(kubectl get cm kube-root-ca.crt -o jsonpath="{['data']['ca\.crt']}")
+
 # Configure the Kubernetes auth method
 vault write auth/kubernetes/config \
-    token_reviewer_jwt="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" \
-    kubernetes_host="https://$KUBERNETES_PORT_443_TCP_ADDR:443" \
-    kubernetes_ca_cert=@/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+    kubernetes_host="https://$KUBERNETES_ADDR" \
+    kubernetes_ca_cert="$CA_CRT"
 ```
+
+Note: replace `auth/kubernetes` with `auth/yourpath` if you used the `--path` argument in the `vault auth enable` command above.
+
+If your Vault is running in Kubernetes, you need add `disable_local_ca_jwt=true` in the command above. For more details, follow (these steps)[https://developer.hashicorp.com/vault/docs/auth/kubernetes#use-the-vault-client-s-jwt-as-the-reviewer-jwt] from the HashiCorp documentation.
+
 
 ### 3. Create Vault Policy
 
@@ -59,6 +62,7 @@ vault write auth/kubernetes/role/ggscout \
     policies=ggscout-policy \
     ttl=24h
 ```
+
 
 ## Deployment
 
