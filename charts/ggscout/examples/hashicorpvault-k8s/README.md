@@ -29,7 +29,7 @@ vault write auth/kubernetes/config \
 
 Note: replace `auth/kubernetes` with `auth/yourpath` if you used the `--path` argument in the `vault auth enable` command above.
 
-If your Vault is running in Kubernetes, you need add `disable_local_ca_jwt=true` in the command above. For more details, follow (these steps)[https://developer.hashicorp.com/vault/docs/auth/kubernetes#use-the-vault-client-s-jwt-as-the-reviewer-jwt] from the HashiCorp documentation.
+If your Vault is running in Kubernetes, you need add `disable_local_ca_jwt=true` in the command above. For more details, follow [these steps](https://developer.hashicorp.com/vault/docs/auth/kubernetes#use-the-vault-client-s-jwt-as-the-reviewer-jwt) from the HashiCorp documentation.
 
 
 ### 3. Create Vault Policy
