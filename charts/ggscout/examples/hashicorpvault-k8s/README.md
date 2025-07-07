@@ -8,7 +8,7 @@ This example demonstrates how to configure ggscout to authenticate with HashiCor
 
 ```bash
 # Enable Kubernetes auth method
-vault auth enable kubernetes --path=kubernetes
+vault auth enable kubernetes -path=kubernetes
 ```
 
 Note: the `--path` argument is not mandatory but lets you rename your authentication path, which must be unique, in case you have multiple kubernetes authentication methods configured.
@@ -59,6 +59,7 @@ EOF
 # Create Kubernetes auth role
 vault write auth/kubernetes/role/ggscout \
     bound_service_account_names=ggscout \
+    bound_service_account_namespaces=default \ # Make sure this is the correct namespace ggscout will be deployed to
     policies=ggscout-policy \
     ttl=24h
 ```
