@@ -10,7 +10,7 @@ inventory:
         auth:
           auth_mode: k8s
           project_id: my-project-id  # GCP Project ID where the service account is located
-          project_number: 1234567890 # GCP Project Number
+          project_number: "1234567890" # GCP Project Number
           pool_id: my-pool-id # GCP Workload Identity Pool ID
           provider_id: my-provider-id # Workload Identity Provider ID
           gcp_service_account_name: my-service-account-name # GCP Service Account Name

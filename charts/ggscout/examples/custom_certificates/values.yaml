@@ -24,3 +24,6 @@ inventory:
         type: gitlabci
         token: gitlab-token # Replace with the GitLab CI token
         url: https://gitlab.com # GitLab URL
+    gitguardian:
+      endpoint: "https://my-gg-instance/v1"
+      api_token: "my_api_token"
