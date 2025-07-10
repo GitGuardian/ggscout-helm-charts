@@ -1,13 +1,13 @@
 {
-  "$schema": "https://json-schema.org/draft/2019-09/schema",
   "$id": "inventory-log-level.schema.json",
-  "title": "LogLevel",
-  "type": "string",
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
   "enum": [
     "trace",
     "debug",
     "info",
     "warn",
     "error"
-  ]
+  ],
+  "title": "LogLevel",
+  "type": "string"
 }

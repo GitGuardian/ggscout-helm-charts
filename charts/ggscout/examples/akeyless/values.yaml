@@ -8,10 +8,11 @@ inventory:
         api_url: "https://api.akeyless.io/" # If you use a gateway, change this url to the Gateway API address => `https://my-akeyless-gw.com/api/v2/`
         type: akeyless
         fetch_all_versions: true
-        auth_mode: "apikey" # We only support apikey auth mode for the moment
         accessibility: "regular" # Can be `regular` or `personal`
-        access_id: "${AKEYLESS_ACCESS_ID}"
-        access_key: "${AKEYLESS_ACCESS_KEY}"
+        auth:
+          auth_mode: "apikey" # We only support apikey auth mode for the moment
+          access_id: "${AKEYLESS_ACCESS_ID}"
+          access_key: "${AKEYLESS_ACCESS_KEY}"
         mode: "read/write" # Can be `read`, `write` or `read/write` depending on wether fetch and/or sync are enabled
 
     gitguardian:
