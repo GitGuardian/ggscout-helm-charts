@@ -1,0 +1,174 @@
+---
+name: Release with GGScout Version
+
+on:
+  workflow_dispatch:
+    inputs:
+      ggscout_version:
+        description: 'GGScout version to use for schemas (e.g., v0.17.5, latest)'
+        required: true
+        default: 'latest'
+        type: string
+      chart_increment:
+        description: 'Chart version increment type'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+      update_app_version:
+        description: 'Update Chart.yaml appVersion to match GGScout version'
+        required: false
+        default: true
+        type: boolean
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Setup mise
+        uses: jdx/mise-action@v2
+
+      - name: Display release information
+        run: |
+          echo "🚀 Starting GGScout Helm Chart Release"
+          echo "======================================"
+          echo "GGScout Version: ${{ github.event.inputs.ggscout_version }}"
+          echo "Chart Increment: ${{ github.event.inputs.chart_increment }}"
+          echo "Update App Version: ${{ github.event.inputs.update_app_version }}"
+          echo "======================================"
+
+      - name: Install required tools
+        run: |
+          echo "Installing Helm plugins..."
+          mise run install-helm-plugins
+
+      - name: Fetch and bundle schemas
+        run: |
+          echo "Fetching schemas for GGScout version: ${{ github.event.inputs.ggscout_version }}"
+          mise run bundle-schemas "${{ github.event.inputs.ggscout_version }}"
+
+      - name: Update Chart.yaml appVersion
+        if: github.event.inputs.update_app_version == 'true'
+        run: |
+          GGSCOUT_VERSION="${{ github.event.inputs.ggscout_version }}"
+          CHART_FILE="charts/ggscout/Chart.yaml"
+          
+          echo "Updating Chart.yaml appVersion to: ${GGSCOUT_VERSION}"
+          
+          # Remove 'v' prefix if present for appVersion
+          APP_VERSION="${GGSCOUT_VERSION#v}"
+          
+          # Update appVersion in Chart.yaml
+          if command -v yq >/dev/null 2>&1; then
+            yq eval ".appVersion = \"${APP_VERSION}\"" -i "${CHART_FILE}"
+          else
+            # Fallback to sed if yq is not available
+            sed -i "s/^appVersion:.*/appVersion: \"${APP_VERSION}\"/" "${CHART_FILE}"
+          fi
+          
+          echo "Updated appVersion in ${CHART_FILE}:"
+          grep "appVersion:" "${CHART_FILE}"
+
+      - name: Run tests
+        run: |
+          echo "Running Helm chart tests..."
+          mise run test
+
+      - name: Run linting
+        run: |
+          echo "Running Helm chart linting..."
+          mise run lint
+
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if git diff --quiet; then
+            echo "No changes detected"
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "Changes detected:"
+            git diff --name-only
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit schema and Chart.yaml updates
+        if: steps.check_changes.outputs.has_changes == 'true'
+        run: |
+          echo "Committing updates..."
+          git add .
+          git commit -m "feat: update schemas and appVersion for GGScout ${{ github.event.inputs.ggscout_version }}
+
+          - Fetch schemas from GGScout version ${{ github.event.inputs.ggscout_version }}
+          - Update bundled values.schema.json
+          $(if [ '${{ github.event.inputs.update_app_version }}' = 'true' ]; then echo '- Update Chart.yaml appVersion'; fi)
+          
+          🤖 Generated with [Claude Code](https://claude.ai/code)
+          
+          Co-Authored-By: Claude <noreply@anthropic.com>"
+
+      - name: Create release
+        run: |
+          echo "Creating Helm chart release..."
+          cz bump --increment "${{ github.event.inputs.chart_increment }}"
+
+      - name: Push changes and tags
+        run: |
+          echo "Pushing changes and tags to repository..."
+          git push origin main --follow-tags
+
+      - name: Generate release summary
+        run: |
+          echo "## 🎉 Release Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Parameter | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| GGScout Version | \`${{ github.event.inputs.ggscout_version }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| Chart Increment | \`${{ github.event.inputs.chart_increment }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| Updated App Version | ${{ github.event.inputs.update_app_version }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### ✅ Completed Steps" >> $GITHUB_STEP_SUMMARY
+          echo "- Downloaded schemas from ggscout-repository" >> $GITHUB_STEP_SUMMARY
+          echo "- Updated bundled schema files" >> $GITHUB_STEP_SUMMARY
+          $(if [ '${{ github.event.inputs.update_app_version }}' = 'true' ]; then echo "- Updated Chart.yaml appVersion" >> $GITHUB_STEP_SUMMARY; fi)
+          echo "- Ran tests and linting" >> $GITHUB_STEP_SUMMARY
+          echo "- Created and pushed release" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "🚀 **Chart release is now available!**" >> $GITHUB_STEP_SUMMARY
+
+  notify-completion:
+    needs: release
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+      - name: Notify completion
+        run: |
+          if [ "${{ needs.release.result }}" = "success" ]; then
+            echo "✅ Release workflow completed successfully!"
+            echo "The new Helm chart version with GGScout ${{ github.event.inputs.ggscout_version }} schemas is now available."
+          else
+            echo "❌ Release workflow failed!"
+            echo "Please check the logs above for error details."
+          fi

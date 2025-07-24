@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2019-09/schema",
-  "$id": "inventory-log-level.schema.json",
+  "$id": "https://gitguardian.com/inventory-log-level",
   "title": "LogLevel",
   "type": "string",
   "enum": [

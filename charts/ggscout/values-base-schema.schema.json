@@ -7,13 +7,13 @@
       "type": "object",
       "properties": {
         "log_level": {
-          "$ref": "inventory-log-level.schema.json"
+          "$ref": "https://gitguardian.com/inventory-log-level"
         },
         "config": {
-          "$ref": "inventory-config.schema.json"
+          "$ref": "https://gitguardian.com/inventory-config"
         },
        "jobs": {
-         "$ref": "jobs.schema.json"
+         "$ref": "https://gitguardian.com/jobs"
        }
       },
       "required": ["config"]

@@ -4,65 +4,146 @@
   "required": [
     "inventory"
   ],
-  "minProperties": 1,
   "properties": {
     "inventory": {
       "type": "object",
       "required": [
         "config"
       ],
-      "minProperties": 1,
       "properties": {
         "config": {
-          "$ref": "#/definitions/inventory-config.schema.json"
+          "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config"
         },
         "jobs": {
-          "$ref": "#/definitions/jobs.schema.json"
+          "$ref": "#/definitions/https%3A~1~1gitguardian.com~1jobs"
         },
         "log_level": {
-          "$ref": "#/definitions/inventory-log-level.schema.json"
+          "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-log-level"
         }
       },
       "additionalProperties": false
     }
   },
-  "additionalProperties": {
-    "type": [
-      "null",
-      "boolean",
-      "object",
-      "array",
-      "string",
-      "number",
-      "integer"
-    ]
-  },
+  "additionalProperties": true,
   "definitions": {
-    "inventory-config.schema.json": {
+    "https://gitguardian.com/inventory-config": {
       "$schema": "https://json-schema.org/draft/2019-09/schema",
       "title": "Config",
       "type": "object",
-      "minProperties": 0,
       "properties": {
         "gitguardian": {
-          "$ref": "#/definitions/inventory-config.schema.json/definitions/GitGuardianConfig",
-          "nullable": true
+          "anyOf": [
+            {
+              "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/GitGuardianConfig"
+            },
+            {
+              "const": null,
+              "nullable": true
+            }
+          ]
         },
         "sources": {
           "type": "object",
-          "minProperties": 0,
-          "properties": {},
           "additionalProperties": {
-            "$ref": "#/definitions/inventory-config.schema.json/definitions/FetcherConfig"
+            "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FetcherConfig"
           },
           "nullable": true
         }
       },
-      "definitions": {
+      "$defs": {
         "Accessibility": {
+          "type": "string",
           "enum": [
             "regular",
             "personal"
+          ]
+        },
+        "AkeylessAPIKeyAuth": {
+          "type": "object",
+          "required": [
+            "access_id",
+            "access_key"
+          ],
+          "properties": {
+            "access_id": {
+              "description": "Akeyless Access ID",
+              "type": "string"
+            },
+            "access_key": {
+              "description": "Akeyless Access Key",
+              "type": "string"
+            }
+          }
+        },
+        "AkeylessConfig": {
+          "type": "object",
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "access_id",
+                "access_key",
+                "auth_mode",
+                "fetch_all_versions"
+              ],
+              "properties": {
+                "access_id": {
+                  "description": "Akeyless Access ID",
+                  "type": "string"
+                },
+                "access_key": {
+                  "description": "Akeyless Access Key",
+                  "type": "string"
+                },
+                "auth_mode": {
+                  "type": "string",
+                  "const": "apikey"
+                },
+                "accessibility": {
+                  "default": "regular",
+                  "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Accessibility"
+                },
+                "api_url": {
+                  "description": "Akeyless API v2 URL. Default to https://api.akeyless.io/.\nIf you use an Akeyless Gateway, you must use the complete URL. Example: https://my-akeyless-gw.com/api/v2/",
+                  "default": "https://api.akeyless.io/",
+                  "type": "string",
+                  "format": "uri"
+                },
+                "env": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
+                    },
+                    {
+                      "const": null,
+                      "nullable": true
+                    }
+                  ]
+                },
+                "exclude": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+                  },
+                  "nullable": true
+                },
+                "fetch_all_versions": {
+                  "title": "Whether or not to collect all secret versions",
+                  "type": "boolean"
+                },
+                "include": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+                  },
+                  "nullable": true
+                },
+                "mode": {
+                  "default": "read",
+                  "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Mode"
+                }
+              }
+            }
           ]
         },
         "AuthMode": {
@@ -75,16 +156,13 @@
                 "auth_mode",
                 "token"
               ],
-              "minProperties": 2,
               "properties": {
                 "auth_mode": {
-                  "enum": [
-                    "token"
-                  ]
+                  "type": "string",
+                  "const": "token"
                 },
                 "token": {
-                  "type": "string",
-                  "minLength": 0
+                  "type": "string"
                 }
               }
             },
@@ -96,62 +174,53 @@
                 "auth_mode",
                 "token_file"
               ],
-              "minProperties": 2,
               "properties": {
                 "auth_mode": {
-                  "enum": [
-                    "token_file"
-                  ]
+                  "type": "string",
+                  "const": "token_file"
                 },
                 "token_file": {
-                  "type": "string",
-                  "minLength": 0
+                  "type": "string"
                 }
               }
             },
             {
               "title": "Kubernetes authentication",
-              "description": "Use k8s authentication. If ggscout is running outside a K8s cluster, it uses the kubeconfig file, otherwise it uses an in-cluster K8s client",
+              "description": "Use k8s authentication.\nIf ggscout is running outside a K8s cluster, it uses the kubeconfig file,\notherwise it uses an in-cluster K8s client",
               "type": "object",
               "required": [
                 "auth_mode",
                 "role"
               ],
-              "minProperties": 2,
               "properties": {
                 "auth_mode": {
-                  "enum": [
-                    "k8s"
-                  ]
+                  "type": "string",
+                  "const": "k8s"
                 },
                 "mount": {
                   "description": "HashiCorp login mount point. By default, \"kubernetes\"",
                   "default": "kubernetes",
-                  "type": "string",
-                  "minLength": 0
+                  "type": "string"
                 },
                 "namespace": {
                   "description": "Kubernetes namespace where service account is defined",
                   "type": "string",
-                  "minLength": 0,
                   "nullable": true
                 },
                 "role": {
                   "description": "HashiCorp Role to be used for authentication",
-                  "type": "string",
-                  "minLength": 0
+                  "type": "string"
                 },
                 "service_account": {
                   "description": "Kubernetes service account used for authentication",
                   "type": "string",
-                  "minLength": 0,
                   "nullable": true
                 },
                 "token_expiration_seconds": {
                   "description": "Token expiration time in second. Default to 30 minutes",
                   "default": 1800,
                   "type": "integer",
-                  "multipleOf": 1
+                  "format": "int64"
                 }
               }
             }
@@ -167,86 +236,73 @@
                 "auth_mode",
                 "key_file"
               ],
-              "minProperties": 2,
               "properties": {
                 "auth_mode": {
-                  "enum": [
-                    "service_account_key_file"
-                  ]
+                  "type": "string",
+                  "const": "service_account_key_file"
                 },
                 "key_file": {
-                  "type": "string",
-                  "minLength": 0
+                  "type": "string"
                 }
               }
             },
             {
               "title": "Kubernetes Workload Identity Federation",
-              "description": "Use Kubernetes API to get service account tokens and authenticate via WIF. This is the most secure and cloud-native authentication method.",
+              "description": "Use Kubernetes API to get service account tokens and authenticate via WIF.\nThis is the most secure and cloud-native authentication method.",
               "type": "object",
               "required": [
                 "auth_mode",
-                "gcp_service_account_name",
-                "pool_id",
                 "project_id",
                 "project_number",
-                "provider_id"
+                "pool_id",
+                "provider_id",
+                "gcp_service_account_name"
               ],
-              "minProperties": 6,
               "properties": {
                 "audience": {
-                  "description": "Custom audience for the WIF provider. If not specified, defaults to the standard WIF provider URL format: //iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/providers/{provider_id}",
+                  "description": "Custom audience for the WIF provider. If not specified, defaults to the standard\nWIF provider URL format: //iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/providers/{provider_id}",
                   "type": "string",
-                  "minLength": 0,
                   "nullable": true
                 },
                 "auth_mode": {
-                  "enum": [
-                    "k8s"
-                  ]
+                  "type": "string",
+                  "const": "k8s"
                 },
                 "gcp_service_account_name": {
                   "description": "Google Service Account name (without @project.iam.gserviceaccount.com)",
-                  "type": "string",
-                  "minLength": 0
+                  "type": "string"
                 },
                 "kubernetes_namespace": {
                   "description": "Kubernetes namespace where the service account is located",
                   "type": "string",
-                  "minLength": 0,
                   "nullable": true
                 },
                 "kubernetes_service_account": {
                   "description": "Kubernetes service account name to use for authentication",
                   "type": "string",
-                  "minLength": 0,
                   "nullable": true
                 },
                 "pool_id": {
                   "description": "Workload Identity Pool ID",
-                  "type": "string",
-                  "minLength": 0
+                  "type": "string"
                 },
                 "project_id": {
                   "description": "GCP Project ID where the service account is located",
-                  "type": "string",
-                  "minLength": 0
+                  "type": "string"
                 },
                 "project_number": {
                   "description": "GCP Project Number",
-                  "type": "string",
-                  "minLength": 0
+                  "type": "string"
                 },
                 "provider_id": {
                   "description": "Workload Identity Provider ID",
-                  "type": "string",
-                  "minLength": 0
+                  "type": "string"
                 },
                 "token_expiration_seconds": {
                   "description": "Token expiration time in seconds. Default to 30 minutes",
                   "default": 1800,
                   "type": "integer",
-                  "multipleOf": 1
+                  "format": "int64"
                 }
               }
             }
@@ -255,64 +311,55 @@
         "AuthMode3": {
           "oneOf": [
             {
-              "title": "CyberArk authentication",
               "type": "object",
               "required": [
-                "auth_mode",
+                "tenant_id",
                 "client_id",
                 "client_secret",
-                "tenant_id"
+                "auth_mode"
               ],
-              "minProperties": 4,
               "properties": {
-                "auth_mode": {
-                  "enum": [
-                    "cyber_ark"
-                  ]
-                },
                 "client_id": {
                   "description": "CyberArk client ID or Conjur workload Client ID",
-                  "type": "string",
-                  "minLength": 0
+                  "type": "string"
                 },
                 "client_secret": {
                   "description": "Secret for authenticating",
-                  "type": "string",
-                  "minLength": 0
+                  "type": "string"
                 },
                 "tenant_id": {
                   "description": "Cyberark Cloud tenant ID",
+                  "type": "string"
+                },
+                "auth_mode": {
                   "type": "string",
-                  "minLength": 0
+                  "const": "cyber_ark"
                 }
-              }
+              },
+              "title": "CyberArk authentication"
             },
             {
-              "title": "Workload authentication",
               "type": "object",
               "required": [
+                "login",
                 "api_key",
-                "auth_mode",
-                "login"
+                "auth_mode"
               ],
-              "minProperties": 3,
               "properties": {
                 "api_key": {
                   "description": "Workload API key for authenticating",
-                  "type": "string",
-                  "minLength": 0
-                },
-                "auth_mode": {
-                  "enum": [
-                    "workload"
-                  ]
+                  "type": "string"
                 },
                 "login": {
                   "description": "Workload login (ID) for authenticating",
+                  "type": "string"
+                },
+                "auth_mode": {
                   "type": "string",
-                  "minLength": 0
+                  "const": "workload"
                 }
-              }
+              },
+              "title": "Workload authentication"
             },
             {
               "title": "Kubernetes authentication",
@@ -320,46 +367,265 @@
               "required": [
                 "auth_mode"
               ],
-              "minProperties": 1,
               "properties": {
                 "auth_mode": {
-                  "enum": [
-                    "k8s"
-                  ]
+                  "type": "string",
+                  "const": "k8s"
                 },
                 "host_id": {
                   "description": "Optional Host ID for the K8s authenticator",
                   "type": "string",
-                  "minLength": 0,
                   "nullable": true
                 },
                 "namespace": {
                   "description": "Kubernetes namespace where service account is defined",
                   "type": "string",
-                  "minLength": 0,
                   "nullable": true
                 },
                 "service_account": {
                   "description": "Kubernetes service account used for authentication",
                   "type": "string",
-                  "minLength": 0,
                   "nullable": true
                 },
                 "service_id": {
                   "description": "Service ID for the K8s authenticator",
                   "default": "kubernetes",
-                  "type": "string",
-                  "minLength": 0
+                  "type": "string"
                 },
                 "token_expiration_seconds": {
                   "description": "Token expiration time in seconds. Default to 30 minutes",
                   "default": 1800,
                   "type": "integer",
-                  "multipleOf": 1
+                  "format": "int64"
                 }
               }
             }
           ]
+        },
+        "AzureKeyVaultConfig": {
+          "type": "object",
+          "required": [
+            "subscription_id",
+            "fetch_all_versions"
+          ],
+          "properties": {
+            "env": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
+                },
+                {
+                  "const": null,
+                  "nullable": true
+                }
+              ]
+            },
+            "exclude": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+              },
+              "nullable": true
+            },
+            "fetch_all_versions": {
+              "title": "Whether or not to collect all secret versions",
+              "type": "boolean"
+            },
+            "include": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+              },
+              "nullable": true
+            },
+            "mode": {
+              "description": "The mode gives an additional layer of permissions allowing to configure a Scout instance, giving read-only, write-only, or read and write permissions to that source. Default is read-only.",
+              "type": "string",
+              "enum": [
+                "read",
+                "write",
+                "read/write"
+              ],
+              "default": "read"
+            },
+            "subscription_id": {
+              "type": "string"
+            }
+          }
+        },
+        "ConjurCloudConfig": {
+          "type": "object",
+          "required": [
+            "auth",
+            "subdomain",
+            "fetch_all_versions"
+          ],
+          "properties": {
+            "auth": {
+              "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/AuthMode3"
+            },
+            "env": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
+                },
+                {
+                  "const": null,
+                  "nullable": true
+                }
+              ]
+            },
+            "exclude": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+              },
+              "nullable": true
+            },
+            "fetch_all_versions": {
+              "title": "Whether or not to collect all secret versions",
+              "type": "boolean"
+            },
+            "include": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+              },
+              "nullable": true
+            },
+            "mode": {
+              "description": "The mode gives an additional layer of permissions allowing to configure a Scout instance, giving read-only, write-only, or read and write permissions to that source. Default is read-only.",
+              "type": "string",
+              "enum": [
+                "read",
+                "write",
+                "read/write"
+              ],
+              "default": "read"
+            },
+            "subdomain": {
+              "title": "The Conjur Cloud subdomain",
+              "type": "string"
+            }
+          }
+        },
+        "ConjurWorkloadAuth": {
+          "type": "object",
+          "required": [
+            "login",
+            "api_key"
+          ],
+          "properties": {
+            "api_key": {
+              "description": "Workload API key for authenticating",
+              "type": "string"
+            },
+            "login": {
+              "description": "Workload login (ID) for authenticating",
+              "type": "string"
+            }
+          }
+        },
+        "CyberArkAuth": {
+          "type": "object",
+          "required": [
+            "tenant_id",
+            "client_id",
+            "client_secret"
+          ],
+          "properties": {
+            "client_id": {
+              "description": "CyberArk client ID or Conjur workload Client ID",
+              "type": "string"
+            },
+            "client_secret": {
+              "description": "Secret for authenticating",
+              "type": "string"
+            },
+            "tenant_id": {
+              "description": "Cyberark Cloud tenant ID",
+              "type": "string"
+            }
+          }
+        },
+        "DelineaSecretServerConfig": {
+          "type": "object",
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "client_id",
+                "client_secret",
+                "auth_mode",
+                "tenant"
+              ],
+              "properties": {
+                "client_id": {
+                  "type": "string"
+                },
+                "client_secret": {
+                  "type": "string"
+                },
+                "auth_mode": {
+                  "type": "string",
+                  "const": "oauth"
+                },
+                "env": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
+                    },
+                    {
+                      "const": null,
+                      "nullable": true
+                    }
+                  ]
+                },
+                "exclude": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+                  },
+                  "nullable": true
+                },
+                "include": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+                  },
+                  "nullable": true
+                },
+                "mode": {
+                  "default": "read",
+                  "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Mode"
+                },
+                "tenant": {
+                  "description": "Delinea tenant",
+                  "type": "string"
+                },
+                "tld": {
+                  "description": "Top-level domain\nThis can be found by clicking on \"Token API documentation\" in the Settings > REST API section of the Secret Server UI",
+                  "default": "com",
+                  "type": "string"
+                }
+              }
+            }
+          ]
+        },
+        "DelineaSecretServerOAuth": {
+          "type": "object",
+          "required": [
+            "client_id",
+            "client_secret"
+          ],
+          "properties": {
+            "client_id": {
+              "type": "string"
+            },
+            "client_secret": {
+              "type": "string"
+            }
+          }
         },
         "Env": {
           "description": "Declare an environment",
@@ -367,501 +633,704 @@
             {
               "title": "production",
               "description": "aliases accepted: `prod` and `prd`",
-              "enum": [
-                "production"
-              ]
+              "type": "string",
+              "const": "production"
             },
             {
               "title": "pre-production",
               "description": "aliases accepted: `pre-prod`, `preprod` and `preproduction`",
-              "enum": [
-                "pre-production"
-              ]
+              "type": "string",
+              "const": "pre-production"
             },
             {
               "title": "staging",
-              "enum": [
-                "staging"
-              ]
+              "type": "string",
+              "const": "staging"
             },
             {
               "title": "testing",
-              "enum": [
-                "testing"
-              ]
+              "type": "string",
+              "const": "testing"
             },
             {
               "title": "development",
               "description": "aliases accepted: `dev` and `local`",
-              "enum": [
-                "development"
-              ]
+              "type": "string",
+              "const": "development"
             }
           ]
         },
         "FetcherConfig": {
           "oneOf": [
             {
-              "title": "HashiCorp Vault",
-              "description": "This fetcher fetches secrets from [HashiCorp Vault](https://www.hashicorp.com/products/vault)",
               "type": "object",
               "required": [
+                "vault_address",
                 "fetch_all_versions",
-                "type",
-                "vault_address"
+                "type"
               ],
-              "minProperties": 3,
               "properties": {
-                "type": {
-                  "enum": [
-                    "hashicorpvault"
-                  ]
-                },
                 "auth": {
-                  "description": "Authentication method. If no authentication method is provided `VAULT_TOKEN` env variable is used as a default token",
+                  "oneOf": [
+                    {
+                      "title": "Token",
+                      "description": "Pass a token string to authenticate",
+                      "type": "object",
+                      "required": [
+                        "auth_mode",
+                        "token"
+                      ],
+                      "properties": {
+                        "auth_mode": {
+                          "type": "string",
+                          "const": "token"
+                        },
+                        "token": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    {
+                      "title": "Token file path",
+                      "description": "Pass a file containing a token string to authenticate",
+                      "type": "object",
+                      "required": [
+                        "auth_mode",
+                        "token_file"
+                      ],
+                      "properties": {
+                        "auth_mode": {
+                          "type": "string",
+                          "const": "token_file"
+                        },
+                        "token_file": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    {
+                      "title": "Kubernetes authentication",
+                      "description": "Use k8s authentication.\nIf ggscout is running outside a K8s cluster, it uses the kubeconfig file,\notherwise it uses an in-cluster K8s client",
+                      "type": "object",
+                      "required": [
+                        "auth_mode",
+                        "role"
+                      ],
+                      "properties": {
+                        "auth_mode": {
+                          "type": "string",
+                          "const": "k8s"
+                        },
+                        "mount": {
+                          "description": "HashiCorp login mount point. By default, \"kubernetes\"",
+                          "default": "kubernetes",
+                          "type": "string"
+                        },
+                        "namespace": {
+                          "description": "Kubernetes namespace where service account is defined",
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "role": {
+                          "description": "HashiCorp Role to be used for authentication",
+                          "type": "string"
+                        },
+                        "service_account": {
+                          "description": "Kubernetes service account used for authentication",
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "token_expiration_seconds": {
+                          "description": "Token expiration time in second. Default to 30 minutes",
+                          "default": 1800,
+                          "type": "integer",
+                          "format": "int64"
+                        }
+                      }
+                    }
+                  ],
+                  "description": "Authentication method.\nIf no authentication method is provided `VAULT_TOKEN` env variable is used as a default token",
                   "default": {
                     "auth_mode": "token",
                     "token": "token from VAULT_TOKEN env"
-                  },
-                  "$ref": "#/definitions/inventory-config.schema.json/definitions/AuthMode"
+                  }
                 },
                 "auth_token": {
                   "description": "[Deprecated - Use `auth.auth_method = \"token\"` and `auth.token = \"my_token\"` instead]",
                   "deprecated": true,
                   "type": "string",
-                  "minLength": 0,
                   "nullable": true
                 },
                 "env": {
-                  "$ref": "#/definitions/inventory-config.schema.json/definitions/Env",
-                  "nullable": true
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
+                    },
+                    {
+                      "const": null,
+                      "nullable": true
+                    }
+                  ]
                 },
                 "exclude": {
                   "type": "array",
-                  "minItems": 0,
                   "items": {
-                    "$ref": "#/definitions/inventory-config.schema.json/definitions/FilteringRule"
+                    "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
                   },
                   "nullable": true
                 },
                 "fetch_all_versions": {
                   "title": "Whether or not to collect all secret versions",
-                  "enum": [
-                    false,
-                    true
-                  ]
+                  "type": "boolean"
                 },
                 "include": {
                   "type": "array",
-                  "minItems": 0,
                   "items": {
-                    "$ref": "#/definitions/inventory-config.schema.json/definitions/FilteringRule"
+                    "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
                   },
                   "nullable": true
                 },
                 "mode": {
-                  "default": "read",
-                  "$ref": "#/definitions/inventory-config.schema.json/definitions/Mode"
+                  "description": "The mode gives an additional layer of permissions allowing to configure a Scout instance, giving read-only, write-only, or read and write permissions to that source. Default is read-only.",
+                  "type": "string",
+                  "enum": [
+                    "read",
+                    "write",
+                    "read/write"
+                  ],
+                  "default": "read"
+                },
+                "namespaces": {
+                  "description": "Vault namespaces to fetch from. If None, fetch from all accessible namespaces.\nIf Some(vec), only fetch from namespaces that are both accessible and in this list.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "nullable": true
                 },
                 "path": {
                   "type": "string",
-                  "minLength": 0,
                   "nullable": true
                 },
                 "vault_address": {
                   "type": "string",
-                  "format": "uri",
-                  "minLength": 0
+                  "format": "uri"
+                },
+                "type": {
+                  "type": "string",
+                  "const": "hashicorpvault"
                 }
-              }
+              },
+              "title": "HashiCorp Vault",
+              "description": "This fetcher fetches secrets from [HashiCorp Vault](https://www.hashicorp.com/products/vault)"
             },
             {
-              "title": "Kubernetes",
-              "description": "Kubernetes fetcher",
               "type": "object",
               "oneOf": [
                 {
-                  "title": "KubeConfig File",
                   "type": "object",
-                  "required": [
-                    "config_source"
-                  ],
-                  "minProperties": 1,
                   "properties": {
-                    "config_source": {
-                      "enum": [
-                        "kubeconfigfile"
-                      ]
-                    },
                     "contexts": {
                       "description": "Kubernetes contexts to filter on.",
                       "type": "array",
-                      "minItems": 0,
                       "items": {
-                        "type": "string",
-                        "minLength": 0
+                        "type": "string"
                       },
                       "nullable": true
                     },
                     "kubeconfig_path": {
                       "description": "Path to the kubernetes kubeconfig to use",
                       "type": "string",
-                      "minLength": 0,
                       "nullable": true
-                    }
-                  }
-                },
-                {
-                  "title": "InCluster",
-                  "type": "object",
-                  "required": [
-                    "config_source",
-                    "name"
-                  ],
-                  "minProperties": 2,
-                  "properties": {
+                    },
                     "config_source": {
-                      "enum": [
-                        "incluster"
+                      "type": "string",
+                      "const": "kubeconfigfile"
+                    },
+                    "env": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
+                        },
+                        {
+                          "const": null,
+                          "nullable": true
+                        }
                       ]
                     },
-                    "name": {
-                      "description": "Kubernetes cluster name is mandatory because it cannot be retrieved with the Kubernetes API",
+                    "exclude": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+                      },
+                      "nullable": true
+                    },
+                    "include": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+                      },
+                      "nullable": true
+                    },
+                    "namespaces": {
+                      "description": "Namespaces to read from. Can be a literal string or a glob expression to match\nmultiple namespaces.",
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "nullable": true
+                    },
+                    "type": {
                       "type": "string",
-                      "minLength": 0
+                      "const": "k8s"
                     }
-                  }
-                }
-              ],
-              "required": [
-                "type"
-              ],
-              "minProperties": 1,
-              "properties": {
-                "type": {
-                  "enum": [
-                    "k8s"
+                  },
+                  "title": "KubeConfig File",
+                  "required": [
+                    "config_source",
+                    "type"
                   ]
                 },
-                "env": {
-                  "$ref": "#/definitions/inventory-config.schema.json/definitions/Env",
-                  "nullable": true
-                },
-                "exclude": {
-                  "type": "array",
-                  "minItems": 0,
-                  "items": {
-                    "$ref": "#/definitions/inventory-config.schema.json/definitions/FilteringRule"
+                {
+                  "type": "object",
+                  "required": [
+                    "name",
+                    "config_source",
+                    "type"
+                  ],
+                  "properties": {
+                    "name": {
+                      "description": "Kubernetes cluster name is mandatory because it cannot be retrieved with the Kubernetes API",
+                      "type": "string"
+                    },
+                    "config_source": {
+                      "type": "string",
+                      "const": "incluster"
+                    },
+                    "env": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
+                        },
+                        {
+                          "const": null,
+                          "nullable": true
+                        }
+                      ]
+                    },
+                    "exclude": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+                      },
+                      "nullable": true
+                    },
+                    "include": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+                      },
+                      "nullable": true
+                    },
+                    "namespaces": {
+                      "description": "Namespaces to read from. Can be a literal string or a glob expression to match\nmultiple namespaces.",
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "nullable": true
+                    },
+                    "type": {
+                      "type": "string",
+                      "const": "k8s"
+                    }
                   },
-                  "nullable": true
-                },
-                "include": {
-                  "type": "array",
-                  "minItems": 0,
-                  "items": {
-                    "$ref": "#/definitions/inventory-config.schema.json/definitions/FilteringRule"
-                  },
-                  "nullable": true
-                },
-                "namespaces": {
-                  "description": "Namespaces to read from. Can be a literal string or a glob expression to match multiple namespaces.",
-                  "type": "array",
-                  "minItems": 0,
-                  "items": {
-                    "type": "string",
-                    "minLength": 0
-                  },
-                  "nullable": true
+                  "title": "InCluster"
                 }
-              }
+              ]
             },
             {
-              "title": "AWS Secrets Manager",
-              "description": "AWS Secrets Manager fetcher",
               "type": "object",
               "required": [
                 "fetch_all_versions",
                 "type"
               ],
-              "minProperties": 2,
               "properties": {
-                "type": {
-                  "enum": [
-                    "awssecretsmanager"
-                  ]
-                },
                 "env": {
-                  "$ref": "#/definitions/inventory-config.schema.json/definitions/Env",
-                  "nullable": true
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
+                    },
+                    {
+                      "const": null,
+                      "nullable": true
+                    }
+                  ]
                 },
                 "exclude": {
                   "type": "array",
-                  "minItems": 0,
                   "items": {
-                    "$ref": "#/definitions/inventory-config.schema.json/definitions/FilteringRule"
+                    "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
                   },
                   "nullable": true
                 },
                 "fetch_all_versions": {
                   "title": "Whether or not to collect all secret versions",
-                  "enum": [
-                    false,
-                    true
-                  ]
+                  "type": "boolean"
                 },
                 "include": {
                   "type": "array",
-                  "minItems": 0,
                   "items": {
-                    "$ref": "#/definitions/inventory-config.schema.json/definitions/FilteringRule"
+                    "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
                   },
                   "nullable": true
                 },
                 "mode": {
-                  "default": "read",
-                  "$ref": "#/definitions/inventory-config.schema.json/definitions/Mode"
+                  "description": "The mode gives an additional layer of permissions allowing to configure a Scout instance, giving read-only, write-only, or read and write permissions to that source. Default is read-only.",
+                  "type": "string",
+                  "enum": [
+                    "read",
+                    "write",
+                    "read/write"
+                  ],
+                  "default": "read"
                 },
                 "profile_name": {
                   "type": "string",
-                  "minLength": 0,
                   "nullable": true
                 },
                 "regions": {
                   "type": "array",
-                  "minItems": 0,
                   "items": {
-                    "type": "string",
-                    "minLength": 0
+                    "type": "string"
                   },
                   "nullable": true
+                },
+                "type": {
+                  "type": "string",
+                  "const": "awssecretsmanager"
                 }
-              }
+              },
+              "title": "AWS Secrets Manager",
+              "description": "AWS Secrets Manager fetcher"
             },
             {
-              "title": "GCP Secret Manager",
-              "description": "GCP Secret Manager fetcher",
               "type": "object",
               "required": [
                 "fetch_all_versions",
                 "type"
               ],
-              "minProperties": 2,
               "properties": {
-                "type": {
-                  "enum": [
-                    "gcpsecretmanager"
-                  ]
-                },
                 "auth": {
-                  "description": "Authentication method for GCP If not specified, defaults to Application Default Credentials",
+                  "oneOf": [
+                    {
+                      "title": "Service Account Key File",
+                      "description": "Use a service account key file for authentication",
+                      "type": "object",
+                      "required": [
+                        "auth_mode",
+                        "key_file"
+                      ],
+                      "properties": {
+                        "auth_mode": {
+                          "type": "string",
+                          "const": "service_account_key_file"
+                        },
+                        "key_file": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    {
+                      "title": "Kubernetes Workload Identity Federation",
+                      "description": "Use Kubernetes API to get service account tokens and authenticate via WIF.\nThis is the most secure and cloud-native authentication method.",
+                      "type": "object",
+                      "required": [
+                        "auth_mode",
+                        "project_id",
+                        "project_number",
+                        "pool_id",
+                        "provider_id",
+                        "gcp_service_account_name"
+                      ],
+                      "properties": {
+                        "audience": {
+                          "description": "Custom audience for the WIF provider. If not specified, defaults to the standard\nWIF provider URL format: //iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/providers/{provider_id}",
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "auth_mode": {
+                          "type": "string",
+                          "const": "k8s"
+                        },
+                        "gcp_service_account_name": {
+                          "description": "Google Service Account name (without @project.iam.gserviceaccount.com)",
+                          "type": "string"
+                        },
+                        "kubernetes_namespace": {
+                          "description": "Kubernetes namespace where the service account is located",
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "kubernetes_service_account": {
+                          "description": "Kubernetes service account name to use for authentication",
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "pool_id": {
+                          "description": "Workload Identity Pool ID",
+                          "type": "string"
+                        },
+                        "project_id": {
+                          "description": "GCP Project ID where the service account is located",
+                          "type": "string"
+                        },
+                        "project_number": {
+                          "description": "GCP Project Number",
+                          "type": "string"
+                        },
+                        "provider_id": {
+                          "description": "Workload Identity Provider ID",
+                          "type": "string"
+                        },
+                        "token_expiration_seconds": {
+                          "description": "Token expiration time in seconds. Default to 30 minutes",
+                          "default": 1800,
+                          "type": "integer",
+                          "format": "int64"
+                        }
+                      }
+                    }
+                  ],
+                  "description": "Authentication method for GCP\nIf not specified, defaults to Application Default Credentials",
                   "default": {
                     "auth_mode": "application_default"
-                  },
-                  "$ref": "#/definitions/inventory-config.schema.json/definitions/AuthMode2"
+                  }
                 },
                 "env": {
-                  "$ref": "#/definitions/inventory-config.schema.json/definitions/Env",
-                  "nullable": true
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
+                    },
+                    {
+                      "const": null,
+                      "nullable": true
+                    }
+                  ]
                 },
                 "exclude": {
                   "type": "array",
-                  "minItems": 0,
                   "items": {
-                    "$ref": "#/definitions/inventory-config.schema.json/definitions/FilteringRule"
+                    "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
                   },
                   "nullable": true
                 },
                 "fetch_all_versions": {
                   "title": "Whether or not to collect all secret versions",
-                  "enum": [
-                    false,
-                    true
-                  ]
+                  "type": "boolean"
                 },
                 "include": {
                   "type": "array",
-                  "minItems": 0,
                   "items": {
-                    "$ref": "#/definitions/inventory-config.schema.json/definitions/FilteringRule"
+                    "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
                   },
                   "nullable": true
                 },
                 "mode": {
-                  "default": "read",
-                  "$ref": "#/definitions/inventory-config.schema.json/definitions/Mode"
+                  "description": "The mode gives an additional layer of permissions allowing to configure a Scout instance, giving read-only, write-only, or read and write permissions to that source. Default is read-only.",
+                  "type": "string",
+                  "enum": [
+                    "read",
+                    "write",
+                    "read/write"
+                  ],
+                  "default": "read"
                 },
                 "projects": {
                   "type": "array",
-                  "minItems": 0,
                   "items": {
-                    "type": "string",
-                    "minLength": 0
+                    "type": "string"
                   },
                   "nullable": true
+                },
+                "type": {
+                  "type": "string",
+                  "const": "gcpsecretmanager"
                 }
-              }
+              },
+              "title": "GCP Secret Manager",
+              "description": "GCP Secret Manager fetcher"
             },
             {
-              "title": "Azure Key Vault",
-              "description": "Azure Key Vault fetcher",
               "type": "object",
               "required": [
-                "fetch_all_versions",
                 "subscription_id",
+                "fetch_all_versions",
                 "type"
               ],
-              "minProperties": 3,
               "properties": {
-                "type": {
-                  "enum": [
-                    "azurekeyvault"
-                  ]
-                },
                 "env": {
-                  "$ref": "#/definitions/inventory-config.schema.json/definitions/Env",
-                  "nullable": true
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
+                    },
+                    {
+                      "const": null,
+                      "nullable": true
+                    }
+                  ]
                 },
                 "exclude": {
                   "type": "array",
-                  "minItems": 0,
                   "items": {
-                    "$ref": "#/definitions/inventory-config.schema.json/definitions/FilteringRule"
+                    "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
                   },
                   "nullable": true
                 },
                 "fetch_all_versions": {
                   "title": "Whether or not to collect all secret versions",
-                  "enum": [
-                    false,
-                    true
-                  ]
+                  "type": "boolean"
                 },
                 "include": {
                   "type": "array",
-                  "minItems": 0,
                   "items": {
-                    "$ref": "#/definitions/inventory-config.schema.json/definitions/FilteringRule"
+                    "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
                   },
                   "nullable": true
                 },
                 "mode": {
-                  "default": "read",
-                  "$ref": "#/definitions/inventory-config.schema.json/definitions/Mode"
+                  "description": "The mode gives an additional layer of permissions allowing to configure a Scout instance, giving read-only, write-only, or read and write permissions to that source. Default is read-only.",
+                  "type": "string",
+                  "enum": [
+                    "read",
+                    "write",
+                    "read/write"
+                  ],
+                  "default": "read"
                 },
                 "subscription_id": {
+                  "type": "string"
+                },
+                "type": {
                   "type": "string",
-                  "minLength": 0
+                  "const": "azurekeyvault"
                 }
-              }
+              },
+              "title": "Azure Key Vault",
+              "description": "Azure Key Vault fetcher"
             },
             {
-              "title": "GitLab CI",
-              "description": "GitLab CI fetcher",
               "type": "object",
               "required": [
+                "url",
                 "token",
-                "type",
-                "url"
+                "type"
               ],
-              "minProperties": 3,
               "properties": {
-                "type": {
-                  "enum": [
-                    "gitlabci"
-                  ]
-                },
                 "env": {
-                  "$ref": "#/definitions/inventory-config.schema.json/definitions/Env",
-                  "nullable": true
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
+                    },
+                    {
+                      "const": null,
+                      "nullable": true
+                    }
+                  ]
                 },
                 "exclude": {
                   "type": "array",
-                  "minItems": 0,
                   "items": {
-                    "$ref": "#/definitions/inventory-config.schema.json/definitions/FilteringRule"
+                    "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
                   },
                   "nullable": true
                 },
                 "include": {
                   "type": "array",
-                  "minItems": 0,
                   "items": {
-                    "$ref": "#/definitions/inventory-config.schema.json/definitions/FilteringRule"
+                    "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
                   },
                   "nullable": true
                 },
                 "token": {
-                  "type": "string",
-                  "minLength": 0
+                  "type": "string"
                 },
                 "url": {
                   "type": "string",
-                  "format": "uri",
-                  "minLength": 0
+                  "format": "uri"
+                },
+                "type": {
+                  "type": "string",
+                  "const": "gitlabci"
                 }
-              }
+              },
+              "title": "GitLab CI",
+              "description": "GitLab CI fetcher"
             },
             {
-              "title": "Conjur Cloud",
-              "description": "Conjur Cloud fetcher",
               "type": "object",
               "required": [
                 "auth",
-                "fetch_all_versions",
                 "subdomain",
+                "fetch_all_versions",
                 "type"
               ],
-              "minProperties": 4,
               "properties": {
-                "type": {
-                  "enum": [
-                    "conjurcloud"
-                  ]
-                },
                 "auth": {
-                  "$ref": "#/definitions/inventory-config.schema.json/definitions/AuthMode3"
+                  "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/AuthMode3"
                 },
                 "env": {
-                  "$ref": "#/definitions/inventory-config.schema.json/definitions/Env",
-                  "nullable": true
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
+                    },
+                    {
+                      "const": null,
+                      "nullable": true
+                    }
+                  ]
                 },
                 "exclude": {
                   "type": "array",
-                  "minItems": 0,
                   "items": {
-                    "$ref": "#/definitions/inventory-config.schema.json/definitions/FilteringRule"
+                    "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
                   },
                   "nullable": true
                 },
                 "fetch_all_versions": {
                   "title": "Whether or not to collect all secret versions",
-                  "enum": [
-                    false,
-                    true
-                  ]
+                  "type": "boolean"
                 },
                 "include": {
                   "type": "array",
-                  "minItems": 0,
                   "items": {
-                    "$ref": "#/definitions/inventory-config.schema.json/definitions/FilteringRule"
+                    "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
                   },
                   "nullable": true
                 },
                 "mode": {
-                  "default": "read",
-                  "$ref": "#/definitions/inventory-config.schema.json/definitions/Mode"
+                  "description": "The mode gives an additional layer of permissions allowing to configure a Scout instance, giving read-only, write-only, or read and write permissions to that source. Default is read-only.",
+                  "type": "string",
+                  "enum": [
+                    "read",
+                    "write",
+                    "read/write"
+                  ],
+                  "default": "read"
                 },
                 "subdomain": {
                   "title": "The Conjur Cloud subdomain",
+                  "type": "string"
+                },
+                "type": {
                   "type": "string",
-                  "minLength": 0
+                  "const": "conjurcloud"
                 }
-              }
+              },
+              "title": "Conjur Cloud",
+              "description": "Conjur Cloud fetcher"
             },
             {
-              "title": "Akeyless",
-              "description": "Akeyless fetcher",
               "type": "object",
               "oneOf": [
                 {
@@ -869,180 +1338,299 @@
                   "required": [
                     "access_id",
                     "access_key",
-                    "auth_mode"
+                    "auth_mode",
+                    "fetch_all_versions",
+                    "type"
                   ],
-                  "minProperties": 3,
                   "properties": {
                     "access_id": {
                       "description": "Akeyless Access ID",
-                      "type": "string",
-                      "minLength": 0
+                      "type": "string"
                     },
                     "access_key": {
                       "description": "Akeyless Access Key",
-                      "type": "string",
-                      "minLength": 0
+                      "type": "string"
                     },
                     "auth_mode": {
-                      "enum": [
-                        "apikey"
+                      "type": "string",
+                      "const": "apikey"
+                    },
+                    "accessibility": {
+                      "default": "regular",
+                      "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Accessibility"
+                    },
+                    "api_url": {
+                      "description": "Akeyless API v2 URL. Default to https://api.akeyless.io/.\nIf you use an Akeyless Gateway, you must use the complete URL. Example: https://my-akeyless-gw.com/api/v2/",
+                      "default": "https://api.akeyless.io/",
+                      "type": "string",
+                      "format": "uri"
+                    },
+                    "env": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
+                        },
+                        {
+                          "const": null,
+                          "nullable": true
+                        }
                       ]
+                    },
+                    "exclude": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+                      },
+                      "nullable": true
+                    },
+                    "fetch_all_versions": {
+                      "title": "Whether or not to collect all secret versions",
+                      "type": "boolean"
+                    },
+                    "include": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+                      },
+                      "nullable": true
+                    },
+                    "mode": {
+                      "default": "read",
+                      "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Mode"
+                    },
+                    "type": {
+                      "type": "string",
+                      "const": "akeyless"
                     }
                   }
                 }
-              ],
-              "required": [
-                "fetch_all_versions",
-                "type"
-              ],
-              "minProperties": 2,
-              "properties": {
-                "type": {
-                  "enum": [
-                    "akeyless"
-                  ]
-                },
-                "accessibility": {
-                  "default": "regular",
-                  "$ref": "#/definitions/inventory-config.schema.json/definitions/Accessibility"
-                },
-                "api_url": {
-                  "description": "Akeyless API v2 URL. Default to https://api.akeyless.io/. If you use an Akeyless Gateway, you must use the complete URL. Example: https://my-akeyless-gw.com/api/v2/",
-                  "default": "https://api.akeyless.io/",
-                  "type": "string",
-                  "format": "uri",
-                  "minLength": 0
-                },
-                "env": {
-                  "$ref": "#/definitions/inventory-config.schema.json/definitions/Env",
-                  "nullable": true
-                },
-                "exclude": {
-                  "type": "array",
-                  "minItems": 0,
-                  "items": {
-                    "$ref": "#/definitions/inventory-config.schema.json/definitions/FilteringRule"
-                  },
-                  "nullable": true
-                },
-                "fetch_all_versions": {
-                  "title": "Whether or not to collect all secret versions",
-                  "enum": [
-                    false,
-                    true
-                  ]
-                },
-                "include": {
-                  "type": "array",
-                  "minItems": 0,
-                  "items": {
-                    "$ref": "#/definitions/inventory-config.schema.json/definitions/FilteringRule"
-                  },
-                  "nullable": true
-                },
-                "mode": {
-                  "default": "read",
-                  "$ref": "#/definitions/inventory-config.schema.json/definitions/Mode"
-                }
-              }
+              ]
             },
             {
-              "title": "Delinea Secret Server",
-              "description": "Delinea SecretServer fetcher",
               "type": "object",
               "oneOf": [
                 {
                   "type": "object",
                   "required": [
-                    "auth_mode",
                     "client_id",
-                    "client_secret"
+                    "client_secret",
+                    "auth_mode",
+                    "tenant",
+                    "type"
                   ],
-                  "minProperties": 3,
                   "properties": {
-                    "auth_mode": {
-                      "enum": [
-                        "oauth"
-                      ]
-                    },
                     "client_id": {
-                      "type": "string",
-                      "minLength": 0
+                      "type": "string"
                     },
                     "client_secret": {
+                      "type": "string"
+                    },
+                    "auth_mode": {
                       "type": "string",
-                      "minLength": 0
+                      "const": "oauth"
+                    },
+                    "env": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
+                        },
+                        {
+                          "const": null,
+                          "nullable": true
+                        }
+                      ]
+                    },
+                    "exclude": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+                      },
+                      "nullable": true
+                    },
+                    "include": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+                      },
+                      "nullable": true
+                    },
+                    "mode": {
+                      "default": "read",
+                      "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Mode"
+                    },
+                    "tenant": {
+                      "description": "Delinea tenant",
+                      "type": "string"
+                    },
+                    "tld": {
+                      "description": "Top-level domain\nThis can be found by clicking on \"Token API documentation\" in the Settings > REST API section of the Secret Server UI",
+                      "default": "com",
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string",
+                      "const": "delineasecretserver"
                     }
                   }
                 }
-              ],
-              "required": [
-                "tenant",
-                "type"
-              ],
-              "minProperties": 2,
-              "properties": {
-                "type": {
-                  "enum": [
-                    "delineasecretserver"
-                  ]
-                },
-                "env": {
-                  "$ref": "#/definitions/inventory-config.schema.json/definitions/Env",
-                  "nullable": true
-                },
-                "exclude": {
-                  "type": "array",
-                  "minItems": 0,
-                  "items": {
-                    "$ref": "#/definitions/inventory-config.schema.json/definitions/FilteringRule"
-                  },
-                  "nullable": true
-                },
-                "include": {
-                  "type": "array",
-                  "minItems": 0,
-                  "items": {
-                    "$ref": "#/definitions/inventory-config.schema.json/definitions/FilteringRule"
-                  },
-                  "nullable": true
-                },
-                "mode": {
-                  "default": "read",
-                  "$ref": "#/definitions/inventory-config.schema.json/definitions/Mode"
-                },
-                "tenant": {
-                  "description": "Delinea tenant",
-                  "type": "string",
-                  "minLength": 0
-                },
-                "tld": {
-                  "description": "Top-level domain This can be found by clicking on \"Token API documentation\" in the Settings > REST API section of the Secret Server UI",
-                  "default": "com",
-                  "type": "string",
-                  "minLength": 0
-                }
-              }
+              ]
             }
           ]
         },
         "FilteringRule": {
           "type": "object",
-          "minProperties": 0,
           "properties": {
             "resource_ids": {
               "type": "array",
-              "minItems": 0,
               "items": {
-                "$ref": "#/definitions/inventory-config.schema.json/definitions/RuleElement"
+                "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/RuleElement"
               },
               "nullable": true
             },
             "source_ids": {
               "type": "array",
-              "minItems": 0,
               "items": {
-                "$ref": "#/definitions/inventory-config.schema.json/definitions/RuleElement"
+                "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/RuleElement"
+              },
+              "nullable": true
+            }
+          }
+        },
+        "GCPSecretManagerConfig": {
+          "type": "object",
+          "required": [
+            "fetch_all_versions"
+          ],
+          "properties": {
+            "auth": {
+              "oneOf": [
+                {
+                  "title": "Service Account Key File",
+                  "description": "Use a service account key file for authentication",
+                  "type": "object",
+                  "required": [
+                    "auth_mode",
+                    "key_file"
+                  ],
+                  "properties": {
+                    "auth_mode": {
+                      "type": "string",
+                      "const": "service_account_key_file"
+                    },
+                    "key_file": {
+                      "type": "string"
+                    }
+                  }
+                },
+                {
+                  "title": "Kubernetes Workload Identity Federation",
+                  "description": "Use Kubernetes API to get service account tokens and authenticate via WIF.\nThis is the most secure and cloud-native authentication method.",
+                  "type": "object",
+                  "required": [
+                    "auth_mode",
+                    "project_id",
+                    "project_number",
+                    "pool_id",
+                    "provider_id",
+                    "gcp_service_account_name"
+                  ],
+                  "properties": {
+                    "audience": {
+                      "description": "Custom audience for the WIF provider. If not specified, defaults to the standard\nWIF provider URL format: //iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/providers/{provider_id}",
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "auth_mode": {
+                      "type": "string",
+                      "const": "k8s"
+                    },
+                    "gcp_service_account_name": {
+                      "description": "Google Service Account name (without @project.iam.gserviceaccount.com)",
+                      "type": "string"
+                    },
+                    "kubernetes_namespace": {
+                      "description": "Kubernetes namespace where the service account is located",
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "kubernetes_service_account": {
+                      "description": "Kubernetes service account name to use for authentication",
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "pool_id": {
+                      "description": "Workload Identity Pool ID",
+                      "type": "string"
+                    },
+                    "project_id": {
+                      "description": "GCP Project ID where the service account is located",
+                      "type": "string"
+                    },
+                    "project_number": {
+                      "description": "GCP Project Number",
+                      "type": "string"
+                    },
+                    "provider_id": {
+                      "description": "Workload Identity Provider ID",
+                      "type": "string"
+                    },
+                    "token_expiration_seconds": {
+                      "description": "Token expiration time in seconds. Default to 30 minutes",
+                      "default": 1800,
+                      "type": "integer",
+                      "format": "int64"
+                    }
+                  }
+                }
+              ],
+              "description": "Authentication method for GCP\nIf not specified, defaults to Application Default Credentials",
+              "default": {
+                "auth_mode": "application_default"
+              }
+            },
+            "env": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
+                },
+                {
+                  "const": null,
+                  "nullable": true
+                }
+              ]
+            },
+            "exclude": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+              },
+              "nullable": true
+            },
+            "fetch_all_versions": {
+              "title": "Whether or not to collect all secret versions",
+              "type": "boolean"
+            },
+            "include": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+              },
+              "nullable": true
+            },
+            "mode": {
+              "description": "The mode gives an additional layer of permissions allowing to configure a Scout instance, giving read-only, write-only, or read and write permissions to that source. Default is read-only.",
+              "type": "string",
+              "enum": [
+                "read",
+                "write",
+                "read/write"
+              ],
+              "default": "read"
+            },
+            "projects": {
+              "type": "array",
+              "items": {
+                "type": "string"
               },
               "nullable": true
             }
@@ -1052,27 +1640,366 @@
           "title": "GitGuardian configuration",
           "type": "object",
           "required": [
-            "api_token",
-            "endpoint"
+            "endpoint",
+            "api_token"
           ],
-          "minProperties": 2,
           "properties": {
             "api_token": {
               "title": "API Token to authenticate with",
-              "type": "string",
-              "minLength": 0
+              "type": "string"
             },
             "endpoint": {
               "title": "Hostname or endpoint",
               "description": "Example: https://gitguardian.internal/",
               "type": "string",
-              "format": "uri",
-              "minLength": 0
+              "format": "uri"
+            }
+          }
+        },
+        "GitLabCIConfig": {
+          "type": "object",
+          "required": [
+            "url",
+            "token"
+          ],
+          "properties": {
+            "env": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
+                },
+                {
+                  "const": null,
+                  "nullable": true
+                }
+              ]
+            },
+            "exclude": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+              },
+              "nullable": true
+            },
+            "include": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+              },
+              "nullable": true
+            },
+            "token": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        },
+        "HashiCorpVaultConfig": {
+          "type": "object",
+          "required": [
+            "vault_address",
+            "fetch_all_versions"
+          ],
+          "properties": {
+            "auth": {
+              "oneOf": [
+                {
+                  "title": "Token",
+                  "description": "Pass a token string to authenticate",
+                  "type": "object",
+                  "required": [
+                    "auth_mode",
+                    "token"
+                  ],
+                  "properties": {
+                    "auth_mode": {
+                      "type": "string",
+                      "const": "token"
+                    },
+                    "token": {
+                      "type": "string"
+                    }
+                  }
+                },
+                {
+                  "title": "Token file path",
+                  "description": "Pass a file containing a token string to authenticate",
+                  "type": "object",
+                  "required": [
+                    "auth_mode",
+                    "token_file"
+                  ],
+                  "properties": {
+                    "auth_mode": {
+                      "type": "string",
+                      "const": "token_file"
+                    },
+                    "token_file": {
+                      "type": "string"
+                    }
+                  }
+                },
+                {
+                  "title": "Kubernetes authentication",
+                  "description": "Use k8s authentication.\nIf ggscout is running outside a K8s cluster, it uses the kubeconfig file,\notherwise it uses an in-cluster K8s client",
+                  "type": "object",
+                  "required": [
+                    "auth_mode",
+                    "role"
+                  ],
+                  "properties": {
+                    "auth_mode": {
+                      "type": "string",
+                      "const": "k8s"
+                    },
+                    "mount": {
+                      "description": "HashiCorp login mount point. By default, \"kubernetes\"",
+                      "default": "kubernetes",
+                      "type": "string"
+                    },
+                    "namespace": {
+                      "description": "Kubernetes namespace where service account is defined",
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "role": {
+                      "description": "HashiCorp Role to be used for authentication",
+                      "type": "string"
+                    },
+                    "service_account": {
+                      "description": "Kubernetes service account used for authentication",
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "token_expiration_seconds": {
+                      "description": "Token expiration time in second. Default to 30 minutes",
+                      "default": 1800,
+                      "type": "integer",
+                      "format": "int64"
+                    }
+                  }
+                }
+              ],
+              "description": "Authentication method.\nIf no authentication method is provided `VAULT_TOKEN` env variable is used as a default token",
+              "default": {
+                "auth_mode": "token",
+                "token": "token from VAULT_TOKEN env"
+              }
+            },
+            "auth_token": {
+              "description": "[Deprecated - Use `auth.auth_method = \"token\"` and `auth.token = \"my_token\"` instead]",
+              "deprecated": true,
+              "type": "string",
+              "nullable": true
+            },
+            "env": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
+                },
+                {
+                  "const": null,
+                  "nullable": true
+                }
+              ]
+            },
+            "exclude": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+              },
+              "nullable": true
+            },
+            "fetch_all_versions": {
+              "title": "Whether or not to collect all secret versions",
+              "type": "boolean"
+            },
+            "include": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+              },
+              "nullable": true
+            },
+            "mode": {
+              "description": "The mode gives an additional layer of permissions allowing to configure a Scout instance, giving read-only, write-only, or read and write permissions to that source. Default is read-only.",
+              "type": "string",
+              "enum": [
+                "read",
+                "write",
+                "read/write"
+              ],
+              "default": "read"
+            },
+            "namespaces": {
+              "description": "Vault namespaces to fetch from. If None, fetch from all accessible namespaces.\nIf Some(vec), only fetch from namespaces that are both accessible and in this list.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "nullable": true
+            },
+            "path": {
+              "type": "string",
+              "nullable": true
+            },
+            "vault_address": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        },
+        "InCluster": {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "description": "Kubernetes cluster name is mandatory because it cannot be retrieved with the Kubernetes API",
+              "type": "string"
+            }
+          }
+        },
+        "K8sConfig": {
+          "type": "object",
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "contexts": {
+                  "description": "Kubernetes contexts to filter on.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "nullable": true
+                },
+                "kubeconfig_path": {
+                  "description": "Path to the kubernetes kubeconfig to use",
+                  "type": "string",
+                  "nullable": true
+                },
+                "config_source": {
+                  "type": "string",
+                  "const": "kubeconfigfile"
+                },
+                "env": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
+                    },
+                    {
+                      "const": null,
+                      "nullable": true
+                    }
+                  ]
+                },
+                "exclude": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+                  },
+                  "nullable": true
+                },
+                "include": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+                  },
+                  "nullable": true
+                },
+                "namespaces": {
+                  "description": "Namespaces to read from. Can be a literal string or a glob expression to match\nmultiple namespaces.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "nullable": true
+                }
+              },
+              "title": "KubeConfig File",
+              "required": [
+                "config_source"
+              ]
+            },
+            {
+              "type": "object",
+              "required": [
+                "name",
+                "config_source"
+              ],
+              "properties": {
+                "name": {
+                  "description": "Kubernetes cluster name is mandatory because it cannot be retrieved with the Kubernetes API",
+                  "type": "string"
+                },
+                "config_source": {
+                  "type": "string",
+                  "const": "incluster"
+                },
+                "env": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
+                    },
+                    {
+                      "const": null,
+                      "nullable": true
+                    }
+                  ]
+                },
+                "exclude": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+                  },
+                  "nullable": true
+                },
+                "include": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+                  },
+                  "nullable": true
+                },
+                "namespaces": {
+                  "description": "Namespaces to read from. Can be a literal string or a glob expression to match\nmultiple namespaces.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "nullable": true
+                }
+              },
+              "title": "InCluster"
+            }
+          ]
+        },
+        "KubeConfigFile": {
+          "type": "object",
+          "properties": {
+            "contexts": {
+              "description": "Kubernetes contexts to filter on.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "nullable": true
+            },
+            "kubeconfig_path": {
+              "description": "Path to the kubernetes kubeconfig to use",
+              "type": "string",
+              "nullable": true
             }
           }
         },
         "Mode": {
           "description": "The mode gives an additional layer of permissions allowing to configure a Scout instance, giving read-only, write-only, or read and write permissions to that source. Default is read-only.",
+          "type": "string",
           "enum": [
             "read",
             "write",
@@ -1080,42 +2007,72 @@
           ]
         },
         "RuleElement": {
-          "oneOf": [
-            {
-              "type": "object",
-              "required": [
-                "GreedySuffixRule"
-              ],
-              "minProperties": 1,
-              "properties": {
-                "GreedySuffixRule": {
-                  "type": "string",
-                  "minLength": 0
+          "type": "string"
+        },
+        "SecretsManagerConfig": {
+          "type": "object",
+          "required": [
+            "fetch_all_versions"
+          ],
+          "properties": {
+            "env": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
+                },
+                {
+                  "const": null,
+                  "nullable": true
                 }
-              },
-              "additionalProperties": false
+              ]
             },
-            {
-              "type": "object",
-              "required": [
-                "ExactRule"
-              ],
-              "minProperties": 1,
-              "properties": {
-                "ExactRule": {
-                  "type": "string",
-                  "minLength": 0
-                }
+            "exclude": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
               },
-              "additionalProperties": false
+              "nullable": true
+            },
+            "fetch_all_versions": {
+              "title": "Whether or not to collect all secret versions",
+              "type": "boolean"
+            },
+            "include": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+              },
+              "nullable": true
+            },
+            "mode": {
+              "description": "The mode gives an additional layer of permissions allowing to configure a Scout instance, giving read-only, write-only, or read and write permissions to that source. Default is read-only.",
+              "type": "string",
+              "enum": [
+                "read",
+                "write",
+                "read/write"
+              ],
+              "default": "read"
+            },
+            "profile_name": {
+              "type": "string",
+              "nullable": true
+            },
+            "regions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "nullable": true
             }
-          ]
+          }
         }
       }
     },
-    "inventory-log-level.schema.json": {
+    "https://gitguardian.com/inventory-log-level": {
       "$schema": "https://json-schema.org/draft/2019-09/schema",
       "title": "LogLevel",
+      "type": "string",
       "enum": [
         "trace",
         "debug",
@@ -1124,7 +2081,7 @@
         "error"
       ]
     },
-    "jobs.schema.json": {
+    "https://gitguardian.com/jobs": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "type": "object",
       "minProperties": 0,
@@ -1132,55 +2089,40 @@
         "fetch": {
           "description": "Job that fetches data from defined sources. If send is set to `true`, send collected data to the configured GitGuardian instance.",
           "type": "object",
-          "minProperties": 0,
           "properties": {
             "enabled": {
               "default": true,
-              "enum": [
-                false,
-                true
-              ]
+              "type": "boolean"
             },
             "schedule": {
               "default": "*/15 * * * *",
-              "type": "string",
-              "minLength": 0
+              "type": "string"
             },
             "send": {
               "default": true,
-              "enum": [
-                false,
-                true
-              ]
+              "type": "boolean"
             }
           }
         },
         "ping": {
           "type": "object",
-          "minProperties": 0,
           "properties": {
             "schedule": {
               "default": "* * * * *",
-              "type": "string",
-              "minLength": 0
+              "type": "string"
             }
           }
         },
         "sync": {
           "type": "object",
-          "minProperties": 0,
           "properties": {
             "enabled": {
               "default": false,
-              "enum": [
-                false,
-                true
-              ]
+              "type": "boolean"
             },
             "schedule": {
               "default": "* * * * *",
-              "type": "string",
-              "minLength": 0
+              "type": "string"
             }
           }
         }

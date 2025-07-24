@@ -2,6 +2,35 @@
 set -euo pipefail
 IFS=$'\n\t'
 
+#USAGE arg "ggscout_version" help="GGScout version to fetch schemas for" default="latest"
+
+GGSCOUT_VERSION="${1:-latest}"
+
+echo "==================================="
+echo "GGScout Schema Bundle Process"
+echo "==================================="
+echo "GGScout Version: ${GGSCOUT_VERSION}"
+echo ""
+
+# Fetch schemas for the specified version
+echo "Step 1: Fetching schemas..."
+echo "-----------------------------------"
+if ! node scripts/fetch-schemas.js "${GGSCOUT_VERSION}"; then
+  echo "Error: Failed to fetch schemas for version ${GGSCOUT_VERSION}"
+  exit 1
+fi
+
+# Determine schema source directory
+SCHEMA_SOURCE_DIR=".cache/schemas/${GGSCOUT_VERSION}"
+if [[ ! -d "${SCHEMA_SOURCE_DIR}" ]]; then
+  echo "Error: Schema cache directory not found: ${SCHEMA_SOURCE_DIR}"
+  exit 1
+fi
+
+echo ""
+echo "Step 2: Bundling schemas..."
+echo "-----------------------------------"
+
 process_json_schema() {
   local directory="$1"
   local base_values_schema_path="${directory}"/values-base-schema.schema.json
@@ -9,10 +38,19 @@ process_json_schema() {
   local temp_dir
   temp_dir="$(mktemp -d)"
   local bundled_path="${temp_dir}"/resolved.json
-  echo "Bundling schema from ${base_values_schema_path} to ${bundled_path}"
-  jsonschema bundle --resolve schemas/ "${base_values_schema_path}" --without-id > "${bundled_path}"
-  echo "Normalizing schema from ${bundled_path} to ${values_schema_path}"
-  jsonschema canonicalize "${bundled_path}" > "${values_schema_path}"
+  
+  echo "Bundling schema from ${base_values_schema_path}"
+  echo "Using schema source: ${SCHEMA_SOURCE_DIR}"
+  echo "Output: ${values_schema_path}"
+  
+  # Use cached schemas instead of local schemas/ folder
+  jsonschema bundle --resolve "${SCHEMA_SOURCE_DIR}" "${base_values_schema_path}" --without-id > "${values_schema_path}"
+  
+  # Post-process to fix all schema structure issues
+  echo "Post-processing schema to fix all structural issues..."
+  node scripts/fix-schema-structure.js "${values_schema_path}"
+  
+  echo "✓ Schema bundling completed for ${directory}"
 }
 
 for chart in charts/*/

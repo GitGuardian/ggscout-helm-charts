@@ -1,7 +1,7 @@
 [tools]
 helm = "latest"
 nodejs = "lts"
-"npm:@sourcemeta/jsonschema" = "4.3.2"
+"npm:@sourcemeta/jsonschema" = "10.0"
 "pipx:pre-commit" = "latest"
 "pipx:commitizen" = "latest"
 "pipx:json-schema-for-humans" = "latest"
