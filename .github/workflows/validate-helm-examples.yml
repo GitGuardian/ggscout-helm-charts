@@ -12,7 +12,101 @@ on:
   workflow_dispatch:
 
 jobs:
+  find-examples:
+    runs-on: ubuntu-latest
+    outputs:
+      examples: ${{ steps.set-matrix.outputs.examples }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Find all examples and create matrix
+        id: set-matrix
+        run: |
+          # Find all example directories
+          ALL_EXAMPLES=$(find charts/ggscout/examples -maxdepth 1 -mindepth 1 -type d -exec basename {} \;)
+          
+          # Create JSON array for GitHub Actions matrix
+          echo "examples=$(echo "$ALL_EXAMPLES" | jq -R -s -c 'split("\n") | map(select(length > 0))')" >> $GITHUB_OUTPUT
+          
+          echo "Found examples: $ALL_EXAMPLES"
+
+  lint-examples:
+    needs: find-examples
+    runs-on: ubuntu-latest
+    strategy:
+      # Run all examples in parallel
+      fail-fast: false
+      matrix:
+        example: ${{ fromJson(needs.find-examples.outputs.examples) }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: 'latest'
+          
+      - name: Install yq
+        run: |
+          sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq
+          sudo chmod +x /usr/bin/yq
+
+      - name: Lint chart example - ${{ matrix.example }}
+        run: |
+          echo "🔍 Linting example: ${{ matrix.example }}"
+          
+          # Create values-ci.yaml for linting
+          echo "Creating values-ci.yaml for ${{ matrix.example }}"
+          cp "charts/ggscout/examples/${{ matrix.example }}/values.yaml" "charts/ggscout/examples/${{ matrix.example }}/values-ci.yaml"
+          
+          # Check if secret.yaml exists and apply values to values-ci.yaml
+          if [ -f "charts/ggscout/examples/${{ matrix.example }}/secret.yaml" ]; then
+            echo "Found secret.yaml, using it for values replacement"
+            
+            # Create a temporary file to store environment variables
+            ENV_FILE="charts/ggscout/examples/${{ matrix.example }}/.env.tmp"
+            touch $ENV_FILE
+            
+            # Extract keys and values from secret.yaml and write to env file
+            yq '.stringData | to_entries | .[] | .key + "=" + .value' "charts/ggscout/examples/${{ matrix.example }}/secret.yaml" > $ENV_FILE
+            
+            # Process values-ci.yaml and replace ${VAR} patterns with actual values from secret.yaml
+            # Read env file line by line
+            while IFS= read -r line; do
+              # Extract key and value
+              KEY=$(echo $line | cut -d= -f1)
+              VALUE=$(echo $line | cut -d= -f2-)
+              # Remove quotes if present
+              VALUE="${VALUE%\"}"
+              VALUE="${VALUE#\"}"
+              VALUE="${VALUE%\'}"
+              VALUE="${VALUE#\'}"
+              
+              # Replace ${KEY} with VALUE in values-ci.yaml
+              sed -i.bak "s|\${$KEY}|$VALUE|g" "charts/ggscout/examples/${{ matrix.example }}/values-ci.yaml"
+              rm "charts/ggscout/examples/${{ matrix.example }}/values-ci.yaml.bak"
+            done < $ENV_FILE
+            
+            # Remove temporary env file
+            rm $ENV_FILE
+          fi
+          
+          # Run helm lint
+          if ! helm lint charts/ggscout -f "charts/ggscout/examples/${{ matrix.example }}/values-ci.yaml"; then
+            echo "❌ Helm lint failed for ${{ matrix.example }}"
+            exit 1
+          else
+            echo "✅ Helm lint passed for ${{ matrix.example }}"
+          fi
+          
+          # Clean up the temporary values-ci.yaml file
+          rm "charts/ggscout/examples/${{ matrix.example }}/values-ci.yaml"
+
   validate-examples:
+    needs: lint-examples
     runs-on: ubuntu-latest
 
     strategy:
