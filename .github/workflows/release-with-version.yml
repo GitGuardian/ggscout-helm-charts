@@ -133,7 +133,12 @@ jobs:
       - name: Create release
         run: |
           echo "Creating Helm chart release..."
-          cz bump --increment "${{ github.event.inputs.chart_increment }}" --gpg-sign=false
+          # Create a temporary .cz.toml without gpg_sign for CI
+          cp .cz.toml .cz.toml.bak
+          sed -i '/gpg_sign = true/d' .cz.toml
+          cz bump --increment "${{ github.event.inputs.chart_increment }}"
+          # Restore original .cz.toml
+          mv .cz.toml.bak .cz.toml
 
       - name: Push changes and tags
         run: |
