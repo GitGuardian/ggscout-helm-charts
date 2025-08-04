@@ -133,7 +133,7 @@ jobs:
       - name: Create release
         run: |
           echo "Creating Helm chart release..."
-          cz bump --increment "${{ github.event.inputs.chart_increment }}"
+          cz bump --increment "${{ github.event.inputs.chart_increment }}" --gpg-sign=false
 
       - name: Push changes and tags
         run: |
