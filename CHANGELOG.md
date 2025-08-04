@@ -1,3 +1,17 @@
+## ggscout-0.5.2 (2025-08-04)
+
+### Feat
+
+- update schemas and appVersion for GGScout v0.18.2
+
+### Fix
+
+- rewrite cz.toml to disable gpg_sign in CI
+- do not gpg sign during CI release
+- gpg signing during release
+- **doc**: Use `hashicorpvault` instead of `vault-secrets`
+- **ci**: fix CI following schema changes with latest ggscout release
+
 ## ggscout-0.5.1 (2025-08-04)
 
 ### Feat
