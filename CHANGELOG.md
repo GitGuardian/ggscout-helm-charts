@@ -1,3 +1,9 @@
+## ggscout-0.5.4 (2025-08-04)
+
+### Fix
+
+- cleaner workflow for tag release
+
 ## ggscout-0.5.3 (2025-08-04)
 
 ## ggscout-0.5.2 (2025-08-04)
