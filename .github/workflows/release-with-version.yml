@@ -137,13 +137,20 @@ jobs:
           cp .cz.toml .cz.toml.bak
           sed -i '/gpg_sign = true/d' .cz.toml
           cz bump --increment "${{ github.event.inputs.chart_increment }}"
+          # Capture the new version tag
+          NEW_TAG=$(git describe --tags --abbrev=0)
+          echo "NEW_TAG=${NEW_TAG}" >> $GITHUB_ENV
           # Restore original .cz.toml
           mv .cz.toml.bak .cz.toml
 
       - name: Push changes and tags
         run: |
           echo "Pushing changes and tags to repository..."
-          git push origin main --follow-tags
+          # First push the commit
+          git push origin main
+          # Then push the tag explicitly to ensure CI workflow is triggered
+          echo "Pushing tag: ${{ env.NEW_TAG }}"
+          git push origin ${{ env.NEW_TAG }}
 
       - name: Generate release summary
         run: |
@@ -154,15 +161,22 @@ jobs:
           echo "| GGScout Version | \`${{ github.event.inputs.ggscout_version }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| Chart Increment | \`${{ github.event.inputs.chart_increment }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| Updated App Version | ${{ github.event.inputs.update_app_version }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| New Tag | \`${{ env.NEW_TAG }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### ✅ Completed Steps" >> $GITHUB_STEP_SUMMARY
           echo "- Downloaded schemas from ggscout-repository" >> $GITHUB_STEP_SUMMARY
           echo "- Updated bundled schema files" >> $GITHUB_STEP_SUMMARY
           $(if [ '${{ github.event.inputs.update_app_version }}' = 'true' ]; then echo "- Updated Chart.yaml appVersion" >> $GITHUB_STEP_SUMMARY; fi)
           echo "- Ran tests and linting" >> $GITHUB_STEP_SUMMARY
-          echo "- Created and pushed release" >> $GITHUB_STEP_SUMMARY
+          echo "- Created and pushed tag: ${{ env.NEW_TAG }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "🚀 **Chart release is now available!**" >> $GITHUB_STEP_SUMMARY
+          echo "### 📋 Next Steps" >> $GITHUB_STEP_SUMMARY
+          echo "The CI workflow will automatically:" >> $GITHUB_STEP_SUMMARY
+          echo "- Create a GitHub Release using helm/chart-releaser-action" >> $GITHUB_STEP_SUMMARY
+          echo "- Publish the Helm chart to GitHub Pages" >> $GITHUB_STEP_SUMMARY
+          echo "- Deploy documentation to GitHub Pages" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "🚀 **Monitor the [CI workflow](https://github.com/${{ github.repository }}/actions/workflows/ci.yml) for release completion!**" >> $GITHUB_STEP_SUMMARY
 
   notify-completion:
     needs: release
