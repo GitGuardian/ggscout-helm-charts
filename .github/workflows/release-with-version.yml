@@ -156,6 +156,16 @@ jobs:
           echo "Pushing tag: ${{ env.NEW_TAG }}"
           git push origin ${{ env.NEW_TAG }}
 
+      - name: Trigger CI workflow for release
+        run: |
+          echo "Waiting for tag to be visible..."
+          sleep 10  # Give GitHub time to process the tag
+          
+          echo "Triggering CI workflow for tag ${{ env.NEW_TAG }}"
+          gh workflow run ci.yml --ref ${{ env.NEW_TAG }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Generate release summary
         run: |
           echo "## 🎉 Release Summary" >> $GITHUB_STEP_SUMMARY
