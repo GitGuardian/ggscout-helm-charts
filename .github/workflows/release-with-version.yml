@@ -156,15 +156,33 @@ jobs:
           echo "Pushing tag: ${{ env.NEW_TAG }}"
           git push origin ${{ env.NEW_TAG }}
 
-      - name: Trigger CI workflow for release
+      - name: Wait for tag propagation
         run: |
-          echo "Waiting for tag to be visible..."
-          sleep 10  # Give GitHub time to process the tag
-          
-          echo "Triggering CI workflow for tag ${{ env.NEW_TAG }}"
-          gh workflow run ci.yml --ref ${{ env.NEW_TAG }}
+          echo "Waiting for tag to propagate..."
+          sleep 10
+
+      - name: Create GitHub Release
+        uses: helm/chart-releaser-action@v1.7.0
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CR_SKIP_EXISTING: true
+
+      - name: Deploy docs to GitHub Pages
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git fetch origin
+          if git show-ref --quiet refs/remotes/origin/gh-pages; then
+            git checkout gh-pages
+            git checkout ${{ env.NEW_TAG }} -- docs
+            git add docs
+            git commit -m "Copy docs from ${{ env.NEW_TAG }}"
+            git push origin gh-pages
+          else
+            echo "gh-pages branch doesn't exist, skipping docs deployment"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Generate release summary
         run: |
@@ -183,14 +201,10 @@ jobs:
           $(if [ '${{ github.event.inputs.update_app_version }}' = 'true' ]; then echo "- Updated Chart.yaml appVersion" >> $GITHUB_STEP_SUMMARY; fi)
           echo "- Ran tests and linting" >> $GITHUB_STEP_SUMMARY
           echo "- Created and pushed tag: ${{ env.NEW_TAG }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Created GitHub Release with Helm chart" >> $GITHUB_STEP_SUMMARY
+          echo "- Deployed documentation to GitHub Pages" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### 📋 Next Steps" >> $GITHUB_STEP_SUMMARY
-          echo "The CI workflow will automatically:" >> $GITHUB_STEP_SUMMARY
-          echo "- Create a GitHub Release using helm/chart-releaser-action" >> $GITHUB_STEP_SUMMARY
-          echo "- Publish the Helm chart to GitHub Pages" >> $GITHUB_STEP_SUMMARY
-          echo "- Deploy documentation to GitHub Pages" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "🚀 **Monitor the [CI workflow](https://github.com/${{ github.repository }}/actions/workflows/ci.yml) for release completion!**" >> $GITHUB_STEP_SUMMARY
+          echo "🚀 **Chart release is now complete and available!**" >> $GITHUB_STEP_SUMMARY
 
   notify-completion:
     needs: release
