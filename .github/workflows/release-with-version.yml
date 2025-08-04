@@ -133,15 +133,19 @@ jobs:
       - name: Create release
         run: |
           echo "Creating Helm chart release..."
-          # Create a temporary .cz.toml without gpg_sign for CI
-          cp .cz.toml .cz.toml.bak
-          sed -i '/gpg_sign = true/d' .cz.toml
-          cz bump --increment "${{ github.event.inputs.chart_increment }}"
+          # Create a CI-specific config without gpg_sign
+          cp .cz.toml .cz.ci.toml
+          sed -i '/gpg_sign = true/d' .cz.ci.toml
+          
+          # Run bump with CI config and --yes flag for non-interactive mode
+          CZ_CONFIG_FILE=.cz.ci.toml cz bump --increment "${{ github.event.inputs.chart_increment }}" --yes
+          
           # Capture the new version tag
           NEW_TAG=$(git describe --tags --abbrev=0)
           echo "NEW_TAG=${NEW_TAG}" >> $GITHUB_ENV
-          # Restore original .cz.toml
-          mv .cz.toml.bak .cz.toml
+          
+          # Clean up CI config file
+          rm .cz.ci.toml
 
       - name: Push changes and tags
         run: |
