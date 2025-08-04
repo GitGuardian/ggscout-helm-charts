@@ -2,7 +2,29 @@
 set -euo pipefail
 IFS=$'\n\t'
 
+#USAGE arg "ggscout_version" help="GGScout version to use for schema documentation" default="latest"
+
+GGSCOUT_VERSION="${1:-latest}"
+SCHEMA_CACHE_DIR=".cache/schemas/${GGSCOUT_VERSION}"
+
+echo "Generating documentation for GGScout version: ${GGSCOUT_VERSION}"
+
+# Ensure schemas are available by running bundle-schemas first
+if [[ ! -d "${SCHEMA_CACHE_DIR}" ]]; then
+  echo "Schemas not found in cache. Running bundle-schemas first..."
+  mise run bundle-schemas "${GGSCOUT_VERSION}"
+fi
+
+# Check if the required schema file exists
+SCHEMA_FILE="${SCHEMA_CACHE_DIR}/inventory-config.schema.json"
+if [[ ! -f "${SCHEMA_FILE}" ]]; then
+  echo "Error: Schema file not found: ${SCHEMA_FILE}"
+  exit 1
+fi
+
+echo "Using schema file: ${SCHEMA_FILE}"
+
 cd docs
-generate-schema-doc ../schemas/inventory-config.schema.json --config-file config_schema.yaml --deprecated-from-description
+generate-schema-doc "../${SCHEMA_FILE}" --config-file config_schema.yaml --deprecated-from-description
 mv schema_doc.html index.html
 cd ..

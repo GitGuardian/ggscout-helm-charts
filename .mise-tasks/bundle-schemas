@@ -12,20 +12,62 @@ echo "==================================="
 echo "GGScout Version: ${GGSCOUT_VERSION}"
 echo ""
 
-# Fetch schemas for the specified version
+# Fetch schemas for the specified version (integrated logic)
 echo "Step 1: Fetching schemas..."
 echo "-----------------------------------"
-if ! node scripts/fetch-schemas.js "${GGSCOUT_VERSION}"; then
+
+fetch_schemas() {
+  local version="$1"
+  local SCHEMA_BASE_URL="https://ggscout-repository.gitguardian.com/ggscout"
+  local REMOTE_SCHEMA_FILES=("inventory-config.schema.json" "inventory-log-level.schema.json")
+  local LOCAL_SCHEMA_FILES=("jobs.schema.json")
+  local CACHE_DIR=".cache/schemas"
+  local version_cache_dir="${CACHE_DIR}/${version}"
+  
+  echo "Fetching schemas for GGScout version: ${version}"
+  
+  # Create version-specific cache directory
+  mkdir -p "${version_cache_dir}"
+  
+  # Download remote schemas
+  for schema_file in "${REMOTE_SCHEMA_FILES[@]}"; do
+    local url="${SCHEMA_BASE_URL}/${version}/schemas/${schema_file}"
+    local output_path="${version_cache_dir}/${schema_file}"
+    
+    echo "Downloading: ${url}"
+    if curl -fsSL "${url}" -o "${output_path}"; then
+      echo "✓ Downloaded: ${schema_file}"
+    else
+      echo "✗ Failed to download: ${schema_file}"
+      return 1
+    fi
+  done
+  
+  # Copy local schemas
+  for schema_file in "${LOCAL_SCHEMA_FILES[@]}"; do
+    local local_path="schemas/${schema_file}"
+    local output_path="${version_cache_dir}/${schema_file}"
+    
+    if [[ -f "${local_path}" ]]; then
+      cp "${local_path}" "${output_path}"
+      echo "✓ Copied local schema: ${schema_file}"
+    else
+      echo "✗ Local schema not found: ${local_path}"
+      return 1
+    fi
+  done
+  
+  echo "✓ All schemas ready in: ${version_cache_dir}"
+  return 0
+}
+
+if ! fetch_schemas "${GGSCOUT_VERSION}"; then
   echo "Error: Failed to fetch schemas for version ${GGSCOUT_VERSION}"
   exit 1
 fi
 
 # Determine schema source directory
 SCHEMA_SOURCE_DIR=".cache/schemas/${GGSCOUT_VERSION}"
-if [[ ! -d "${SCHEMA_SOURCE_DIR}" ]]; then
-  echo "Error: Schema cache directory not found: ${SCHEMA_SOURCE_DIR}"
-  exit 1
-fi
 
 echo ""
 echo "Step 2: Bundling schemas..."

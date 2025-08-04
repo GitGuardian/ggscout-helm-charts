@@ -2074,7 +2074,6 @@
       "title": "LogLevel",
       "type": "string",
       "enum": [
-        "trace",
         "debug",
         "info",
         "warn",

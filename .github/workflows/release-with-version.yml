@@ -66,9 +66,9 @@ jobs:
           echo "Installing Helm plugins..."
           mise run install-helm-plugins
 
-      - name: Fetch and bundle schemas
+      - name: Bundle schemas
         run: |
-          echo "Fetching schemas for GGScout version: ${{ github.event.inputs.ggscout_version }}"
+          echo "Bundling schemas for GGScout version: ${{ github.event.inputs.ggscout_version }}"
           mise run bundle-schemas "${{ github.event.inputs.ggscout_version }}"
 
       - name: Update Chart.yaml appVersion
