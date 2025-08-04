@@ -2,3 +2,6 @@
 .vscode/
 *.DS_Store
 *.egg-info/
+
+# Schema cache directory (populated by scripts/fetch-schemas.js)
+.cache/

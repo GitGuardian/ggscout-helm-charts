@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
-  "$id": "jobs.schema.json",
+  "$id": "https://gitguardian.com/jobs",
   "minProperties": 0,
   "properties": {
     "ping": {

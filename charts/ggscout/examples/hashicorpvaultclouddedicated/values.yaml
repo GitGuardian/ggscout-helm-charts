@@ -1,0 +1,53 @@
+---
+# yaml-language-server: $schema=../../values.schema.json
+
+inventory:
+  config:
+    sources:
+      hashicorpvault:
+        type: hashicorpvault
+        vault_address: "https://your-vault-address-here.com"
+        auth:
+          auth_mode: "token"
+          token: "${HASHICORP_VAULT_TOKEN}"
+        fetch_all_versions: true # Fetch all versions of secrets or not
+        mode: "read/write" # Can be `read`, `write` or `read/write` depending on wether fetch and/or sync are enabled
+        # Namespace filtering example for HashiCorp Vault Cloud Dedicated
+        # Include all secrets from the 'admin' namespace, 'kv' mount, under 'my_app' path
+        include:
+        - resource_ids:
+          - "admin/kv/my_app/*"
+        # Include secrets from multiple namespaces
+        # include:
+        #   - resource_ids:
+        #       - "admin/kv/*"
+        #       - "dev/secrets/*"
+        #       - "prod/database/*"
+        # Exclude test secrets from all namespaces
+        # exclude:
+        #   - resource_ids:
+        #       - "*/test/*"
+        #       - "*/temp/*"
+    # To upload, set the gitguardian URL and tokens. Ensure the endpoint path ends with /v1
+    # This is optional: omit this to prevent uploading and to only test collection.
+    gitguardian:
+      endpoint: "https://my-gg-instance/v1"
+      api_token: "${GITGUARDIAN_API_KEY}"
+  jobs:
+    # Job to fetch defined sources
+    fetch:
+      # Set to `false` to disable the job
+      enabled: true
+      # Run every 15 minutes
+      schedule: '*/15 * * * *'
+      send: true
+    # Job to be able to sync/write secrets from GitGuardian into you vault
+    sync:
+      # Set to `false` to disable the job
+      enabled: true
+      # Run every minute
+      schedule: '* * * * *'
+
+envFrom:
+- secretRef:
+    name: ggscout-secrets

@@ -5,5 +5,27 @@ IFS=$'\n\t'
 #USAGE arg "<type>" help="Release type" default="patch" {
 #USAGE   choices "patch" "minor" "major"
 #USAGE }
+#USAGE arg "ggscout_version" help="GGScout version to use for schemas" default="latest"
 
-cz bump
+RELEASE_TYPE="${1:-patch}"
+GGSCOUT_VERSION="${2:-latest}"
+
+echo "==================================="
+echo "GGScout Helm Chart Release"
+echo "==================================="
+echo "Release Type: ${RELEASE_TYPE}"
+echo "GGScout Version: ${GGSCOUT_VERSION}"
+echo ""
+
+# Ensure schemas are up to date with the specified version
+echo "Step 1: Updating schemas for GGScout version ${GGSCOUT_VERSION}..."
+echo "-------------------------------------------------------------------"
+if ! mise run bundle-schemas "${GGSCOUT_VERSION}"; then
+  echo "Error: Failed to bundle schemas for GGScout version ${GGSCOUT_VERSION}"
+  exit 1
+fi
+
+echo ""
+echo "Step 2: Creating release..."
+echo "-------------------------------------------------------------------"
+cz bump --increment "${RELEASE_TYPE}"
