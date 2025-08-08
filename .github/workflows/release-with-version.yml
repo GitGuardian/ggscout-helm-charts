@@ -169,6 +169,9 @@ jobs:
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git fetch origin
           if git show-ref --quiet refs/remotes/origin/gh-pages; then
+            # Clean up chart-releaser artifacts that might conflict with checkout
+            rm -rf .cr-index/ .cr-release-packages/ || true
+            
             # Simple approach: checkout gh-pages, add docs, commit, push
             git checkout gh-pages
             
