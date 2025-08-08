@@ -124,11 +124,7 @@ jobs:
 
           - Fetch schemas from GGScout version ${{ github.event.inputs.ggscout_version }}
           - Update bundled values.schema.json
-          $(if [ '${{ github.event.inputs.update_app_version }}' = 'true' ]; then echo '- Update Chart.yaml appVersion'; fi)
-          
-          🤖 Generated with [Claude Code](https://claude.ai/code)
-          
-          Co-Authored-By: Claude <noreply@anthropic.com>"
+          $(if [ '${{ github.event.inputs.update_app_version }}' = 'true' ]; then echo '- Update Chart.yaml appVersion'; fi)"
 
       - name: Create release
         run: |
