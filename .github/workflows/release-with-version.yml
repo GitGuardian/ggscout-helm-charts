@@ -174,7 +174,7 @@ jobs:
             
             # Copy docs from the working directory (they should still be there)
             if [ -d "docs" ]; then
-              cp -r docs/* . 2>/dev/null || echo "No docs to copy"
+              cp -r docs/ . 2>/dev/null || echo "No docs to copy"
               git add .
               
               if [ -n "$(git status --porcelain)" ]; then
