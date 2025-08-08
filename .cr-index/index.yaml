@@ -1,0 +1,456 @@
+apiVersion: v1
+entries:
+  ggscout:
+  - apiVersion: v2
+    appVersion: 0.18.4
+    created: "2025-08-08T13:18:06.729221074Z"
+    description: A Helm chart for Kubernetes
+    digest: 2272b779564c1f362864956b4e72c1f3f53b66f5eda15aa7f723d2771af88091
+    name: ggscout
+    type: application
+    urls:
+    - https://github.com/GitGuardian/ggscout-helm-charts/releases/download/ggscout-0.5.5/ggscout-0.5.5.tgz
+    version: 0.5.5
+  - apiVersion: v2
+    appVersion: 0.18.2
+    created: "2025-08-04T07:41:55.182376353Z"
+    description: A Helm chart for Kubernetes
+    digest: 92841150ce4d0b19bc8cd0ef4e7a1a0538c80b6b9c7bb751ba44fb431edaff1e
+    name: ggscout
+    type: application
+    urls:
+    - https://github.com/GitGuardian/ggscout-helm-charts/releases/download/ggscout-0.5.4/ggscout-0.5.4.tgz
+    version: 0.5.4
+  - apiVersion: v2
+    appVersion: 0.18.0
+    created: "2025-07-01T12:24:41.215284662Z"
+    description: A Helm chart for Kubernetes
+    digest: e9e17f2ced197b16587b4f8b4914dc4619a6405f12402ce3382b10a25a376319
+    name: ggscout
+    type: application
+    urls:
+    - https://github.com/GitGuardian/ggscout-helm-charts/releases/download/ggscout-0.5.0/ggscout-0.5.0.tgz
+    version: 0.5.0
+  - apiVersion: v2
+    appVersion: 0.17.5
+    created: "2025-06-19T16:07:07.496261234Z"
+    description: A Helm chart for Kubernetes
+    digest: 5466f30285bc27971c571dbe198bc045291237dd83459a89a0e99bf29415ee10
+    name: ggscout
+    type: application
+    urls:
+    - https://github.com/GitGuardian/ggscout-helm-charts/releases/download/ggscout-0.4.16/ggscout-0.4.16.tgz
+    version: 0.4.16
+  - apiVersion: v2
+    appVersion: 0.17.5
+    created: "2025-06-19T15:57:10.550879023Z"
+    description: A Helm chart for Kubernetes
+    digest: 773629a75de22ba4ea3f65458187f661b5de2e441dfbca26487670b7612d2ab3
+    name: ggscout
+    type: application
+    urls:
+    - https://github.com/GitGuardian/ggscout-helm-charts/releases/download/ggscout-0.4.15/ggscout-0.4.15.tgz
+    version: 0.4.15
+  - apiVersion: v2
+    appVersion: 0.17.4
+    created: "2025-06-19T15:12:25.055318449Z"
+    description: A Helm chart for Kubernetes
+    digest: 5c15cf498f0b234019ad43e78ec6f86846e36312a21169df697be020db40ce14
+    name: ggscout
+    type: application
+    urls:
+    - https://github.com/GitGuardian/ggscout-helm-charts/releases/download/ggscout-0.4.14/ggscout-0.4.14.tgz
+    version: 0.4.14
+  - apiVersion: v2
+    appVersion: 0.17.3
+    created: "2025-06-19T14:03:59.18283767Z"
+    description: A Helm chart for Kubernetes
+    digest: cd7ab5950d367e49c5b453cbeabf10f95b80eedd45d3c8527ff1866a478f4ded
+    name: ggscout
+    type: application
+    urls:
+    - https://github.com/GitGuardian/ggscout-helm-charts/releases/download/ggscout-0.4.13/ggscout-0.4.13.tgz
+    version: 0.4.13
+  - apiVersion: v2
+    appVersion: 0.17.2
+    created: "2025-06-17T09:50:26.542741748Z"
+    description: A Helm chart for Kubernetes
+    digest: dfe013547cd6f07fdbaab447ceb876d9d81caaebe4f56e1f681802aadc9a6db2
+    name: ggscout
+    type: application
+    urls:
+    - https://github.com/GitGuardian/ggscout-helm-charts/releases/download/ggscout-0.4.11/ggscout-0.4.11.tgz
+    version: 0.4.11
+  - apiVersion: v2
+    appVersion: 0.17.1
+    created: "2025-06-11T07:24:50.428592663Z"
+    description: A Helm chart for Kubernetes
+    digest: e164109023842360ecce06b4232f6c04e09701af28815b9aa3eb34c1c697ee1a
+    name: ggscout
+    type: application
+    urls:
+    - https://github.com/GitGuardian/ggscout-helm-charts/releases/download/ggscout-0.4.10/ggscout-0.4.10.tgz
+    version: 0.4.10
+  - apiVersion: v2
+    appVersion: 0.17.0
+    created: "2025-06-09T16:00:01.7542303Z"
+    description: A Helm chart for Kubernetes
+    digest: 9ec48fc85270334ad7c313ed5c5f1d0f3da8464e7c86b79849c1b6e51ec11224
+    name: ggscout
+    type: application
+    urls:
+    - https://github.com/GitGuardian/ggscout-helm-charts/releases/download/ggscout-0.4.9/ggscout-0.4.9.tgz
+    version: 0.4.9
+  - apiVersion: v2
+    appVersion: 0.16.6
+    created: "2025-05-02T17:44:40.295623699Z"
+    description: A Helm chart for Kubernetes
+    digest: 07aa5c58407410db1bc88424c7e243730d8a8b55bc05e728f8749a578807973f
+    name: ggscout
+    type: application
+    urls:
+    - https://github.com/GitGuardian/ggscout-helm-charts/releases/download/ggscout-0.4.8/ggscout-0.4.8.tgz
+    version: 0.4.8
+  - apiVersion: v2
+    appVersion: 0.16.5
+    created: "2025-04-29T09:15:39.15261232Z"
+    description: A Helm chart for Kubernetes
+    digest: 0ce47d9c0775f33561a606f14431a28b0ebba0ba1effdbdb6f30e66f0c4c1db5
+    name: ggscout
+    type: application
+    urls:
+    - https://github.com/GitGuardian/ggscout-helm-charts/releases/download/ggscout-0.4.7/ggscout-0.4.7.tgz
+    version: 0.4.7
+  - apiVersion: v2
+    appVersion: 0.16.5
+    created: "2025-04-28T15:33:42.614039747Z"
+    description: A Helm chart for Kubernetes
+    digest: 6f0b2ae5cbf35893ea3bce19306f6ec7cd284643888ed34a3ddabbad221832c1
+    name: ggscout
+    type: application
+    urls:
+    - https://github.com/GitGuardian/ggscout-helm-charts/releases/download/ggscout-0.4.6/ggscout-0.4.6.tgz
+    version: 0.4.6
+  - apiVersion: v2
+    appVersion: 0.16.4
+    created: "2025-04-08T13:01:51.612958649Z"
+    description: A Helm chart for Kubernetes
+    digest: 3150a3c180a6f5c3f15bd63b2bb65638440c79f5685f3f37c0b1f60643aa9c57
+    name: ggscout
+    type: application
+    urls:
+    - https://github.com/GitGuardian/ggscout-helm-charts/releases/download/ggscout-0.4.5/ggscout-0.4.5.tgz
+    version: 0.4.5
+  - apiVersion: v2
+    appVersion: 0.16.2
+    created: "2025-04-08T12:23:44.159616765Z"
+    description: A Helm chart for Kubernetes
+    digest: 2f7e2de3475f88918b77f6a77c335194eb7c301e76348949c16350b17d77a4cb
+    name: ggscout
+    type: application
+    urls:
+    - https://github.com/GitGuardian/ggscout-helm-charts/releases/download/ggscout-0.4.4/ggscout-0.4.4.tgz
+    version: 0.4.4
+  - apiVersion: v2
+    appVersion: 0.16.3
+    created: "2025-04-08T12:19:01.31170414Z"
+    description: A Helm chart for Kubernetes
+    digest: 54e2c8a3858a351bebab8c4068728c855d6724e98bdc3a22984c8213d3e0cfd3
+    name: ggscout
+    type: application
+    urls:
+    - https://github.com/GitGuardian/ggscout-helm-charts/releases/download/ggscout-0.4.3/ggscout-0.4.3.tgz
+    version: 0.4.3
+  - apiVersion: v2
+    appVersion: 0.16.2
+    created: "2025-04-04T09:21:00.89745943Z"
+    description: A Helm chart for Kubernetes
+    digest: d9e8cba0358f809f1c012afb22c6ed54504019524b5e9a6870995f8faaaa6664
+    name: ggscout
+    type: application
+    urls:
+    - https://github.com/GitGuardian/ggscout-helm-charts/releases/download/ggscout-0.4.2/ggscout-0.4.2.tgz
+    version: 0.4.2
+  - apiVersion: v2
+    appVersion: 0.16.2
+    created: "2025-04-04T06:00:42.268680385Z"
+    description: A Helm chart for Kubernetes
+    digest: 36d935371d5ed560e1614e91898a7b23f00153e893434f3d09c5e5737feb29d6
+    name: ggscout
+    type: application
+    urls:
+    - https://github.com/GitGuardian/ggscout-helm-charts/releases/download/ggscout-0.4.1/ggscout-0.4.1.tgz
+    version: 0.4.1
+  - apiVersion: v2
+    appVersion: 0.16.1
+    created: "2025-03-31T14:21:25.562837152Z"
+    description: A Helm chart for Kubernetes
+    digest: 51f9458acac8812f364e6412ef8297140de6a4251b37ae3ed0898187820e616c
+    name: ggscout
+    type: application
+    urls:
+    - https://github.com/GitGuardian/ggscout-helm-charts/releases/download/ggscout-0.4.0/ggscout-0.4.0.tgz
+    version: 0.4.0
+  - apiVersion: v2
+    appVersion: 0.16.1
+    created: "2025-03-31T14:13:02.249741997Z"
+    description: A Helm chart for Kubernetes
+    digest: b7b860ef85f1eca24845d4474965b23de2db1556deae68b097b525ddce71538f
+    name: ggscout
+    type: application
+    urls:
+    - https://github.com/GitGuardian/ggscout-helm-charts/releases/download/ggscout-0.3.2/ggscout-0.3.2.tgz
+    version: 0.3.2
+  - apiVersion: v2
+    appVersion: 0.16.0
+    created: "2025-03-17T07:49:57.458785841Z"
+    description: A Helm chart for Kubernetes
+    digest: ef5dd33ad2123b0ebc05ceb26bd5077859d85ba54203a085182dea8f8009a739
+    name: ggscout
+    type: application
+    urls:
+    - https://github.com/GitGuardian/ggscout-helm-charts/releases/download/ggscout-0.3.1/ggscout-0.3.1.tgz
+    version: 0.3.1
+  nhi-explorer:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-12-04T14:38:02.670242097Z"
+    description: A Helm chart for Kubernetes
+    digest: ccbc80f878c0924bb9502b1ae7955e57fc369c276237561ad745f6f77aa04c23
+    name: nhi-explorer
+    type: application
+    urls:
+    - https://github.com/GitGuardian/nhi-explorer-helm-charts/releases/download/nhi-explorer-0.1.11/nhi-explorer-0.1.11.tgz
+    version: 0.1.11
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-12-03T18:50:59.214602696Z"
+    description: A Helm chart for Kubernetes
+    digest: 1da8b1522ad4ad65afaefc075f26ec160f67ad668839a80190c2a1b4f9a45cd6
+    name: nhi-explorer
+    type: application
+    urls:
+    - https://github.com/GitGuardian/nhi-explorer-helm-charts/releases/download/nhi-explorer-0.1.10/nhi-explorer-0.1.10.tgz
+    version: 0.1.10
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-11-28T10:27:11.533023977Z"
+    description: A Helm chart for Kubernetes
+    digest: 521cecaa7b629413ce7b937b0e6af56ccbe3679ef35eb251ff8c49298107a3b1
+    name: nhi-explorer
+    type: application
+    urls:
+    - https://github.com/GitGuardian/nhi-explorer-helm-charts/releases/download/nhi-explorer-0.1.9/nhi-explorer-0.1.9.tgz
+    version: 0.1.9
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-11-25T16:53:27.411864479Z"
+    description: A Helm chart for Kubernetes
+    digest: abd44cb1bcc6f83d3954f82c40e88eeaa136599ee0a12782a63c6039235bf35e
+    name: nhi-explorer
+    type: application
+    urls:
+    - https://github.com/GitGuardian/nhi-explorer-helm-charts/releases/download/nhi-explorer-0.1.8/nhi-explorer-0.1.8.tgz
+    version: 0.1.8
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-11-25T16:41:13.386354166Z"
+    description: A Helm chart for Kubernetes
+    digest: 84cf4d9644d1d7b2cd6b2e3fe0ab3400409ee4efcc06d4b77d719f2429182290
+    name: nhi-explorer
+    type: application
+    urls:
+    - https://github.com/GitGuardian/nhi-explorer-helm-charts/releases/download/nhi-explorer-0.1.7/nhi-explorer-0.1.7.tgz
+    version: 0.1.7
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-11-25T16:25:27.786921681Z"
+    description: A Helm chart for Kubernetes
+    digest: b91f193b1d292396014b50cf1f9def7e8bb3fd08700a2e54824a86bc526e3378
+    name: nhi-explorer
+    type: application
+    urls:
+    - https://github.com/GitGuardian/nhi-explorer-helm-charts/releases/download/nhi-explorer-0.1.6/nhi-explorer-0.1.6.tgz
+    version: 0.1.6
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-11-25T16:06:34.341000742Z"
+    description: A Helm chart for Kubernetes
+    digest: 20ef6d019a78a27c8ad4694c883d022abfd43617105d485df0dfc4db61e4a565
+    name: nhi-explorer
+    type: application
+    urls:
+    - https://github.com/GitGuardian/nhi-explorer-helm-charts/releases/download/nhi-explorer-0.1.5/nhi-explorer-0.1.5.tgz
+    version: 0.1.5
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-11-25T15:59:04.551806577Z"
+    description: A Helm chart for Kubernetes
+    digest: 3d11425a178b2b4194db49fd57cb2289792d6f14c0f1b25c78fd53d914cab3d7
+    name: nhi-explorer
+    type: application
+    urls:
+    - https://github.com/GitGuardian/nhi-explorer-helm-charts/releases/download/nhi-explorer-0.1.4/nhi-explorer-0.1.4.tgz
+    version: 0.1.4
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-11-25T15:37:03.796456527Z"
+    description: A Helm chart for Kubernetes
+    digest: 8a0a6fa07cc63cfd13f77f2790460fdef432eee1c06a4c6ba680024ae703a97f
+    name: nhi-explorer
+    type: application
+    urls:
+    - https://github.com/GitGuardian/nhi-explorer-helm-charts/releases/download/nhi-explorer-0.1.3/nhi-explorer-0.1.3.tgz
+    version: 0.1.3
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-11-25T15:31:04.119248545Z"
+    description: A Helm chart for Kubernetes
+    digest: 97662aad055344f6f491bb90592195627c37587d28fabac8d836b481fe48c37f
+    name: nhi-explorer
+    type: application
+    urls:
+    - https://github.com/GitGuardian/nhi-explorer-helm-charts/releases/download/nhi-explorer-0.1.2/nhi-explorer-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-11-25T15:24:53.820427438Z"
+    description: A Helm chart for Kubernetes
+    digest: d8977ac51a3c7be0abdb71f5d5b4fc4eee6c06493c1007fa6cc66b19a678238f
+    name: nhi-explorer
+    type: application
+    urls:
+    - https://github.com/GitGuardian/nhi-explorer-helm-charts/releases/download/nhi-explorer-0.1.1/nhi-explorer-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-11-25T13:43:48.437013146Z"
+    description: A Helm chart for Kubernetes
+    digest: c9b13f007df50e82aefe77bfc8611aee9b9699690b500246626e26ba447168fd
+    name: nhi-explorer
+    type: application
+    urls:
+    - https://github.com/GitGuardian/nhi-explorer-helm-charts/releases/download/nhi-explorer-0.1.0/nhi-explorer-0.1.0.tgz
+    version: 0.1.0
+  nhi-scout:
+  - apiVersion: v2
+    appVersion: 0.15.0
+    created: "2025-03-14T16:13:54.625625104Z"
+    description: A Helm chart for Kubernetes
+    digest: e5934ca4a399ad2ba0eced1f346f59bf186c0de0845acc7b3569f30648f44814
+    name: nhi-scout
+    type: application
+    urls:
+    - https://github.com/GitGuardian/nhi-scout-helm-charts/releases/download/nhi-scout-0.3.1/nhi-scout-0.3.1.tgz
+    version: 0.3.1
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-03-12T12:43:20.442989103Z"
+    description: A Helm chart for Kubernetes
+    digest: 3223ab6dea882377cd4c3cabce98dd5c5882b266ed29de00def12bba17e3b73c
+    name: nhi-scout
+    type: application
+    urls:
+    - https://github.com/GitGuardian/nhi-scout-helm-charts/releases/download/nhi-scout-0.3.0/nhi-scout-0.3.0.tgz
+    version: 0.3.0
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-02-18T10:09:59.138232592Z"
+    description: A Helm chart for Kubernetes
+    digest: 6a9385871cafc48f8fd6e13925801a4a6174f1e6a9da77b479c331b2d3e7a5b9
+    name: nhi-scout
+    type: application
+    urls:
+    - https://github.com/GitGuardian/nhi-scout-helm-charts/releases/download/nhi-scout-0.2.1/nhi-scout-0.2.1.tgz
+    version: 0.2.1
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-02-10T16:34:06.876721478Z"
+    description: A Helm chart for Kubernetes
+    digest: 4ff499f4e162107f641ecdee035cbbbd15590f295a2cee2dc6808ef541d6976b
+    name: nhi-scout
+    type: application
+    urls:
+    - https://github.com/GitGuardian/nhi-scout-helm-charts/releases/download/nhi-scout-0.2.0/nhi-scout-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-01-13T16:16:06.416418392Z"
+    description: A Helm chart for Kubernetes
+    digest: 040e0dc66a3ba30232b5568483fe7f5551b235becca43e7b640eed5b5fe97cef
+    name: nhi-scout
+    type: application
+    urls:
+    - https://github.com/GitGuardian/nhi-scout-helm-charts/releases/download/nhi-scout-0.1.24/nhi-scout-0.1.24.tgz
+    version: 0.1.24
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-01-10T13:44:03.446158608Z"
+    description: A Helm chart for Kubernetes
+    digest: 92ee9a013953634a46c6f21938b5f3bf9c115e0549c5506b295b6e56ce01f60d
+    name: nhi-scout
+    type: application
+    urls:
+    - https://github.com/GitGuardian/nhi-scout-helm-charts/releases/download/nhi-scout-0.1.23/nhi-scout-0.1.23.tgz
+    version: 0.1.23
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-01-10T13:42:28.707980295Z"
+    description: A Helm chart for Kubernetes
+    digest: c0821344390a3723db4d87d006d6d1517e7b812a3c4333b5de1b30b916428b8f
+    name: nhi-scout
+    type: application
+    urls:
+    - https://github.com/GitGuardian/nhi-scout-helm-charts/releases/download/nhi-scout-0.1.22/nhi-scout-0.1.22.tgz
+    version: 0.1.22
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-01-08T18:44:29.931845648Z"
+    description: A Helm chart for Kubernetes
+    digest: a43624382637f3b8ae324c3ec4798fb6e3ea8f48fbb7bd71c77f720e81b207c9
+    name: nhi-scout
+    type: application
+    urls:
+    - https://github.com/GitGuardian/nhi-scout-helm-charts/releases/download/nhi-scout-0.1.21/nhi-scout-0.1.21.tgz
+    version: 0.1.21
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-01-06T15:27:41.986540879Z"
+    description: A Helm chart for Kubernetes
+    digest: ec861dcc7df2153b64dd4bf883811cf5eddc164b5383c5e340a4601bb2e7e096
+    name: nhi-scout
+    type: application
+    urls:
+    - https://github.com/GitGuardian/nhi-scout-helm-charts/releases/download/nhi-scout-0.1.19/nhi-scout-0.1.19.tgz
+    version: 0.1.19
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-01-06T12:07:20.598735301Z"
+    description: A Helm chart for Kubernetes
+    digest: f97597fc384d51770bcc7868da755b7d78d5d4a33051c8ffafc1e4ef7d6a0313
+    name: nhi-scout
+    type: application
+    urls:
+    - https://github.com/GitGuardian/nhi-scout-helm-charts/releases/download/nhi-scout-0.1.18/nhi-scout-0.1.18.tgz
+    version: 0.1.18
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-12-18T15:23:09.181657242Z"
+    description: A Helm chart for Kubernetes
+    digest: 4fa79ad0bdc9b2a8ba9307ff6596d8c0695ee6eb3ea0d5037d5aa4ec6cbc0609
+    name: nhi-scout
+    type: application
+    urls:
+    - https://github.com/GitGuardian/nhi-scout-helm-charts/releases/download/nhi-scout-0.1.12/nhi-scout-0.1.12.tgz
+    version: 0.1.12
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-12-17T15:55:53.134719944Z"
+    description: A Helm chart for Kubernetes
+    digest: 28a832cb69e22468ef7d7b4a4f155cb32ca5d6894f7d2037b880b5314cd75816
+    name: nhi-scout
+    type: application
+    urls:
+    - https://github.com/GitGuardian/GitGuardian-nhi-scout-helm-charts/releases/download/nhi-scout-0.1.11/nhi-scout-0.1.11.tgz
+    version: 0.1.11
+generated: "2025-08-08T13:18:06.729381766Z"
