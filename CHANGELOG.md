@@ -1,3 +1,9 @@
+## ggscout-0.5.7 (2025-08-08)
+
+### Fix
+
+- clean chart-releaser artifacts for releasing the doc
+
 ## ggscout-0.5.6 (2025-08-08)
 
 ## ggscout-0.5.5 (2025-08-08)
