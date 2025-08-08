@@ -1,3 +1,13 @@
+## ggscout-0.5.5 (2025-08-08)
+
+### Feat
+
+- update schemas and appVersion for GGScout v0.18.4
+
+### Fix
+
+- try to fix ref/head issue with raw files
+
 ## ggscout-0.5.4 (2025-08-04)
 
 ### Fix
