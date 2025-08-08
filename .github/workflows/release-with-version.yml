@@ -154,7 +154,7 @@ jobs:
 
       - name: Wait for tag propagation
         run: |
-          echo "Waiting for tag to propagate..."
+          echo "Waiting for tag to propagation..."
           sleep 10
 
       - name: Create GitHub Release
@@ -169,11 +169,24 @@ jobs:
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git fetch origin
           if git show-ref --quiet refs/remotes/origin/gh-pages; then
+            # Simple approach: checkout gh-pages, add docs, commit, push
             git checkout gh-pages
-            git checkout ${{ env.NEW_TAG }} -- docs
-            git add docs
-            git commit -m "Copy docs from ${{ env.NEW_TAG }}"
-            git push origin gh-pages
+            
+            # Copy docs from the working directory (they should still be there)
+            if [ -d "docs" ]; then
+              cp -r docs/* . 2>/dev/null || echo "No docs to copy"
+              git add .
+              
+              if [ -n "$(git status --porcelain)" ]; then
+                git commit -m "Copy docs from ${{ env.NEW_TAG }}"
+                git push origin gh-pages
+              else
+                echo "No changes to deploy"
+              fi
+            fi
+            
+            # Return to main
+            git checkout main
           else
             echo "gh-pages branch doesn't exist, skipping docs deployment"
           fi
