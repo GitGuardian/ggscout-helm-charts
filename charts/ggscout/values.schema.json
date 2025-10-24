@@ -305,6 +305,20 @@
                   "format": "int64"
                 }
               }
+            },
+            {
+              "title": "Application Default Configuration",
+              "description": "This will infer its configuration based on its environment.\nWorks with the GOOGLE_APPLICATION_CREDENTIALS environment variable\nor by automatically calling GCP's metadata endpoint (if run as a GCE or GKE workload).",
+              "type": "object",
+              "required": [
+                "auth_mode"
+              ],
+              "properties": {
+                "auth_mode": {
+                  "type": "string",
+                  "const": "default"
+                }
+              }
             }
           ]
         },
@@ -1100,6 +1114,20 @@
                           "format": "int64"
                         }
                       }
+                    },
+                    {
+                      "title": "Application Default Configuration",
+                      "description": "This will infer its configuration based on its environment.\nWorks with the GOOGLE_APPLICATION_CREDENTIALS environment variable\nor by automatically calling GCP's metadata endpoint (if run as a GCE or GKE workload).",
+                      "type": "object",
+                      "required": [
+                        "auth_mode"
+                      ],
+                      "properties": {
+                        "auth_mode": {
+                          "type": "string",
+                          "const": "default"
+                        }
+                      }
                     }
                   ],
                   "description": "Authentication method for GCP\nIf not specified, defaults to Application Default Credentials",
@@ -1266,6 +1294,57 @@
               },
               "title": "GitLab CI",
               "description": "GitLab CI fetcher"
+            },
+            {
+              "description": "GitLab Personal Access Token fetcher",
+              "type": "object",
+              "required": [
+                "url",
+                "admin_token",
+                "type"
+              ],
+              "properties": {
+                "admin_token": {
+                  "description": "Admin token needed for PAT API access (requires admin privileges)",
+                  "type": "string"
+                },
+                "env": {
+                  "description": "Environment designation for this configuration",
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
+                    },
+                    {
+                      "const": null,
+                      "nullable": true
+                    }
+                  ]
+                },
+                "exclude": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+                  },
+                  "nullable": true
+                },
+                "include": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+                  },
+                  "nullable": true
+                },
+                "url": {
+                  "description": "GitLab instance URL (e.g., \"https://gitlab.com\" or \"https://gitlab.example.com\")",
+                  "type": "string",
+                  "format": "uri"
+                },
+                "type": {
+                  "type": "string",
+                  "const": "gitlabpat"
+                }
+              },
+              "title": "GitLab Personal Access Tokens"
             },
             {
               "type": "object",
@@ -1581,6 +1660,20 @@
                       "format": "int64"
                     }
                   }
+                },
+                {
+                  "title": "Application Default Configuration",
+                  "description": "This will infer its configuration based on its environment.\nWorks with the GOOGLE_APPLICATION_CREDENTIALS environment variable\nor by automatically calling GCP's metadata endpoint (if run as a GCE or GKE workload).",
+                  "type": "object",
+                  "required": [
+                    "auth_mode"
+                  ],
+                  "properties": {
+                    "auth_mode": {
+                      "type": "string",
+                      "const": "default"
+                    }
+                  }
                 }
               ],
               "description": "Authentication method for GCP\nIf not specified, defaults to Application Default Credentials",
@@ -1692,6 +1785,51 @@
               "type": "string"
             },
             "url": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        },
+        "GitLabPATConfig": {
+          "description": "Configuration for the GitLab Personal Access Token fetcher.\n\nThis configuration defines how to connect to a GitLab instance and fetch\nPersonal Access Tokens (PATs) for inventory purposes. The fetcher requires\nadmin privileges to access the PAT API endpoint.\n\n# Authentication\n\nThe `admin_token` must be a GitLab Personal Access Token with admin privileges.\nWithout admin access, the GitLab API will return a 403 Forbidden error when\nattempting to list Personal Access Tokens.\n\n# Filtering\n\nThe configuration supports inventory-level filtering using standard include/exclude patterns.\n\n# Example\n\n```toml\n[[sources]]\ntype = \"gitlabpat\"\nurl = \"https://gitlab.example.com\"\nadmin_token = \"glpat-xxxxxxxxxxxxxxxxxxxx\"\n\n[sources.filters]\ninclude = [\"*\"]\nexclude = [\"test_*\"]\n```",
+          "type": "object",
+          "required": [
+            "url",
+            "admin_token"
+          ],
+          "properties": {
+            "admin_token": {
+              "description": "Admin token needed for PAT API access (requires admin privileges)",
+              "type": "string"
+            },
+            "env": {
+              "description": "Environment designation for this configuration",
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
+                },
+                {
+                  "const": null,
+                  "nullable": true
+                }
+              ]
+            },
+            "exclude": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+              },
+              "nullable": true
+            },
+            "include": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+              },
+              "nullable": true
+            },
+            "url": {
+              "description": "GitLab instance URL (e.g., \"https://gitlab.com\" or \"https://gitlab.example.com\")",
               "type": "string",
               "format": "uri"
             }
