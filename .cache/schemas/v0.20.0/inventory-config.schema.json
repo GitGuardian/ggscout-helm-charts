@@ -1,0 +1,1176 @@
+{
+  "$id": "https://gitguardian.com/inventory-config",
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "title": "Config",
+  "type": "object",
+  "properties": {
+    "gitguardian": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/GitGuardianConfig"
+        },
+        {
+          "const": null,
+          "nullable": true
+        }
+      ]
+    },
+    "sources": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/FetcherConfig"
+      },
+      "nullable": true
+    }
+  },
+  "$defs": {
+    "Accessibility": {
+      "type": "string",
+      "enum": [
+        "regular",
+        "personal"
+      ]
+    },
+    "AkeylessAPIKeyAuth": {
+      "type": "object",
+      "properties": {
+        "access_id": {
+          "description": "Akeyless Access ID",
+          "type": "string"
+        },
+        "access_key": {
+          "description": "Akeyless Access Key",
+          "type": "string"
+        }
+      },
+      "required": [
+        "access_id",
+        "access_key"
+      ]
+    },
+    "AkeylessConfig": {
+      "type": "object",
+      "properties": {
+        "accessibility": {
+          "$ref": "#/$defs/Accessibility",
+          "default": "regular"
+        },
+        "api_url": {
+          "description": "Akeyless API v2 URL. Default to https://api.akeyless.io/.\nIf you use an Akeyless Gateway, you must use the complete URL. Example: https://my-akeyless-gw.com/api/v2/",
+          "type": "string",
+          "format": "uri",
+          "default": "https://api.akeyless.io/"
+        },
+        "env": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Env"
+            },
+            {
+              "const": null,
+              "nullable": true
+            }
+          ]
+        },
+        "exclude": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FilteringRule"
+          },
+          "nullable": true
+        },
+        "fetch_all_versions": {
+          "title": "Whether or not to collect all secret versions",
+          "type": "boolean"
+        },
+        "include": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FilteringRule"
+          },
+          "nullable": true
+        },
+        "mode": {
+          "$ref": "#/$defs/Mode",
+          "default": "read"
+        }
+      },
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "auth_mode": {
+              "type": "string",
+              "const": "apikey"
+            }
+          },
+          "$ref": "#/$defs/AkeylessAPIKeyAuth",
+          "required": [
+            "auth_mode"
+          ]
+        }
+      ],
+      "required": [
+        "fetch_all_versions"
+      ]
+    },
+    "AuthMode": {
+      "oneOf": [
+        {
+          "title": "Token",
+          "description": "Pass a token string to authenticate",
+          "type": "object",
+          "properties": {
+            "auth_mode": {
+              "type": "string",
+              "const": "token"
+            },
+            "token": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "auth_mode",
+            "token"
+          ]
+        },
+        {
+          "title": "Token file path",
+          "description": "Pass a file containing a token string to authenticate",
+          "type": "object",
+          "properties": {
+            "auth_mode": {
+              "type": "string",
+              "const": "token_file"
+            },
+            "token_file": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "auth_mode",
+            "token_file"
+          ]
+        },
+        {
+          "title": "Kubernetes authentication",
+          "description": "Use k8s authentication.\nIf ggscout is running outside a K8s cluster, it uses the kubeconfig file,\notherwise it uses an in-cluster K8s client",
+          "type": "object",
+          "properties": {
+            "auth_mode": {
+              "type": "string",
+              "const": "k8s"
+            },
+            "mount": {
+              "description": "HashiCorp login mount point. By default, \"kubernetes\"",
+              "type": "string",
+              "default": "kubernetes"
+            },
+            "namespace": {
+              "description": "Kubernetes namespace where service account is defined",
+              "type": "string",
+              "nullable": true
+            },
+            "role": {
+              "description": "HashiCorp Role to be used for authentication",
+              "type": "string"
+            },
+            "service_account": {
+              "description": "Kubernetes service account used for authentication",
+              "type": "string",
+              "nullable": true
+            },
+            "token_expiration_seconds": {
+              "description": "Token expiration time in second. Default to 30 minutes",
+              "type": "integer",
+              "format": "int64",
+              "default": 1800
+            }
+          },
+          "required": [
+            "auth_mode",
+            "role"
+          ]
+        }
+      ]
+    },
+    "AuthMode2": {
+      "oneOf": [
+        {
+          "title": "Service Account Key File",
+          "description": "Use a service account key file for authentication",
+          "type": "object",
+          "properties": {
+            "auth_mode": {
+              "type": "string",
+              "const": "service_account_key_file"
+            },
+            "key_file": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "auth_mode",
+            "key_file"
+          ]
+        },
+        {
+          "title": "Kubernetes Workload Identity Federation",
+          "description": "Use Kubernetes API to get service account tokens and authenticate via WIF.\nThis is the most secure and cloud-native authentication method.",
+          "type": "object",
+          "properties": {
+            "audience": {
+              "description": "Custom audience for the WIF provider. If not specified, defaults to the standard\nWIF provider URL format: //iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/providers/{provider_id}",
+              "type": "string",
+              "nullable": true
+            },
+            "auth_mode": {
+              "type": "string",
+              "const": "k8s"
+            },
+            "gcp_service_account_name": {
+              "description": "Google Service Account name (without @project.iam.gserviceaccount.com)",
+              "type": "string"
+            },
+            "kubernetes_namespace": {
+              "description": "Kubernetes namespace where the service account is located",
+              "type": "string",
+              "nullable": true
+            },
+            "kubernetes_service_account": {
+              "description": "Kubernetes service account name to use for authentication",
+              "type": "string",
+              "nullable": true
+            },
+            "pool_id": {
+              "description": "Workload Identity Pool ID",
+              "type": "string"
+            },
+            "project_id": {
+              "description": "GCP Project ID where the service account is located",
+              "type": "string"
+            },
+            "project_number": {
+              "description": "GCP Project Number",
+              "type": "string"
+            },
+            "provider_id": {
+              "description": "Workload Identity Provider ID",
+              "type": "string"
+            },
+            "token_expiration_seconds": {
+              "description": "Token expiration time in seconds. Default to 30 minutes",
+              "type": "integer",
+              "format": "int64",
+              "default": 1800
+            }
+          },
+          "required": [
+            "auth_mode",
+            "project_id",
+            "project_number",
+            "pool_id",
+            "provider_id",
+            "gcp_service_account_name"
+          ]
+        },
+        {
+          "title": "Application Default Configuration",
+          "description": "This will infer its configuration based on its environment.\nWorks with the GOOGLE_APPLICATION_CREDENTIALS environment variable\nor by automatically calling GCP's metadata endpoint (if run as a GCE or GKE workload).",
+          "type": "object",
+          "properties": {
+            "auth_mode": {
+              "type": "string",
+              "const": "default"
+            }
+          },
+          "required": [
+            "auth_mode"
+          ]
+        }
+      ]
+    },
+    "AuthMode3": {
+      "oneOf": [
+        {
+          "title": "CyberArk authentication",
+          "type": "object",
+          "properties": {
+            "auth_mode": {
+              "type": "string",
+              "const": "cyber_ark"
+            }
+          },
+          "$ref": "#/$defs/CyberArkAuth",
+          "required": [
+            "auth_mode"
+          ]
+        },
+        {
+          "title": "Workload authentication",
+          "type": "object",
+          "properties": {
+            "auth_mode": {
+              "type": "string",
+              "const": "workload"
+            }
+          },
+          "$ref": "#/$defs/ConjurWorkloadAuth",
+          "required": [
+            "auth_mode"
+          ]
+        },
+        {
+          "title": "Kubernetes authentication",
+          "type": "object",
+          "properties": {
+            "auth_mode": {
+              "type": "string",
+              "const": "k8s"
+            },
+            "host_id": {
+              "description": "Optional Host ID for the K8s authenticator",
+              "type": "string",
+              "nullable": true
+            },
+            "namespace": {
+              "description": "Kubernetes namespace where service account is defined",
+              "type": "string",
+              "nullable": true
+            },
+            "service_account": {
+              "description": "Kubernetes service account used for authentication",
+              "type": "string",
+              "nullable": true
+            },
+            "service_id": {
+              "description": "Service ID for the K8s authenticator",
+              "type": "string",
+              "default": "kubernetes"
+            },
+            "token_expiration_seconds": {
+              "description": "Token expiration time in seconds. Default to 30 minutes",
+              "type": "integer",
+              "format": "int64",
+              "default": 1800
+            }
+          },
+          "required": [
+            "auth_mode"
+          ]
+        }
+      ]
+    },
+    "AzureKeyVaultConfig": {
+      "type": "object",
+      "properties": {
+        "env": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Env"
+            },
+            {
+              "const": null,
+              "nullable": true
+            }
+          ]
+        },
+        "exclude": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FilteringRule"
+          },
+          "nullable": true
+        },
+        "fetch_all_versions": {
+          "title": "Whether or not to collect all secret versions",
+          "type": "boolean"
+        },
+        "include": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FilteringRule"
+          },
+          "nullable": true
+        },
+        "mode": {
+          "$ref": "#/$defs/Mode",
+          "default": "read"
+        },
+        "subscription_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "subscription_id",
+        "fetch_all_versions"
+      ]
+    },
+    "ConjurCloudConfig": {
+      "type": "object",
+      "properties": {
+        "auth": {
+          "$ref": "#/$defs/AuthMode3"
+        },
+        "env": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Env"
+            },
+            {
+              "const": null,
+              "nullable": true
+            }
+          ]
+        },
+        "exclude": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FilteringRule"
+          },
+          "nullable": true
+        },
+        "fetch_all_versions": {
+          "title": "Whether or not to collect all secret versions",
+          "type": "boolean"
+        },
+        "include": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FilteringRule"
+          },
+          "nullable": true
+        },
+        "mode": {
+          "$ref": "#/$defs/Mode",
+          "default": "read"
+        },
+        "subdomain": {
+          "title": "The Conjur Cloud subdomain",
+          "type": "string"
+        }
+      },
+      "required": [
+        "auth",
+        "subdomain",
+        "fetch_all_versions"
+      ]
+    },
+    "ConjurWorkloadAuth": {
+      "type": "object",
+      "properties": {
+        "api_key": {
+          "description": "Workload API key for authenticating",
+          "type": "string"
+        },
+        "login": {
+          "description": "Workload login (ID) for authenticating",
+          "type": "string"
+        }
+      },
+      "required": [
+        "login",
+        "api_key"
+      ]
+    },
+    "CyberArkAuth": {
+      "type": "object",
+      "properties": {
+        "client_id": {
+          "description": "CyberArk client ID or Conjur workload Client ID",
+          "type": "string"
+        },
+        "client_secret": {
+          "description": "Secret for authenticating",
+          "type": "string"
+        },
+        "tenant_id": {
+          "description": "Cyberark Cloud tenant ID",
+          "type": "string"
+        }
+      },
+      "required": [
+        "tenant_id",
+        "client_id",
+        "client_secret"
+      ]
+    },
+    "DelineaSecretServerConfig": {
+      "type": "object",
+      "properties": {
+        "env": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Env"
+            },
+            {
+              "const": null,
+              "nullable": true
+            }
+          ]
+        },
+        "exclude": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FilteringRule"
+          },
+          "nullable": true
+        },
+        "include": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FilteringRule"
+          },
+          "nullable": true
+        },
+        "mode": {
+          "$ref": "#/$defs/Mode",
+          "default": "read"
+        },
+        "tenant": {
+          "description": "Delinea tenant",
+          "type": "string"
+        },
+        "tld": {
+          "description": "Top-level domain\nThis can be found by clicking on \"Token API documentation\" in the Settings > REST API section of the Secret Server UI",
+          "type": "string",
+          "default": "com"
+        }
+      },
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "auth_mode": {
+              "type": "string",
+              "const": "oauth"
+            }
+          },
+          "$ref": "#/$defs/DelineaSecretServerOAuth",
+          "required": [
+            "auth_mode"
+          ]
+        }
+      ],
+      "required": [
+        "tenant"
+      ]
+    },
+    "DelineaSecretServerOAuth": {
+      "type": "object",
+      "properties": {
+        "client_id": {
+          "type": "string"
+        },
+        "client_secret": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "client_id",
+        "client_secret"
+      ]
+    },
+    "Env": {
+      "description": "Declare an environment",
+      "oneOf": [
+        {
+          "title": "production",
+          "description": "aliases accepted: `prod` and `prd`",
+          "type": "string",
+          "const": "production"
+        },
+        {
+          "title": "pre-production",
+          "description": "aliases accepted: `pre-prod`, `preprod` and `preproduction`",
+          "type": "string",
+          "const": "pre-production"
+        },
+        {
+          "title": "staging",
+          "type": "string",
+          "const": "staging"
+        },
+        {
+          "title": "testing",
+          "type": "string",
+          "const": "testing"
+        },
+        {
+          "title": "development",
+          "description": "aliases accepted: `dev` and `local`",
+          "type": "string",
+          "const": "development"
+        }
+      ]
+    },
+    "FetcherConfig": {
+      "oneOf": [
+        {
+          "title": "HashiCorp Vault",
+          "description": "This fetcher fetches secrets from [HashiCorp Vault](https://www.hashicorp.com/products/vault)",
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "hashicorpvault"
+            }
+          },
+          "$ref": "#/$defs/HashiCorpVaultConfig",
+          "required": [
+            "type"
+          ]
+        },
+        {
+          "title": "Kubernetes",
+          "description": "Kubernetes fetcher",
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "k8s"
+            }
+          },
+          "$ref": "#/$defs/K8sConfig",
+          "required": [
+            "type"
+          ]
+        },
+        {
+          "title": "AWS Secrets Manager",
+          "description": "AWS Secrets Manager fetcher",
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "awssecretsmanager"
+            }
+          },
+          "$ref": "#/$defs/SecretsManagerConfig",
+          "required": [
+            "type"
+          ]
+        },
+        {
+          "title": "GCP Secret Manager",
+          "description": "GCP Secret Manager fetcher",
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "gcpsecretmanager"
+            }
+          },
+          "$ref": "#/$defs/GCPSecretManagerConfig",
+          "required": [
+            "type"
+          ]
+        },
+        {
+          "title": "Azure Key Vault",
+          "description": "Azure Key Vault fetcher",
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "azurekeyvault"
+            }
+          },
+          "$ref": "#/$defs/AzureKeyVaultConfig",
+          "required": [
+            "type"
+          ]
+        },
+        {
+          "title": "GitLab CI",
+          "description": "GitLab CI fetcher",
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "gitlabci"
+            }
+          },
+          "$ref": "#/$defs/GitLabCIConfig",
+          "required": [
+            "type"
+          ]
+        },
+        {
+          "title": "GitLab Personal Access Tokens",
+          "description": "GitLab Personal Access Token fetcher",
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "gitlabpat"
+            }
+          },
+          "$ref": "#/$defs/GitLabPATConfig",
+          "required": [
+            "type"
+          ]
+        },
+        {
+          "title": "Conjur Cloud",
+          "description": "Conjur Cloud fetcher",
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "conjurcloud"
+            }
+          },
+          "$ref": "#/$defs/ConjurCloudConfig",
+          "required": [
+            "type"
+          ]
+        },
+        {
+          "title": "Akeyless",
+          "description": "Akeyless fetcher",
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "akeyless"
+            }
+          },
+          "$ref": "#/$defs/AkeylessConfig",
+          "required": [
+            "type"
+          ]
+        },
+        {
+          "title": "Delinea Secret Server",
+          "description": "Delinea SecretServer fetcher",
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "delineasecretserver"
+            }
+          },
+          "$ref": "#/$defs/DelineaSecretServerConfig",
+          "required": [
+            "type"
+          ]
+        }
+      ]
+    },
+    "FilteringRule": {
+      "type": "object",
+      "properties": {
+        "resource_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RuleElement"
+          },
+          "nullable": true
+        },
+        "source_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RuleElement"
+          },
+          "nullable": true
+        }
+      }
+    },
+    "GCPSecretManagerConfig": {
+      "type": "object",
+      "properties": {
+        "auth": {
+          "description": "Authentication method for GCP\nIf not specified, defaults to Application Default Credentials",
+          "$ref": "#/$defs/AuthMode2",
+          "default": {
+            "auth_mode": "application_default"
+          }
+        },
+        "env": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Env"
+            },
+            {
+              "const": null,
+              "nullable": true
+            }
+          ]
+        },
+        "exclude": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FilteringRule"
+          },
+          "nullable": true
+        },
+        "fetch_all_versions": {
+          "title": "Whether or not to collect all secret versions",
+          "type": "boolean"
+        },
+        "include": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FilteringRule"
+          },
+          "nullable": true
+        },
+        "mode": {
+          "$ref": "#/$defs/Mode",
+          "default": "read"
+        },
+        "projects": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "nullable": true
+        }
+      },
+      "required": [
+        "fetch_all_versions"
+      ]
+    },
+    "GitGuardianConfig": {
+      "title": "GitGuardian configuration",
+      "type": "object",
+      "properties": {
+        "api_token": {
+          "title": "API Token to authenticate with",
+          "type": "string"
+        },
+        "endpoint": {
+          "title": "Hostname or endpoint",
+          "description": "Example: https://gitguardian.internal/",
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "endpoint",
+        "api_token"
+      ]
+    },
+    "GitLabCIConfig": {
+      "type": "object",
+      "properties": {
+        "env": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Env"
+            },
+            {
+              "const": null,
+              "nullable": true
+            }
+          ]
+        },
+        "exclude": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FilteringRule"
+          },
+          "nullable": true
+        },
+        "include": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FilteringRule"
+          },
+          "nullable": true
+        },
+        "token": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "url",
+        "token"
+      ]
+    },
+    "GitLabPATConfig": {
+      "description": "Configuration for the GitLab Personal Access Token fetcher.\n\nThis configuration defines how to connect to a GitLab instance and fetch\nPersonal Access Tokens (PATs) for inventory purposes. The fetcher requires\nadmin privileges to access the PAT API endpoint.\n\n# Authentication\n\nThe `admin_token` must be a GitLab Personal Access Token with admin privileges.\nWithout admin access, the GitLab API will return a 403 Forbidden error when\nattempting to list Personal Access Tokens.\n\n# Filtering\n\nThe configuration supports inventory-level filtering using standard include/exclude patterns.\n\n# Example\n\n```toml\n[[sources]]\ntype = \"gitlabpat\"\nurl = \"https://gitlab.example.com\"\nadmin_token = \"glpat-xxxxxxxxxxxxxxxxxxxx\"\n\n[sources.filters]\ninclude = [\"*\"]\nexclude = [\"test_*\"]\n```",
+      "type": "object",
+      "properties": {
+        "admin_token": {
+          "description": "Admin token needed for PAT API access (requires admin privileges)",
+          "type": "string"
+        },
+        "env": {
+          "description": "Environment designation for this configuration",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Env"
+            },
+            {
+              "const": null,
+              "nullable": true
+            }
+          ]
+        },
+        "exclude": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FilteringRule"
+          },
+          "nullable": true
+        },
+        "include": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FilteringRule"
+          },
+          "nullable": true
+        },
+        "url": {
+          "description": "GitLab instance URL (e.g., \"https://gitlab.com\" or \"https://gitlab.example.com\")",
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "url",
+        "admin_token"
+      ]
+    },
+    "HashiCorpVaultConfig": {
+      "type": "object",
+      "properties": {
+        "auth": {
+          "description": "Authentication method.\nIf no authentication method is provided `VAULT_TOKEN` env variable is used as a default token",
+          "$ref": "#/$defs/AuthMode",
+          "default": {
+            "auth_mode": "token",
+            "token": "token from VAULT_TOKEN env"
+          }
+        },
+        "auth_token": {
+          "description": "[Deprecated - Use `auth.auth_method = \"token\"` and `auth.token = \"my_token\"` instead]",
+          "type": "string",
+          "deprecated": true,
+          "nullable": true
+        },
+        "env": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Env"
+            },
+            {
+              "const": null,
+              "nullable": true
+            }
+          ]
+        },
+        "exclude": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FilteringRule"
+          },
+          "nullable": true
+        },
+        "fetch_all_versions": {
+          "title": "Whether or not to collect all secret versions",
+          "type": "boolean"
+        },
+        "include": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FilteringRule"
+          },
+          "nullable": true
+        },
+        "mode": {
+          "$ref": "#/$defs/Mode",
+          "default": "read"
+        },
+        "namespaces": {
+          "description": "Vault namespaces to fetch from. If None, fetch from all accessible namespaces.\nIf Some(vec), only fetch from namespaces that are both accessible and in this list.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "nullable": true
+        },
+        "path": {
+          "type": "string",
+          "nullable": true
+        },
+        "vault_address": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "vault_address",
+        "fetch_all_versions"
+      ]
+    },
+    "InCluster": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Kubernetes cluster name is mandatory because it cannot be retrieved with the Kubernetes API",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "K8sConfig": {
+      "type": "object",
+      "properties": {
+        "env": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Env"
+            },
+            {
+              "const": null,
+              "nullable": true
+            }
+          ]
+        },
+        "exclude": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FilteringRule"
+          },
+          "nullable": true
+        },
+        "include": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FilteringRule"
+          },
+          "nullable": true
+        },
+        "namespaces": {
+          "description": "Namespaces to read from. Can be a literal string or a glob expression to match\nmultiple namespaces.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "nullable": true
+        }
+      },
+      "oneOf": [
+        {
+          "title": "KubeConfig File",
+          "type": "object",
+          "properties": {
+            "config_source": {
+              "type": "string",
+              "const": "kubeconfigfile"
+            }
+          },
+          "$ref": "#/$defs/KubeConfigFile",
+          "required": [
+            "config_source"
+          ]
+        },
+        {
+          "title": "InCluster",
+          "type": "object",
+          "properties": {
+            "config_source": {
+              "type": "string",
+              "const": "incluster"
+            }
+          },
+          "$ref": "#/$defs/InCluster",
+          "required": [
+            "config_source"
+          ]
+        }
+      ]
+    },
+    "KubeConfigFile": {
+      "type": "object",
+      "properties": {
+        "contexts": {
+          "description": "Kubernetes contexts to filter on.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "nullable": true
+        },
+        "kubeconfig_path": {
+          "description": "Path to the kubernetes kubeconfig to use",
+          "type": "string",
+          "nullable": true
+        }
+      }
+    },
+    "Mode": {
+      "description": "The mode gives an additional layer of permissions allowing to configure a Scout instance, giving read-only, write-only, or read and write permissions to that source. Default is read-only.",
+      "type": "string",
+      "enum": [
+        "read",
+        "write",
+        "read/write"
+      ]
+    },
+    "RuleElement": {
+      "type": "string"
+    },
+    "SecretsManagerConfig": {
+      "type": "object",
+      "properties": {
+        "env": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Env"
+            },
+            {
+              "const": null,
+              "nullable": true
+            }
+          ]
+        },
+        "exclude": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FilteringRule"
+          },
+          "nullable": true
+        },
+        "fetch_all_versions": {
+          "title": "Whether or not to collect all secret versions",
+          "type": "boolean"
+        },
+        "include": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FilteringRule"
+          },
+          "nullable": true
+        },
+        "mode": {
+          "$ref": "#/$defs/Mode",
+          "default": "read"
+        },
+        "profile_name": {
+          "type": "string",
+          "nullable": true
+        },
+        "regions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "nullable": true
+        }
+      },
+      "required": [
+        "fetch_all_versions"
+      ]
+    }
+  }
+}
