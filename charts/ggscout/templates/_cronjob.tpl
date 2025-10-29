@@ -7,6 +7,7 @@ metadata:
     {{- include "ggscout.labels" . | nindent 4 }}
 spec:
   schedule: {{ toJson .schedule  }}
+  concurrencyPolicy: Replace
   jobTemplate:
     spec:
       ttlSecondsAfterFinished: {{ .ttlSecondsAfterFinished | int }}
