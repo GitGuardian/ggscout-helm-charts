@@ -10,8 +10,10 @@ inventory:
         auth:
           auth_mode: "token"
           token: "${HASHICORP_VAULT_TOKEN}"
+        include:  # To filter the secrets to fetch, you can use the `include` field.
+        - resource_ids:
+          - "secret/dev/*"  # `secret` is the secret engine name, `dev/*` is the path within the engine
         fetch_all_versions: true # Fetch all versions of secrets or not
-        path: "secret/dev" # Vault path or unspecified
         mode: "read/write" # Can be `read`, `write` or `read/write` depending on wether fetch and/or sync are enabled
     # To upload, set the gitguardian URL and tokens. Ensure the endpoint path ends with /v1
     # This is optional: omit this to prevent uploading and to only test collection.
