@@ -77,7 +77,6 @@ Edit the `secret.yaml` file to match your environment:
 Edit the `values.yaml` file:
 
 - `vault_address`: Your Vault server URL
-- `path`: The Vault path to collect secrets from
 - `gitguardian.endpoint`: Your GitGuardian instance URL
 - `auth.k8s.service_account`: (Optional) Custom service account name
 - `auth.k8s.namespace`: (Optional) Kubernetes namespace for the service account

@@ -29,7 +29,6 @@ inventory:
           # Token configuration can be read from environment variables like so:
           token: "${HASHICORP_VAULT_TOKEN}"
         fetch_all_versions: true
-        path: "secret/"
         mode: "read/write" # Can be `read`, `write` or `read/write` depending on wether fetch and/or sync are enabled
       gitlabci:
         type: gitlabci
@@ -133,7 +132,6 @@ inventory:
           # Token configuration can be read from environment variables like so:
           token: "${`${HASHICORP_VAULT_TOKEN}`}"
         fetch_all_versions: true
-        path: "secret/"
         mode: "read/write" # Can be `read`, `write` or `read/write` depending on wether fetch and/or sync are enabled
       gitlabci:
         type: gitlabci
