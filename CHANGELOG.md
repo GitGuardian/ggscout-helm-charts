@@ -1,3 +1,14 @@
+## ggscout-0.5.10 (2025-11-04)
+
+### Feat
+
+- update schemas and appVersion for GGScout latest
+- **cronjob**: add concurrencyPolicy Replace to all cronjobs
+
+### Fix
+
+- **chart**: fix pod annotation in template
+
 ## ggscout-0.5.9 (2025-10-24)
 
 ### Feat
