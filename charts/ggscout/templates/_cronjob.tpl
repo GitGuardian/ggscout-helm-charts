@@ -15,7 +15,8 @@ spec:
       template:
         metadata:
           {{- with .Values.podAnnotations }}
-          annotations: {{- toJson . }}
+          annotations:
+            {{- toYaml . | nindent 12 }}
           {{- end }}
           labels:
             {{- include "ggscout.labels" . | nindent 12 }}
