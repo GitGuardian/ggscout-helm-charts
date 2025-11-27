@@ -51,6 +51,93 @@
         }
       },
       "$defs": {
+        "APIAuth": {
+          "type": "object",
+          "required": [
+            "login",
+            "api_key"
+          ],
+          "properties": {
+            "api_key": {
+              "description": "API key for authenticating",
+              "type": "string"
+            },
+            "login": {
+              "description": "Login (including host/ in case of a workload)",
+              "type": "string"
+            }
+          }
+        },
+        "AWSIAMConfig": {
+          "type": "object",
+          "required": [
+            "aws_account_id"
+          ],
+          "properties": {
+            "aws_account_id": {
+              "type": "string"
+            },
+            "env": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
+                },
+                {
+                  "const": null,
+                  "nullable": true
+                }
+              ]
+            },
+            "exclude": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+              },
+              "nullable": true
+            },
+            "external_id": {
+              "type": "string",
+              "nullable": true
+            },
+            "include": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+              },
+              "nullable": true
+            },
+            "mode": {
+              "description": "The mode gives an additional layer of permissions allowing to configure a Scout instance, giving read-only, write-only, or read and write permissions to that source. Default is read-only.",
+              "type": "string",
+              "enum": [
+                "read",
+                "write",
+                "read/write"
+              ],
+              "default": "read"
+            },
+            "profile_name": {
+              "type": "string",
+              "nullable": true
+            },
+            "resource_discovery": {
+              "description": "Optional resource discovery configuration\nIf not specified, resource discovery is disabled",
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/ResourceDiscoveryConfig"
+                },
+                {
+                  "const": null,
+                  "nullable": true
+                }
+              ]
+            },
+            "role_arn": {
+              "type": "string",
+              "nullable": true
+            }
+          }
+        },
         "Accessibility": {
           "type": "string",
           "enum": [
@@ -523,6 +610,154 @@
             }
           }
         },
+        "ConjurConfig": {
+          "type": "object",
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "username",
+                "password",
+                "auth_mode",
+                "server_url",
+                "account",
+                "fetch_all_versions"
+              ],
+              "properties": {
+                "password": {
+                  "description": "Secret for authenticating",
+                  "type": "string"
+                },
+                "username": {
+                  "type": "string"
+                },
+                "auth_mode": {
+                  "type": "string",
+                  "const": "user"
+                },
+                "accept_invalid_certs": {
+                  "title": "Accept invalid/self-signed certificates (for development only)",
+                  "default": false,
+                  "type": "boolean"
+                },
+                "account": {
+                  "title": "The Conjur account name",
+                  "type": "string"
+                },
+                "env": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
+                    },
+                    {
+                      "const": null,
+                      "nullable": true
+                    }
+                  ]
+                },
+                "exclude": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+                  },
+                  "nullable": true
+                },
+                "fetch_all_versions": {
+                  "title": "Whether or not to collect all secret versions",
+                  "type": "boolean"
+                },
+                "include": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+                  },
+                  "nullable": true
+                },
+                "mode": {
+                  "default": "read",
+                  "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Mode"
+                },
+                "server_url": {
+                  "title": "The Conjur server URL",
+                  "type": "string"
+                }
+              },
+              "title": "User authentication"
+            },
+            {
+              "type": "object",
+              "required": [
+                "login",
+                "api_key",
+                "auth_mode",
+                "server_url",
+                "account",
+                "fetch_all_versions"
+              ],
+              "properties": {
+                "api_key": {
+                  "description": "API key for authenticating",
+                  "type": "string"
+                },
+                "login": {
+                  "description": "Login (including host/ in case of a workload)",
+                  "type": "string"
+                },
+                "auth_mode": {
+                  "type": "string",
+                  "const": "api"
+                },
+                "accept_invalid_certs": {
+                  "title": "Accept invalid/self-signed certificates (for development only)",
+                  "default": false,
+                  "type": "boolean"
+                },
+                "account": {
+                  "title": "The Conjur account name",
+                  "type": "string"
+                },
+                "env": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
+                    },
+                    {
+                      "const": null,
+                      "nullable": true
+                    }
+                  ]
+                },
+                "exclude": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+                  },
+                  "nullable": true
+                },
+                "fetch_all_versions": {
+                  "title": "Whether or not to collect all secret versions",
+                  "type": "boolean"
+                },
+                "include": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+                  },
+                  "nullable": true
+                },
+                "mode": {
+                  "default": "read",
+                  "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Mode"
+                },
+                "server_url": {
+                  "title": "The Conjur server URL",
+                  "type": "string"
+                }
+              },
+              "title": "API authentication"
+            }
+          ]
+        },
         "ConjurWorkloadAuth": {
           "type": "object",
           "required": [
@@ -962,6 +1197,83 @@
                   "title": "InCluster"
                 }
               ]
+            },
+            {
+              "type": "object",
+              "required": [
+                "aws_account_id",
+                "type"
+              ],
+              "properties": {
+                "aws_account_id": {
+                  "type": "string"
+                },
+                "env": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
+                    },
+                    {
+                      "const": null,
+                      "nullable": true
+                    }
+                  ]
+                },
+                "exclude": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+                  },
+                  "nullable": true
+                },
+                "external_id": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "include": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+                  },
+                  "nullable": true
+                },
+                "mode": {
+                  "description": "The mode gives an additional layer of permissions allowing to configure a Scout instance, giving read-only, write-only, or read and write permissions to that source. Default is read-only.",
+                  "type": "string",
+                  "enum": [
+                    "read",
+                    "write",
+                    "read/write"
+                  ],
+                  "default": "read"
+                },
+                "profile_name": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "resource_discovery": {
+                  "description": "Optional resource discovery configuration\nIf not specified, resource discovery is disabled",
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/ResourceDiscoveryConfig"
+                    },
+                    {
+                      "const": null,
+                      "nullable": true
+                    }
+                  ]
+                },
+                "role_arn": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "type": {
+                  "type": "string",
+                  "const": "awsiam"
+                }
+              },
+              "title": "AWS IAM",
+              "description": "AWS IAM fetcher for IAM users, roles, groups, and policies"
             },
             {
               "type": "object",
@@ -1408,6 +1720,164 @@
               },
               "title": "Conjur Cloud",
               "description": "Conjur Cloud fetcher"
+            },
+            {
+              "type": "object",
+              "oneOf": [
+                {
+                  "type": "object",
+                  "required": [
+                    "username",
+                    "password",
+                    "auth_mode",
+                    "server_url",
+                    "account",
+                    "fetch_all_versions",
+                    "type"
+                  ],
+                  "properties": {
+                    "password": {
+                      "description": "Secret for authenticating",
+                      "type": "string"
+                    },
+                    "username": {
+                      "type": "string"
+                    },
+                    "auth_mode": {
+                      "type": "string",
+                      "const": "user"
+                    },
+                    "accept_invalid_certs": {
+                      "title": "Accept invalid/self-signed certificates (for development only)",
+                      "default": false,
+                      "type": "boolean"
+                    },
+                    "account": {
+                      "title": "The Conjur account name",
+                      "type": "string"
+                    },
+                    "env": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
+                        },
+                        {
+                          "const": null,
+                          "nullable": true
+                        }
+                      ]
+                    },
+                    "exclude": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+                      },
+                      "nullable": true
+                    },
+                    "fetch_all_versions": {
+                      "title": "Whether or not to collect all secret versions",
+                      "type": "boolean"
+                    },
+                    "include": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+                      },
+                      "nullable": true
+                    },
+                    "mode": {
+                      "default": "read",
+                      "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Mode"
+                    },
+                    "server_url": {
+                      "title": "The Conjur server URL",
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string",
+                      "const": "conjur"
+                    }
+                  },
+                  "title": "User authentication"
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "login",
+                    "api_key",
+                    "auth_mode",
+                    "server_url",
+                    "account",
+                    "fetch_all_versions",
+                    "type"
+                  ],
+                  "properties": {
+                    "api_key": {
+                      "description": "API key for authenticating",
+                      "type": "string"
+                    },
+                    "login": {
+                      "description": "Login (including host/ in case of a workload)",
+                      "type": "string"
+                    },
+                    "auth_mode": {
+                      "type": "string",
+                      "const": "api"
+                    },
+                    "accept_invalid_certs": {
+                      "title": "Accept invalid/self-signed certificates (for development only)",
+                      "default": false,
+                      "type": "boolean"
+                    },
+                    "account": {
+                      "title": "The Conjur account name",
+                      "type": "string"
+                    },
+                    "env": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
+                        },
+                        {
+                          "const": null,
+                          "nullable": true
+                        }
+                      ]
+                    },
+                    "exclude": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+                      },
+                      "nullable": true
+                    },
+                    "fetch_all_versions": {
+                      "title": "Whether or not to collect all secret versions",
+                      "type": "boolean"
+                    },
+                    "include": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+                      },
+                      "nullable": true
+                    },
+                    "mode": {
+                      "default": "read",
+                      "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Mode"
+                    },
+                    "server_url": {
+                      "title": "The Conjur server URL",
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string",
+                      "const": "conjur"
+                    }
+                  },
+                  "title": "API authentication"
+                }
+              ]
             },
             {
               "type": "object",
@@ -2144,6 +2614,27 @@
             "read/write"
           ]
         },
+        "ResourceDiscoveryConfig": {
+          "description": "Configuration for AWS resource discovery\n\nResource discovery fetches actual AWS resources (S3 buckets, EC2 instances, etc.)\nto match against IAM policy ResourceSelectors and create GrantsAccessTo edges.\n\n# Default Behavior\nIf `resource_discovery` is not specified in config, resource discovery is disabled.\n\n# Examples\n```toml\n# Enable resource discovery for all supported services\n[sources.aws-iam.resource_discovery]\nenabled = true\n\n# Enable but exclude specific services (performance optimization)\n[sources.aws-iam.resource_discovery]\nenabled = true\nexclude_services = [\"ec2\"]  # EC2 has too many instances\n```",
+          "type": "object",
+          "required": [
+            "enabled"
+          ],
+          "properties": {
+            "enabled": {
+              "description": "Enable resource discovery",
+              "type": "boolean"
+            },
+            "exclude_services": {
+              "description": "Services to exclude from resource discovery (opt-out model)\nIf not specified, all supported services will be fetched.\nExample: [\"ec2\", \"lambda\"] to skip EC2 and Lambda resources",
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "nullable": true
+            }
+          }
+        },
         "RuleElement": {
           "type": "string"
         },
@@ -2202,6 +2693,22 @@
                 "type": "string"
               },
               "nullable": true
+            }
+          }
+        },
+        "UserAuth": {
+          "type": "object",
+          "required": [
+            "username",
+            "password"
+          ],
+          "properties": {
+            "password": {
+              "description": "Secret for authenticating",
+              "type": "string"
+            },
+            "username": {
+              "type": "string"
             }
           }
         }

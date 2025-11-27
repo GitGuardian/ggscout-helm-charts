@@ -5,5 +5,5 @@ IFS=$'\n\t'
 plugins=$(helm plugin list)
 
 if ! echo "$plugins" | grep -q 'unittest'; then
-  helm plugin install https://github.com/helm-unittest/helm-unittest.git
+  helm plugin install https://github.com/helm-unittest/helm-unittest.git --verify=false  # `verify` flag was added in helm v4 - topic is dicussed here https://github.com/helm-unittest/helm-unittest/issues/777
 fi
