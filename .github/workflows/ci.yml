@@ -18,9 +18,9 @@ jobs:
     env:
       HELM_CACHE_HOME: /tmp/helm-cache/
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: jdx/mise-action@v2
+      - uses: jdx/mise-action@v3
 
       - uses: actions/cache@v4
         with:
@@ -37,7 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -46,7 +46,7 @@ jobs:
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
-      - uses: jdx/mise-action@v2
+      - uses: jdx/mise-action@v3
 
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.7.0
