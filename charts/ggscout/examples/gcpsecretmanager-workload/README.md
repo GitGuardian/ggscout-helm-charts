@@ -2,6 +2,8 @@
 
 This example demonstrates how to configure ggscout to authenticate with Google Cloud Secret Manager using Workload Identity Federation for Kubernetes. This approach eliminates the need for service account keys by allowing Kubernetes ServiceAccounts to directly authenticate to Google Cloud APIs.
 
+Note that the configuration has been made even simpler if ggscout is deployed in a Google Kubernetes Engine (GKE) cluster. 
+
 ## Prerequisites
 
 ### Required Tools
@@ -25,6 +27,7 @@ Your Kubernetes cluster must support:
 For managed Kubernetes services:
 - **EKS**: No additional configuration needed
 - **AKS**: Enable the OIDC issuer feature
+- **GKE**: Make sure you cluster (and node pools) have [Worload Identity Federation enabled](https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity#enable_on_clusters_and_node_pools).
 - **Self-hosted**: Configure `kube-apiserver` to support ServiceAccount token volume projections
 
 ## Setup Process
@@ -54,6 +57,9 @@ gcloud services enable secretmanager.googleapis.com \
 
 The method depends on your Kubernetes cluster type:
 
+#### For Google Kubernetes Engine (GKE)
+This step is not necessary.
+
 #### For Amazon EKS:
 ```bash
 export CLUSTER_NAME="your-cluster-name"
@@ -77,6 +83,16 @@ kubectl get --raw /.well-known/openid-configuration | jq -r .issuer
 
 ### Step 3: Create Workload Identity Pool and Provider
 
+#### For Google Kubernetes Engine (GKE)
+This step is not necessary. You will however need to have defined the following variables for the next steps:
+
+```bash
+export NAMESPACE="default"  # or your preferred namespace
+export KSA_NAME="ggscout-ksa"  # Kubernetes ServiceAccount name
+```
+
+#### For other configurations
+
 ```bash
 # Set configuration variables
 export POOL_ID="ggscout-pool"
@@ -90,8 +106,12 @@ gcloud iam workload-identity-pools create $POOL_ID \
     --description="Workload Identity Pool for ggscout" \
     --display-name="ggscout Workload Identity Pool" \
     --project=$PROJECT_ID
+```
 
-# For EKS and AKS (using OIDC metadata endpoints)
+The last commands vary depending on your cluster type
+
+##### For EKS and AKS (using OIDC metadata endpoints)
+```bash
 gcloud iam workload-identity-pools providers create-oidc $PROVIDER_ID \
     --location="global" \
     --workload-identity-pool=$POOL_ID \
@@ -101,7 +121,7 @@ gcloud iam workload-identity-pools providers create-oidc $PROVIDER_ID \
     --project=$PROJECT_ID
 ```
 
-#### For Self-hosted Kubernetes (requires JWKS upload):
+##### For Self-hosted Kubernetes (requires JWKS upload):
 ```bash
 # Download the cluster's JWKS
 kubectl get --raw /openid/v1/jwks > cluster-jwks.json
@@ -131,6 +151,9 @@ gcloud iam service-accounts create $GSA_NAME \
 gcloud projects add-iam-policy-binding $PROJECT_ID \
     --member="serviceAccount:$GSA_NAME@$PROJECT_ID.iam.gserviceaccount.com" \
     --role="roles/secretmanager.secretAccessor"
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+    --member="serviceAccount:$GSA_NAME@$PROJECT_ID.iam.gserviceaccount.com" \
+    --role="roles/secretmanager.viewer"
 ```
 
 ### Step 5: Create Kubernetes ServiceAccount and Configure IAM Binding
@@ -141,7 +164,23 @@ kubectl create namespace $NAMESPACE --dry-run=client -o yaml | kubectl apply -f 
 
 # Create Kubernetes ServiceAccount
 kubectl create serviceaccount $KSA_NAME --namespace $NAMESPACE
+```
 
+#### For GKE
+```bash
+# Allow the Kubernetes ServiceAccount to impersonate the Google Cloud ServiceAccount
+kubectl annotate serviceaccount $KSA_NAME \
+    --namespace $NAMESPACE \
+    iam.gke.io/gcp-service-account=$GSA_NAME@$PROJECT_ID.iam.gserviceaccount.com
+
+gcloud iam service-accounts add-iam-policy-binding \
+    $GSA_NAME@$PROJECT_ID.iam.gserviceaccount.com \
+    --role="roles/iam.workloadIdentityUser" \
+    --member="serviceAccount:$PROJECT_ID.svc.id.goog[$NAMESPACE/$KSA_NAME]"
+```
+
+#### For other cluster types
+```bash
 # Allow the Kubernetes ServiceAccount to impersonate the Google Cloud ServiceAccount
 gcloud iam service-accounts add-iam-policy-binding \
     $GSA_NAME@$PROJECT_ID.iam.gserviceaccount.com \
@@ -152,7 +191,35 @@ gcloud iam service-accounts add-iam-policy-binding \
 
 ### Step 6: Update Configuration Files
 
+Update the `secret.yaml` file with your GitGuardian API key:
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ggscout-secrets
+stringData:
+  GITGUARDIAN_API_KEY: "your_gitguardian_token"  # Replace with your actual token
+```
+
 Update the `values.yaml` file with your specific configuration:
+
+#### GKE
+
+```yaml
+inventory:
+  config:
+    sources:
+      gcp:
+        type: gcpsecretmanager
+        fetch_all_versions: true
+        mode: "read"
+    gitguardian:
+      endpoint: "https://your-gg-instance/v1"  # Replace with your GitGuardian endpoint
+      api_token: "${GITGUARDIAN_API_KEY}"
+```
+
+#### Other cluster type
 
 ```yaml
 inventory:
@@ -172,17 +239,6 @@ inventory:
     gitguardian:
       endpoint: "https://your-gg-instance/v1"  # Replace with your GitGuardian endpoint
       api_token: "${GITGUARDIAN_API_KEY}"
-```
-
-Update the `secret.yaml` file with your GitGuardian API key:
-
-```yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: ggscout-secrets
-stringData:
-  GITGUARDIAN_API_KEY: "your_gitguardian_token"  # Replace with your actual token
 ```
 
 ## Deployment
