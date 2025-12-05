@@ -421,7 +421,7 @@
               ],
               "properties": {
                 "client_id": {
-                  "description": "CyberArk client ID or Conjur workload Client ID",
+                  "description": "CyberArk client ID or CyberArk workload Client ID",
                   "type": "string"
                 },
                 "client_secret": {
@@ -429,7 +429,7 @@
                   "type": "string"
                 },
                 "tenant_id": {
-                  "description": "Cyberark Cloud tenant ID",
+                  "description": "CyberArk SaaS tenant ID",
                   "type": "string"
                 },
                 "auth_mode": {
@@ -554,7 +554,29 @@
             }
           }
         },
-        "ConjurCloudConfig": {
+        "CyberArkAuth": {
+          "type": "object",
+          "required": [
+            "tenant_id",
+            "client_id",
+            "client_secret"
+          ],
+          "properties": {
+            "client_id": {
+              "description": "CyberArk client ID or CyberArk workload Client ID",
+              "type": "string"
+            },
+            "client_secret": {
+              "description": "Secret for authenticating",
+              "type": "string"
+            },
+            "tenant_id": {
+              "description": "CyberArk SaaS tenant ID",
+              "type": "string"
+            }
+          }
+        },
+        "CyberArkSaaSConfig": {
           "type": "object",
           "required": [
             "auth",
@@ -605,12 +627,29 @@
               "default": "read"
             },
             "subdomain": {
-              "title": "The Conjur Cloud subdomain",
+              "title": "The CyberArk SaaS subdomain",
               "type": "string"
             }
           }
         },
-        "ConjurConfig": {
+        "CyberArkSaaSWorkloadAuth": {
+          "type": "object",
+          "required": [
+            "login",
+            "api_key"
+          ],
+          "properties": {
+            "api_key": {
+              "description": "Workload API key for authenticating",
+              "type": "string"
+            },
+            "login": {
+              "description": "Workload login (ID) for authenticating",
+              "type": "string"
+            }
+          }
+        },
+        "CyberArkSelfHostedConfig": {
           "type": "object",
           "oneOf": [
             {
@@ -641,7 +680,7 @@
                   "type": "boolean"
                 },
                 "account": {
-                  "title": "The Conjur account name",
+                  "title": "The CyberArk Self-Hosted account name",
                   "type": "string"
                 },
                 "env": {
@@ -678,7 +717,7 @@
                   "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Mode"
                 },
                 "server_url": {
-                  "title": "The Conjur server URL",
+                  "title": "The CyberArk Self-Hosted server URL",
                   "type": "string"
                 }
               },
@@ -713,7 +752,7 @@
                   "type": "boolean"
                 },
                 "account": {
-                  "title": "The Conjur account name",
+                  "title": "The CyberArk Self-Hosted account name",
                   "type": "string"
                 },
                 "env": {
@@ -750,52 +789,13 @@
                   "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Mode"
                 },
                 "server_url": {
-                  "title": "The Conjur server URL",
+                  "title": "The CyberArk Self-Hosted server URL",
                   "type": "string"
                 }
               },
               "title": "API authentication"
             }
           ]
-        },
-        "ConjurWorkloadAuth": {
-          "type": "object",
-          "required": [
-            "login",
-            "api_key"
-          ],
-          "properties": {
-            "api_key": {
-              "description": "Workload API key for authenticating",
-              "type": "string"
-            },
-            "login": {
-              "description": "Workload login (ID) for authenticating",
-              "type": "string"
-            }
-          }
-        },
-        "CyberArkAuth": {
-          "type": "object",
-          "required": [
-            "tenant_id",
-            "client_id",
-            "client_secret"
-          ],
-          "properties": {
-            "client_id": {
-              "description": "CyberArk client ID or Conjur workload Client ID",
-              "type": "string"
-            },
-            "client_secret": {
-              "description": "Secret for authenticating",
-              "type": "string"
-            },
-            "tenant_id": {
-              "description": "Cyberark Cloud tenant ID",
-              "type": "string"
-            }
-          }
         },
         "DelineaSecretServerConfig": {
           "type": "object",
@@ -1710,16 +1710,16 @@
                   "default": "read"
                 },
                 "subdomain": {
-                  "title": "The Conjur Cloud subdomain",
+                  "title": "The CyberArk SaaS subdomain",
                   "type": "string"
                 },
                 "type": {
                   "type": "string",
-                  "const": "conjurcloud"
+                  "const": "cyberarksaas"
                 }
               },
-              "title": "Conjur Cloud",
-              "description": "Conjur Cloud fetcher"
+              "title": "CyberArk SaaS",
+              "description": "CyberArk SaaS fetcher"
             },
             {
               "type": "object",
@@ -1753,7 +1753,7 @@
                       "type": "boolean"
                     },
                     "account": {
-                      "title": "The Conjur account name",
+                      "title": "The CyberArk Self-Hosted account name",
                       "type": "string"
                     },
                     "env": {
@@ -1790,12 +1790,12 @@
                       "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Mode"
                     },
                     "server_url": {
-                      "title": "The Conjur server URL",
+                      "title": "The CyberArk Self-Hosted server URL",
                       "type": "string"
                     },
                     "type": {
                       "type": "string",
-                      "const": "conjur"
+                      "const": "cyberarkselfhosted"
                     }
                   },
                   "title": "User authentication"
@@ -1830,7 +1830,7 @@
                       "type": "boolean"
                     },
                     "account": {
-                      "title": "The Conjur account name",
+                      "title": "The CyberArk Self-Hosted account name",
                       "type": "string"
                     },
                     "env": {
@@ -1867,12 +1867,12 @@
                       "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Mode"
                     },
                     "server_url": {
-                      "title": "The Conjur server URL",
+                      "title": "The CyberArk Self-Hosted server URL",
                       "type": "string"
                     },
                     "type": {
                       "type": "string",
-                      "const": "conjur"
+                      "const": "cyberarkselfhosted"
                     }
                   },
                   "title": "API authentication"
