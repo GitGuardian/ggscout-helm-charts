@@ -1,0 +1,37 @@
+---
+# yaml-language-server: $schema=../../values.schema.json
+
+inventory:
+  config:
+    sources:
+      cyberark_selfhosted:
+        type: cyberarkselfhosted
+        auth_mode: "api"
+        login: "${CYBERARK_LOGIN}"
+        api_key: "${CYBERARK_API_KEY}"
+        server_url: "${CYBERARK_SERVER_URL}"
+        account: "${CYBERARK_ACCOUNT}"
+        fetch_all_versions: true
+        mode: "read/write" # Can be `read`, `write` or `read/write` depending on wether fetch and/or sync are enabled
+
+    gitguardian:
+      endpoint: "https://api.gitguardian.com/v1"
+      api_token: "${GITGUARDIAN_API_KEY}"
+  jobs:
+    # Job to fetch defined sources
+    fetch:
+      # Set to `false` to disable the job
+      enabled: true
+      # Run every 15 minutes
+      schedule: "*/15 * * * *"
+      send: true
+    # Job to be able to sync/write secrets from GitGuardian into you vault
+    sync:
+      # Set to `false` to disable the job
+      enabled: true
+      # Run every minute
+      schedule: "* * * * *"
+
+envFrom:
+- secretRef:
+    name: ggscout-secrets
