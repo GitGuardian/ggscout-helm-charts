@@ -1,25 +1,25 @@
-# Conjur Cloud with Kubernetes JWT Authentication
+# CyberArk SaaS with Kubernetes JWT Authentication
 
-This example demonstrates how to configure ggscout to authenticate with Conjur Cloud using Kubernetes JWT tokens.
+This example demonstrates how to configure ggscout to authenticate with CyberArk SaaS using Kubernetes JWT tokens.
 
 ## Overview
 
-Kubernetes JWT authentication allows ggscout running in a Kubernetes cluster to authenticate with Conjur Cloud using the cluster's service account tokens. This eliminates the need to manage static credentials.
+Kubernetes JWT authentication allows ggscout running in a Kubernetes cluster to authenticate with CyberArk SaaS using the cluster's service account tokens. This eliminates the need to manage static credentials.
 
 ## Prerequisites
 
 Before using this example, you need:
 
-1. **Conjur Cloud Account**: Access to a Conjur Cloud instance
+1. **CyberArk SaaS Account**: Access to a CyberArk SaaS instance
 2. **Kubernetes Cluster**: EKS, GKE, AKS, or self-hosted cluster
-3. **JWT Authenticator**: Configured in Conjur Cloud for your cluster
-4. **Workload Identity**: Created in Conjur Cloud for your ggscout service account
+3. **JWT Authenticator**: Configured in CyberArk SaaS for your cluster
+4. **Workload Identity**: Created in CyberArk SaaS for your ggscout service account
 
 ## Setup Steps
 
-### 1. Configure JWT Authenticator in Conjur Cloud
+### 1. Configure JWT Authenticator in CyberArk SaaS
 
-Create a JWT authenticator in Conjur Cloud with the following configuration:
+Create a JWT authenticator in CyberArk SaaS with the following configuration:
 
 **For AWS EKS:**
 ```bash
@@ -31,11 +31,11 @@ aws eks describe-cluster --name <YOUR_CLUSTER_NAME> --query "cluster.identity.oi
 - `jwks-uri`: `https://oidc.eks.us-east-1.amazonaws.com/id/EXAMPLE/keys`
 - `issuer`: `https://oidc.eks.us-east-1.amazonaws.com/id/EXAMPLE`
 - `token-app-property`: `sub` (IMPORTANT: Always use 'sub' for Kubernetes)
-- `audience`: `conjur` (recommended)
+- `audience`: `cyberark` (recommended)
 
 ### 2. Create Workload Identity
 
-Create a workload identity in Conjur Cloud for your ggscout service account:
+Create a workload identity in CyberArk SaaS for your ggscout service account:
 
 **Workload Configuration:**
 - **Authentication Method**: JWT
@@ -43,7 +43,7 @@ Create a workload identity in Conjur Cloud for your ggscout service account:
 - **Workload ID**: `system:serviceaccount:<namespace>:<service-account-name>`
 - **Policy Branch**: `k8s-apps` (or your preferred branch)
 
-**Example using Conjur CLI:**
+**Example using CyberArk CLI:**
 ```yaml
 # Create workload policy (save as workload-policy.yaml)
 - !policy
@@ -57,13 +57,13 @@ Create a workload identity in Conjur Cloud for your ggscout service account:
         kubernetes/service-account: ggscout-service-account
 
     - !grant
-      role: !group conjur/authn-jwt/k8s-cluster-name/users
+      role: !group cyberark/authn-jwt/k8s-cluster-name/users
       member: !host system:serviceaccount:ggscout-namespace:ggscout-service-account
 ```
 
 Load the policy:
 ```bash
-conjur policy load -f workload-policy.yaml -b data
+cyberark policy load -f workload-policy.yaml -b data
 ```
 
 ### 3. Grant Access to Secrets
@@ -79,16 +79,16 @@ Create secrets and grant access to your workload:
       id: database/password
     - !variable
       id: api/token
-    
+
     - !group consumers
-    
+
     - !permit
       role: !group consumers
       privileges: [read, execute]
       resources:
         - !variable database/password
         - !variable api/token
-    
+
     - !grant
       role: !group consumers
       member: !host /data/k8s-apps/system:serviceaccount:ggscout-namespace:ggscout-service-account
@@ -100,8 +100,8 @@ Update the `secret.yaml` file with your specific values:
 
 ```yaml
 stringData:
-  CONJUR_SUBDOMAIN: "your-company"
-  CONJUR_JWT_AUTHENTICATOR_ID: "k8s-cluster-name"
+  CYBERARK_SUBDOMAIN: "your-company"
+  CYBERARK_JWT_AUTHENTICATOR_ID: "k8s-cluster-name"
   GITGUARDIAN_API_KEY: "your_gitguardian_api_token"
   NAMESPACE: "ggscout-namespace"
 ```
@@ -128,7 +128,7 @@ helm upgrade ggscout ggscout-charts/ggscout \
 
 ### Service Account Identity Format
 
-The workload identity in Conjur Cloud must exactly match the Kubernetes service account format:
+The workload identity in CyberArk SaaS must exactly match the Kubernetes service account format:
 ```
 system:serviceaccount:<namespace>:<service-account-name>
 ```
@@ -139,7 +139,7 @@ Always use `sub` as the `token-app-property` in your JWT authenticator. The `sub
 
 ### Namespace Considerations
 
-- The namespace in your Kubernetes deployment must match the namespace in your Conjur workload identity
+- The namespace in your Kubernetes deployment must match the namespace in your CyberArk workload identity
 - Update the `NAMESPACE` environment variable in `secret.yaml` if using a different namespace
 - Ensure your service account has the necessary RBAC permissions
 
@@ -149,7 +149,7 @@ Always use `sub` as the `token-app-property` in your JWT authenticator. The `sub
 
 1. **Verify JWT authenticator configuration**: Check that `jwks-uri`, `issuer`, and `token-app-property` are correctly set
 2. **Check workload identity**: Ensure the workload ID matches the service account format exactly
-3. **Verify RBAC**: Make sure the service account has access to the required Conjur resources
+3. **Verify RBAC**: Make sure the service account has access to the required CyberArk resources
 
 ### Common Errors
 
@@ -171,6 +171,6 @@ logs:
 
 ## Additional Resources
 
-- [Conjur Cloud JWT Authentication Documentation](https://docs.cyberark.com/conjur-cloud/latest/en/Content/Operations/Services/JWT_Authenticator.htm)
+- [CyberArk SaaS JWT Authentication Documentation](https://docs.cyberark.com/secrets-hub/latest/en/Content/Operations/Services/JWT_Authenticator.htm)
 - [Kubernetes Service Account Tokens](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/)
 - [ggscout Configuration Guide](https://docs.gitguardian.com/ggscout-docs/configuration)

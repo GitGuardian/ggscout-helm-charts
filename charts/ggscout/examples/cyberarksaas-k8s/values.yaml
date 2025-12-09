@@ -4,15 +4,14 @@
 inventory:
   config:
     sources:
-      conjur_cloud:
-        type: conjurcloud
+      cyberark_saas_k8s:
+        type: cyberarksaas
         auth:
-          auth_mode: "workload"
-          login: "${CONJUR_WORKLOAD_LOGIN}"
-          api_key: "${CONJUR_WORKLOAD_API_KEY}"
+          auth_mode: "k8s"
+          service_id: "${CYBERARK_JWT_AUTHENTICATOR_ID}"
         fetch_all_versions: true
         mode: "read/write" # Can be `read`, `write` or `read/write` depending on wether fetch and/or sync are enabled
-        subdomain: "${CONJUR_SUBDOMAIN}"
+        subdomain: "${CYBERARK_SUBDOMAIN}"
 
     gitguardian:
       endpoint: "https://api.gitguardian.com/v1"

@@ -4,17 +4,16 @@
 inventory:
   config:
     sources:
-      conjur_cloud:
-        type: conjurcloud
+      cyberark_saas:
+        type: cyberarksaas
         auth:
           auth_mode: "cyber_ark"
           client_id: "${CYBERARK_CLIENT_ID}"
           client_secret: "${CYBERARK_CLIENT_SECRET}"
           tenant_id: "${CYBERARK_TENANT_ID}"
-        conjur_url: "${CONJUR_URL}"
         fetch_all_versions: true
         mode: "read/write" # Can be `read`, `write` or `read/write` depending on wether fetch and/or sync are enabled
-        subdomain: "${CONJUR_SUBDOMAIN}"
+        subdomain: "${CYBERARK_SUBDOMAIN}"
 
     gitguardian:
       endpoint: "https://my-gg-instance/v1"
