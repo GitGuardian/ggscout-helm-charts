@@ -4,14 +4,15 @@
 inventory:
   config:
     sources:
-      conjur_cloud_k8s:
-        type: conjurcloud
-        auth:
-          auth_mode: "k8s"
-          service_id: "${CONJUR_JWT_AUTHENTICATOR_ID}"
+      cyberark_selfhosted:
+        type: cyberarkselfhosted
+        auth_mode: "api"
+        login: "${CYBERARK_LOGIN}"
+        api_key: "${CYBERARK_API_KEY}"
+        server_url: "${CYBERARK_SERVER_URL}"
+        account: "${CYBERARK_ACCOUNT}"
         fetch_all_versions: true
         mode: "read/write" # Can be `read`, `write` or `read/write` depending on wether fetch and/or sync are enabled
-        subdomain: "${CONJUR_SUBDOMAIN}"
 
     gitguardian:
       endpoint: "https://api.gitguardian.com/v1"
@@ -22,14 +23,14 @@ inventory:
       # Set to `false` to disable the job
       enabled: true
       # Run every 15 minutes
-      schedule: '*/15 * * * *'
+      schedule: "*/15 * * * *"
       send: true
     # Job to be able to sync/write secrets from GitGuardian into you vault
     sync:
       # Set to `false` to disable the job
       enabled: true
       # Run every minute
-      schedule: '* * * * *'
+      schedule: "* * * * *"
 
 envFrom:
 - secretRef:
