@@ -34,7 +34,7 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -71,17 +71,22 @@ jobs:
           echo "Bundling schemas for GGScout version: ${{ github.event.inputs.ggscout_version }}"
           mise run bundle-schemas "${{ github.event.inputs.ggscout_version }}"
 
+      - name: Generate documentation
+        run: |
+          echo "Generating documentation..."
+          mise run generate-docs "${{ github.event.inputs.ggscout_version }}"
+
       - name: Update Chart.yaml appVersion
         if: github.event.inputs.update_app_version == 'true'
         run: |
           GGSCOUT_VERSION="${{ github.event.inputs.ggscout_version }}"
           CHART_FILE="charts/ggscout/Chart.yaml"
-          
+
           echo "Updating Chart.yaml appVersion to: ${GGSCOUT_VERSION}"
-          
+
           # Remove 'v' prefix if present for appVersion
           APP_VERSION="${GGSCOUT_VERSION#v}"
-          
+
           # Update appVersion in Chart.yaml
           if command -v yq >/dev/null 2>&1; then
             yq eval ".appVersion = \"${APP_VERSION}\"" -i "${CHART_FILE}"
@@ -89,7 +94,7 @@ jobs:
             # Fallback to sed if yq is not available
             sed -i "s/^appVersion:.*/appVersion: \"${APP_VERSION}\"/" "${CHART_FILE}"
           fi
-          
+
           echo "Updated appVersion in ${CHART_FILE}:"
           grep "appVersion:" "${CHART_FILE}"
 
@@ -132,14 +137,14 @@ jobs:
           # Create a CI-specific config without gpg_sign
           cp .cz.toml .cz.ci.toml
           sed -i '/gpg_sign = true/d' .cz.ci.toml
-          
+
           # Run bump with CI config and --yes flag for non-interactive mode
           CZ_CONFIG_FILE=.cz.ci.toml cz bump --increment "${{ github.event.inputs.chart_increment }}" --yes
-          
+
           # Capture the new version tag
           NEW_TAG=$(git describe --tags --abbrev=0)
           echo "NEW_TAG=${NEW_TAG}" >> $GITHUB_ENV
-          
+
           # Clean up CI config file
           rm .cz.ci.toml
 
@@ -171,15 +176,15 @@ jobs:
           if git show-ref --quiet refs/remotes/origin/gh-pages; then
             # Clean up chart-releaser artifacts that might conflict with checkout
             rm -rf .cr-index/ .cr-release-packages/ || true
-            
+
             # Simple approach: checkout gh-pages, add docs, commit, push
             git checkout gh-pages
-            
+
             # Copy docs from the working directory (they should still be there)
             if [ -d "docs" ]; then
               cp -r docs/ . 2>/dev/null || echo "No docs to copy"
               git add .
-              
+
               if [ -n "$(git status --porcelain)" ]; then
                 git commit -m "Copy docs from ${{ env.NEW_TAG }}"
                 git push origin gh-pages
@@ -187,7 +192,7 @@ jobs:
                 echo "No changes to deploy"
               fi
             fi
-            
+
             # Return to main
             git checkout main
           else
@@ -222,7 +227,7 @@ jobs:
     needs: release
     runs-on: ubuntu-latest
     if: always()
-    
+
     steps:
       - name: Notify completion
         run: |
