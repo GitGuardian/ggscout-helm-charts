@@ -1624,7 +1624,7 @@ otherwise it uses an in-cluster K8s client</p>
                 d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
             />
         </svg>
-    <a href="#sources_additionalProperties_oneOf_i0_env" onclick="anchorLink('sources_additionalProperties_oneOf_i0_env')">env</a></div><br/>
+    <a href="#sources_additionalProperties_oneOf_i0_env" onclick="anchorLink('sources_additionalProperties_oneOf_i0_env')">env</a></div><h4>Environment of this source (prod, pre-prod, staging, test, dev)</h4><br/>
 <div class="any-of-value" id="sources_additionalProperties_oneOf_i0_env_anyOf"><h2 class="handle">
   <label>Any of</label>
 </h2><ul class="nav nav-tabs" id="tabssources_additionalProperties_oneOf_i0_env_anyOf_anyOf" role="tablist"><li class="nav-item">
@@ -2590,7 +2590,7 @@ otherwise it uses an in-cluster K8s client</p>
         <div class="card-header" id="headingsources_additionalProperties_oneOf_i0_fetch_all_versions">
             <h2 class="mb-0">
                 <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#sources_additionalProperties_oneOf_i0_fetch_all_versions"
-                        aria-expanded="" aria-controls="sources_additionalProperties_oneOf_i0_fetch_all_versions" onclick="setAnchor('#sources_additionalProperties_oneOf_i0_fetch_all_versions')"><span class="property-name">fetch_all_versions</span> <span class="badge badge-warning required-property">Required</span></button>
+                        aria-expanded="" aria-controls="sources_additionalProperties_oneOf_i0_fetch_all_versions" onclick="setAnchor('#sources_additionalProperties_oneOf_i0_fetch_all_versions')"><span class="property-name">fetch_all_versions</span></button>
             </h2>
         </div>
 
@@ -2634,7 +2634,7 @@ otherwise it uses an in-cluster K8s client</p>
                 d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
             />
         </svg>
-    <a href="#sources_additionalProperties_oneOf_i0_fetch_all_versions" onclick="anchorLink('sources_additionalProperties_oneOf_i0_fetch_all_versions')">fetch_all_versions</a></div><h4>Whether or not to collect all secret versions</h4><span class="badge badge-dark value-type">Type: boolean</span><br/>
+    <a href="#sources_additionalProperties_oneOf_i0_fetch_all_versions" onclick="anchorLink('sources_additionalProperties_oneOf_i0_fetch_all_versions')">fetch_all_versions</a></div><h4>Whether or not to collect all secret versions (default: false)</h4><span class="badge badge-dark value-type">Type: boolean</span> <span class="badge badge-success default-value">Default: true</span><br/>
 
         
 
@@ -2806,7 +2806,7 @@ otherwise it uses an in-cluster K8s client</p>
                 d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
             />
         </svg>
-    <a href="#sources_additionalProperties_oneOf_i0_mode" onclick="anchorLink('sources_additionalProperties_oneOf_i0_mode')">mode</a></div><span class="badge badge-dark value-type">Type: enum (of string)</span> <span class="badge badge-success default-value">Default: "read"</span><br/>
+    <a href="#sources_additionalProperties_oneOf_i0_mode" onclick="anchorLink('sources_additionalProperties_oneOf_i0_mode')">mode</a></div><h4>Mode of this source (read, write, read/write)</h4><span class="badge badge-dark value-type">Type: enum (of string)</span> <span class="badge badge-success default-value">Default: "read"</span><br/>
 <span class="description"><p>The mode gives an additional layer of permissions allowing to configure a Scout instance, giving read-only, write-only, or read and write permissions to that source. Default is read-only.</p>
 </span>
 
@@ -2939,6 +2939,67 @@ If Some(vec), only fetch from namespaces that are both accessible and in this li
         
         </div>
     </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="accordionsources_additionalProperties_oneOf_i0_owner">
+    <div class="card">
+        <div class="card-header" id="headingsources_additionalProperties_oneOf_i0_owner">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#sources_additionalProperties_oneOf_i0_owner"
+                        aria-expanded="" aria-controls="sources_additionalProperties_oneOf_i0_owner" onclick="setAnchor('#sources_additionalProperties_oneOf_i0_owner')"><span class="property-name">owner</span></button>
+            </h2>
+        </div>
+
+        <div id="sources_additionalProperties_oneOf_i0_owner"
+             class="collapse property-definition-div" aria-labelledby="headingsources_additionalProperties_oneOf_i0_owner"
+             data-parent="#accordionsources_additionalProperties_oneOf_i0_owner">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources" onclick="anchorLink('sources')">sources</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties" onclick="anchorLink('sources_additionalProperties')">additionalProperties</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf" onclick="anchorLink('sources_additionalProperties_oneOf')">oneOf</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i0" onclick="anchorLink('sources_additionalProperties_oneOf_i0')">item 0</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i0_owner" onclick="anchorLink('sources_additionalProperties_oneOf_i0_owner')">owner</a></div><h4>Owner of this source (an email, usually of an employee or a team)</h4><span class="badge badge-dark value-type">Type: string</span><br/>
+
+        
+
+        
+        
+
+        
             </div>
         </div>
     </div>
@@ -3791,7 +3852,7 @@ If Some(vec), only fetch from namespaces that are both accessible and in this li
                 d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
             />
         </svg>
-    <a href="#sources_additionalProperties_oneOf_i1_env" onclick="anchorLink('sources_additionalProperties_oneOf_i1_env')">env</a></div><br/>
+    <a href="#sources_additionalProperties_oneOf_i1_env" onclick="anchorLink('sources_additionalProperties_oneOf_i1_env')">env</a></div><h4>Environment of this source (prod, pre-prod, staging, test, dev)</h4><br/>
 <div class="any-of-value" id="sources_additionalProperties_oneOf_i1_env_anyOf"><h2 class="handle">
   <label>Any of</label>
 </h2><ul class="nav nav-tabs" id="tabssources_additionalProperties_oneOf_i1_env_anyOf_anyOf" role="tablist"><li class="nav-item">
@@ -4044,6 +4105,67 @@ If Some(vec), only fetch from namespaces that are both accessible and in this li
         </div>
     </div>
 </div>
+<div class="accordion" id="accordionsources_additionalProperties_oneOf_i1_fetch_all_versions">
+    <div class="card">
+        <div class="card-header" id="headingsources_additionalProperties_oneOf_i1_fetch_all_versions">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#sources_additionalProperties_oneOf_i1_fetch_all_versions"
+                        aria-expanded="" aria-controls="sources_additionalProperties_oneOf_i1_fetch_all_versions" onclick="setAnchor('#sources_additionalProperties_oneOf_i1_fetch_all_versions')"><span class="property-name">fetch_all_versions</span></button>
+            </h2>
+        </div>
+
+        <div id="sources_additionalProperties_oneOf_i1_fetch_all_versions"
+             class="collapse property-definition-div" aria-labelledby="headingsources_additionalProperties_oneOf_i1_fetch_all_versions"
+             data-parent="#accordionsources_additionalProperties_oneOf_i1_fetch_all_versions">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources" onclick="anchorLink('sources')">sources</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties" onclick="anchorLink('sources_additionalProperties')">additionalProperties</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf" onclick="anchorLink('sources_additionalProperties_oneOf')">oneOf</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i1" onclick="anchorLink('sources_additionalProperties_oneOf_i1')">item 1</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i1_fetch_all_versions" onclick="anchorLink('sources_additionalProperties_oneOf_i1_fetch_all_versions')">fetch_all_versions</a></div><h4>Whether or not to collect all secret versions (default: false)</h4><span class="badge badge-dark value-type">Type: boolean</span> <span class="badge badge-success default-value">Default: true</span><br/>
+
+        
+
+        
+        
+
+        
+            </div>
+        </div>
+    </div>
+</div>
 <div class="accordion" id="accordionsources_additionalProperties_oneOf_i1_include">
     <div class="card">
         <div class="card-header" id="headingsources_additionalProperties_oneOf_i1_include">
@@ -4151,6 +4273,73 @@ If Some(vec), only fetch from namespaces that are both accessible and in this li
 <a href="#sources_additionalProperties_oneOf_i0_exclude_items" onclick="anchorLink('sources_additionalProperties_oneOf_i0_exclude_items')" class="ref-link">Same definition as sources_additionalProperties_oneOf_i0_exclude_items</a>
         </div>
     </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="accordionsources_additionalProperties_oneOf_i1_mode">
+    <div class="card">
+        <div class="card-header" id="headingsources_additionalProperties_oneOf_i1_mode">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#sources_additionalProperties_oneOf_i1_mode"
+                        aria-expanded="" aria-controls="sources_additionalProperties_oneOf_i1_mode" onclick="setAnchor('#sources_additionalProperties_oneOf_i1_mode')"><span class="property-name">mode</span></button>
+            </h2>
+        </div>
+
+        <div id="sources_additionalProperties_oneOf_i1_mode"
+             class="collapse property-definition-div" aria-labelledby="headingsources_additionalProperties_oneOf_i1_mode"
+             data-parent="#accordionsources_additionalProperties_oneOf_i1_mode">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources" onclick="anchorLink('sources')">sources</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties" onclick="anchorLink('sources_additionalProperties')">additionalProperties</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf" onclick="anchorLink('sources_additionalProperties_oneOf')">oneOf</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i1" onclick="anchorLink('sources_additionalProperties_oneOf_i1')">item 1</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i1_mode" onclick="anchorLink('sources_additionalProperties_oneOf_i1_mode')">mode</a></div><h4>Mode of this source (read, write, read/write)</h4><span class="badge badge-dark value-type">Type: enum (of string)</span> <span class="badge badge-success default-value">Default: "read"</span><br/>
+<span class="description"><p>The mode gives an additional layer of permissions allowing to configure a Scout instance, giving read-only, write-only, or read and write permissions to that source. Default is read-only.</p>
+</span>
+
+    <div class="enum-value" id="sources_additionalProperties_oneOf_i0_mode_enum">
+            <h4>Must be one of:</h4>
+            <ul class="list-group"><li class="list-group-item enum-item">"read"</li><li class="list-group-item enum-item">"write"</li><li class="list-group-item enum-item">"read/write"</li></ul>
+            </div>
+        
+
+        
+        
+
+        
             </div>
         </div>
     </div>
@@ -4270,6 +4459,67 @@ multiple namespaces.</p>
         
         </div>
     </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="accordionsources_additionalProperties_oneOf_i1_owner">
+    <div class="card">
+        <div class="card-header" id="headingsources_additionalProperties_oneOf_i1_owner">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#sources_additionalProperties_oneOf_i1_owner"
+                        aria-expanded="" aria-controls="sources_additionalProperties_oneOf_i1_owner" onclick="setAnchor('#sources_additionalProperties_oneOf_i1_owner')"><span class="property-name">owner</span></button>
+            </h2>
+        </div>
+
+        <div id="sources_additionalProperties_oneOf_i1_owner"
+             class="collapse property-definition-div" aria-labelledby="headingsources_additionalProperties_oneOf_i1_owner"
+             data-parent="#accordionsources_additionalProperties_oneOf_i1_owner">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources" onclick="anchorLink('sources')">sources</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties" onclick="anchorLink('sources_additionalProperties')">additionalProperties</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf" onclick="anchorLink('sources_additionalProperties_oneOf')">oneOf</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i1" onclick="anchorLink('sources_additionalProperties_oneOf_i1')">item 1</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i1_owner" onclick="anchorLink('sources_additionalProperties_oneOf_i1_owner')">owner</a></div><h4>Owner of this source (an email, usually of an employee or a team)</h4><span class="badge badge-dark value-type">Type: string</span><br/>
+
+        
+
+        
+        
+
+        
             </div>
         </div>
     </div>
@@ -4488,7 +4738,7 @@ multiple namespaces.</p>
                 d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
             />
         </svg>
-    <a href="#sources_additionalProperties_oneOf_i2_env" onclick="anchorLink('sources_additionalProperties_oneOf_i2_env')">env</a></div><br/>
+    <a href="#sources_additionalProperties_oneOf_i2_env" onclick="anchorLink('sources_additionalProperties_oneOf_i2_env')">env</a></div><h4>Environment of this source (prod, pre-prod, staging, test, dev)</h4><br/>
 <div class="any-of-value" id="sources_additionalProperties_oneOf_i2_env_anyOf"><h2 class="handle">
   <label>Any of</label>
 </h2><ul class="nav nav-tabs" id="tabssources_additionalProperties_oneOf_i2_env_anyOf_anyOf" role="tablist"><li class="nav-item">
@@ -4802,6 +5052,67 @@ multiple namespaces.</p>
         </div>
     </div>
 </div>
+<div class="accordion" id="accordionsources_additionalProperties_oneOf_i2_fetch_all_versions">
+    <div class="card">
+        <div class="card-header" id="headingsources_additionalProperties_oneOf_i2_fetch_all_versions">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#sources_additionalProperties_oneOf_i2_fetch_all_versions"
+                        aria-expanded="" aria-controls="sources_additionalProperties_oneOf_i2_fetch_all_versions" onclick="setAnchor('#sources_additionalProperties_oneOf_i2_fetch_all_versions')"><span class="property-name">fetch_all_versions</span></button>
+            </h2>
+        </div>
+
+        <div id="sources_additionalProperties_oneOf_i2_fetch_all_versions"
+             class="collapse property-definition-div" aria-labelledby="headingsources_additionalProperties_oneOf_i2_fetch_all_versions"
+             data-parent="#accordionsources_additionalProperties_oneOf_i2_fetch_all_versions">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources" onclick="anchorLink('sources')">sources</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties" onclick="anchorLink('sources_additionalProperties')">additionalProperties</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf" onclick="anchorLink('sources_additionalProperties_oneOf')">oneOf</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i2" onclick="anchorLink('sources_additionalProperties_oneOf_i2')">item 2</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i2_fetch_all_versions" onclick="anchorLink('sources_additionalProperties_oneOf_i2_fetch_all_versions')">fetch_all_versions</a></div><h4>Whether or not to collect all secret versions (default: false)</h4><span class="badge badge-dark value-type">Type: boolean</span> <span class="badge badge-success default-value">Default: true</span><br/>
+
+        
+
+        
+        
+
+        
+            </div>
+        </div>
+    </div>
+</div>
 <div class="accordion" id="accordionsources_additionalProperties_oneOf_i2_include">
     <div class="card">
         <div class="card-header" id="headingsources_additionalProperties_oneOf_i2_include">
@@ -4962,7 +5273,7 @@ multiple namespaces.</p>
                 d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
             />
         </svg>
-    <a href="#sources_additionalProperties_oneOf_i2_mode" onclick="anchorLink('sources_additionalProperties_oneOf_i2_mode')">mode</a></div><span class="badge badge-dark value-type">Type: enum (of string)</span> <span class="badge badge-success default-value">Default: "read"</span><br/>
+    <a href="#sources_additionalProperties_oneOf_i2_mode" onclick="anchorLink('sources_additionalProperties_oneOf_i2_mode')">mode</a></div><h4>Mode of this source (read, write, read/write)</h4><span class="badge badge-dark value-type">Type: enum (of string)</span> <span class="badge badge-success default-value">Default: "read"</span><br/>
 <span class="description"><p>The mode gives an additional layer of permissions allowing to configure a Scout instance, giving read-only, write-only, or read and write permissions to that source. Default is read-only.</p>
 </span>
 
@@ -4970,6 +5281,67 @@ multiple namespaces.</p>
             <h4>Must be one of:</h4>
             <ul class="list-group"><li class="list-group-item enum-item">"read"</li><li class="list-group-item enum-item">"write"</li><li class="list-group-item enum-item">"read/write"</li></ul>
             </div>
+        
+
+        
+        
+
+        
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="accordionsources_additionalProperties_oneOf_i2_owner">
+    <div class="card">
+        <div class="card-header" id="headingsources_additionalProperties_oneOf_i2_owner">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#sources_additionalProperties_oneOf_i2_owner"
+                        aria-expanded="" aria-controls="sources_additionalProperties_oneOf_i2_owner" onclick="setAnchor('#sources_additionalProperties_oneOf_i2_owner')"><span class="property-name">owner</span></button>
+            </h2>
+        </div>
+
+        <div id="sources_additionalProperties_oneOf_i2_owner"
+             class="collapse property-definition-div" aria-labelledby="headingsources_additionalProperties_oneOf_i2_owner"
+             data-parent="#accordionsources_additionalProperties_oneOf_i2_owner">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources" onclick="anchorLink('sources')">sources</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties" onclick="anchorLink('sources_additionalProperties')">additionalProperties</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf" onclick="anchorLink('sources_additionalProperties_oneOf')">oneOf</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i2" onclick="anchorLink('sources_additionalProperties_oneOf_i2')">item 2</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i2_owner" onclick="anchorLink('sources_additionalProperties_oneOf_i2_owner')">owner</a></div><h4>Owner of this source (an email, usually of an employee or a team)</h4><span class="badge badge-dark value-type">Type: string</span><br/>
+
         
 
         
@@ -5729,7 +6101,7 @@ Example: ["ec2", "lambda"] to skip EC2 and Lambda resources</p>
                 d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
             />
         </svg>
-    <a href="#sources_additionalProperties_oneOf_i3_env" onclick="anchorLink('sources_additionalProperties_oneOf_i3_env')">env</a></div><br/>
+    <a href="#sources_additionalProperties_oneOf_i3_env" onclick="anchorLink('sources_additionalProperties_oneOf_i3_env')">env</a></div><h4>Environment of this source (prod, pre-prod, staging, test, dev)</h4><br/>
 <div class="any-of-value" id="sources_additionalProperties_oneOf_i3_env_anyOf"><h2 class="handle">
   <label>Any of</label>
 </h2><ul class="nav nav-tabs" id="tabssources_additionalProperties_oneOf_i3_env_anyOf_anyOf" role="tablist"><li class="nav-item">
@@ -5987,7 +6359,7 @@ Example: ["ec2", "lambda"] to skip EC2 and Lambda resources</p>
         <div class="card-header" id="headingsources_additionalProperties_oneOf_i3_fetch_all_versions">
             <h2 class="mb-0">
                 <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#sources_additionalProperties_oneOf_i3_fetch_all_versions"
-                        aria-expanded="" aria-controls="sources_additionalProperties_oneOf_i3_fetch_all_versions" onclick="setAnchor('#sources_additionalProperties_oneOf_i3_fetch_all_versions')"><span class="property-name">fetch_all_versions</span> <span class="badge badge-warning required-property">Required</span></button>
+                        aria-expanded="" aria-controls="sources_additionalProperties_oneOf_i3_fetch_all_versions" onclick="setAnchor('#sources_additionalProperties_oneOf_i3_fetch_all_versions')"><span class="property-name">fetch_all_versions</span></button>
             </h2>
         </div>
 
@@ -6031,7 +6403,7 @@ Example: ["ec2", "lambda"] to skip EC2 and Lambda resources</p>
                 d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
             />
         </svg>
-    <a href="#sources_additionalProperties_oneOf_i3_fetch_all_versions" onclick="anchorLink('sources_additionalProperties_oneOf_i3_fetch_all_versions')">fetch_all_versions</a></div><h4>Whether or not to collect all secret versions</h4><span class="badge badge-dark value-type">Type: boolean</span><br/>
+    <a href="#sources_additionalProperties_oneOf_i3_fetch_all_versions" onclick="anchorLink('sources_additionalProperties_oneOf_i3_fetch_all_versions')">fetch_all_versions</a></div><h4>Whether or not to collect all secret versions (default: false)</h4><span class="badge badge-dark value-type">Type: boolean</span> <span class="badge badge-success default-value">Default: true</span><br/>
 
         
 
@@ -6203,7 +6575,7 @@ Example: ["ec2", "lambda"] to skip EC2 and Lambda resources</p>
                 d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
             />
         </svg>
-    <a href="#sources_additionalProperties_oneOf_i3_mode" onclick="anchorLink('sources_additionalProperties_oneOf_i3_mode')">mode</a></div><span class="badge badge-dark value-type">Type: enum (of string)</span> <span class="badge badge-success default-value">Default: "read"</span><br/>
+    <a href="#sources_additionalProperties_oneOf_i3_mode" onclick="anchorLink('sources_additionalProperties_oneOf_i3_mode')">mode</a></div><h4>Mode of this source (read, write, read/write)</h4><span class="badge badge-dark value-type">Type: enum (of string)</span> <span class="badge badge-success default-value">Default: "read"</span><br/>
 <span class="description"><p>The mode gives an additional layer of permissions allowing to configure a Scout instance, giving read-only, write-only, or read and write permissions to that source. Default is read-only.</p>
 </span>
 
@@ -6211,6 +6583,67 @@ Example: ["ec2", "lambda"] to skip EC2 and Lambda resources</p>
             <h4>Must be one of:</h4>
             <ul class="list-group"><li class="list-group-item enum-item">"read"</li><li class="list-group-item enum-item">"write"</li><li class="list-group-item enum-item">"read/write"</li></ul>
             </div>
+        
+
+        
+        
+
+        
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="accordionsources_additionalProperties_oneOf_i3_owner">
+    <div class="card">
+        <div class="card-header" id="headingsources_additionalProperties_oneOf_i3_owner">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#sources_additionalProperties_oneOf_i3_owner"
+                        aria-expanded="" aria-controls="sources_additionalProperties_oneOf_i3_owner" onclick="setAnchor('#sources_additionalProperties_oneOf_i3_owner')"><span class="property-name">owner</span></button>
+            </h2>
+        </div>
+
+        <div id="sources_additionalProperties_oneOf_i3_owner"
+             class="collapse property-definition-div" aria-labelledby="headingsources_additionalProperties_oneOf_i3_owner"
+             data-parent="#accordionsources_additionalProperties_oneOf_i3_owner">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources" onclick="anchorLink('sources')">sources</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties" onclick="anchorLink('sources_additionalProperties')">additionalProperties</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf" onclick="anchorLink('sources_additionalProperties_oneOf')">oneOf</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i3" onclick="anchorLink('sources_additionalProperties_oneOf_i3')">item 3</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i3_owner" onclick="anchorLink('sources_additionalProperties_oneOf_i3_owner')">owner</a></div><h4>Owner of this source (an email, usually of an employee or a team)</h4><span class="badge badge-dark value-type">Type: string</span><br/>
+
         
 
         
@@ -7900,7 +8333,7 @@ or by automatically calling GCP's metadata endpoint (if run as a GCE or GKE work
                 d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
             />
         </svg>
-    <a href="#sources_additionalProperties_oneOf_i4_env" onclick="anchorLink('sources_additionalProperties_oneOf_i4_env')">env</a></div><br/>
+    <a href="#sources_additionalProperties_oneOf_i4_env" onclick="anchorLink('sources_additionalProperties_oneOf_i4_env')">env</a></div><h4>Environment of this source (prod, pre-prod, staging, test, dev)</h4><br/>
 <div class="any-of-value" id="sources_additionalProperties_oneOf_i4_env_anyOf"><h2 class="handle">
   <label>Any of</label>
 </h2><ul class="nav nav-tabs" id="tabssources_additionalProperties_oneOf_i4_env_anyOf_anyOf" role="tablist"><li class="nav-item">
@@ -8158,7 +8591,7 @@ or by automatically calling GCP's metadata endpoint (if run as a GCE or GKE work
         <div class="card-header" id="headingsources_additionalProperties_oneOf_i4_fetch_all_versions">
             <h2 class="mb-0">
                 <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#sources_additionalProperties_oneOf_i4_fetch_all_versions"
-                        aria-expanded="" aria-controls="sources_additionalProperties_oneOf_i4_fetch_all_versions" onclick="setAnchor('#sources_additionalProperties_oneOf_i4_fetch_all_versions')"><span class="property-name">fetch_all_versions</span> <span class="badge badge-warning required-property">Required</span></button>
+                        aria-expanded="" aria-controls="sources_additionalProperties_oneOf_i4_fetch_all_versions" onclick="setAnchor('#sources_additionalProperties_oneOf_i4_fetch_all_versions')"><span class="property-name">fetch_all_versions</span></button>
             </h2>
         </div>
 
@@ -8202,7 +8635,7 @@ or by automatically calling GCP's metadata endpoint (if run as a GCE or GKE work
                 d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
             />
         </svg>
-    <a href="#sources_additionalProperties_oneOf_i4_fetch_all_versions" onclick="anchorLink('sources_additionalProperties_oneOf_i4_fetch_all_versions')">fetch_all_versions</a></div><h4>Whether or not to collect all secret versions</h4><span class="badge badge-dark value-type">Type: boolean</span><br/>
+    <a href="#sources_additionalProperties_oneOf_i4_fetch_all_versions" onclick="anchorLink('sources_additionalProperties_oneOf_i4_fetch_all_versions')">fetch_all_versions</a></div><h4>Whether or not to collect all secret versions (default: false)</h4><span class="badge badge-dark value-type">Type: boolean</span> <span class="badge badge-success default-value">Default: true</span><br/>
 
         
 
@@ -8374,7 +8807,7 @@ or by automatically calling GCP's metadata endpoint (if run as a GCE or GKE work
                 d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
             />
         </svg>
-    <a href="#sources_additionalProperties_oneOf_i4_mode" onclick="anchorLink('sources_additionalProperties_oneOf_i4_mode')">mode</a></div><span class="badge badge-dark value-type">Type: enum (of string)</span> <span class="badge badge-success default-value">Default: "read"</span><br/>
+    <a href="#sources_additionalProperties_oneOf_i4_mode" onclick="anchorLink('sources_additionalProperties_oneOf_i4_mode')">mode</a></div><h4>Mode of this source (read, write, read/write)</h4><span class="badge badge-dark value-type">Type: enum (of string)</span> <span class="badge badge-success default-value">Default: "read"</span><br/>
 <span class="description"><p>The mode gives an additional layer of permissions allowing to configure a Scout instance, giving read-only, write-only, or read and write permissions to that source. Default is read-only.</p>
 </span>
 
@@ -8382,6 +8815,67 @@ or by automatically calling GCP's metadata endpoint (if run as a GCE or GKE work
             <h4>Must be one of:</h4>
             <ul class="list-group"><li class="list-group-item enum-item">"read"</li><li class="list-group-item enum-item">"write"</li><li class="list-group-item enum-item">"read/write"</li></ul>
             </div>
+        
+
+        
+        
+
+        
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="accordionsources_additionalProperties_oneOf_i4_owner">
+    <div class="card">
+        <div class="card-header" id="headingsources_additionalProperties_oneOf_i4_owner">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#sources_additionalProperties_oneOf_i4_owner"
+                        aria-expanded="" aria-controls="sources_additionalProperties_oneOf_i4_owner" onclick="setAnchor('#sources_additionalProperties_oneOf_i4_owner')"><span class="property-name">owner</span></button>
+            </h2>
+        </div>
+
+        <div id="sources_additionalProperties_oneOf_i4_owner"
+             class="collapse property-definition-div" aria-labelledby="headingsources_additionalProperties_oneOf_i4_owner"
+             data-parent="#accordionsources_additionalProperties_oneOf_i4_owner">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources" onclick="anchorLink('sources')">sources</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties" onclick="anchorLink('sources_additionalProperties')">additionalProperties</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf" onclick="anchorLink('sources_additionalProperties_oneOf')">oneOf</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i4" onclick="anchorLink('sources_additionalProperties_oneOf_i4')">item 4</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i4_owner" onclick="anchorLink('sources_additionalProperties_oneOf_i4_owner')">owner</a></div><h4>Owner of this source (an email, usually of an employee or a team)</h4><span class="badge badge-dark value-type">Type: string</span><br/>
+
         
 
         
@@ -8662,7 +9156,7 @@ or by automatically calling GCP's metadata endpoint (if run as a GCE or GKE work
                 d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
             />
         </svg>
-    <a href="#sources_additionalProperties_oneOf_i5_env" onclick="anchorLink('sources_additionalProperties_oneOf_i5_env')">env</a></div><br/>
+    <a href="#sources_additionalProperties_oneOf_i5_env" onclick="anchorLink('sources_additionalProperties_oneOf_i5_env')">env</a></div><h4>Environment of this source (prod, pre-prod, staging, test, dev)</h4><br/>
 <div class="any-of-value" id="sources_additionalProperties_oneOf_i5_env_anyOf"><h2 class="handle">
   <label>Any of</label>
 </h2><ul class="nav nav-tabs" id="tabssources_additionalProperties_oneOf_i5_env_anyOf_anyOf" role="tablist"><li class="nav-item">
@@ -8920,7 +9414,7 @@ or by automatically calling GCP's metadata endpoint (if run as a GCE or GKE work
         <div class="card-header" id="headingsources_additionalProperties_oneOf_i5_fetch_all_versions">
             <h2 class="mb-0">
                 <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#sources_additionalProperties_oneOf_i5_fetch_all_versions"
-                        aria-expanded="" aria-controls="sources_additionalProperties_oneOf_i5_fetch_all_versions" onclick="setAnchor('#sources_additionalProperties_oneOf_i5_fetch_all_versions')"><span class="property-name">fetch_all_versions</span> <span class="badge badge-warning required-property">Required</span></button>
+                        aria-expanded="" aria-controls="sources_additionalProperties_oneOf_i5_fetch_all_versions" onclick="setAnchor('#sources_additionalProperties_oneOf_i5_fetch_all_versions')"><span class="property-name">fetch_all_versions</span></button>
             </h2>
         </div>
 
@@ -8964,7 +9458,7 @@ or by automatically calling GCP's metadata endpoint (if run as a GCE or GKE work
                 d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
             />
         </svg>
-    <a href="#sources_additionalProperties_oneOf_i5_fetch_all_versions" onclick="anchorLink('sources_additionalProperties_oneOf_i5_fetch_all_versions')">fetch_all_versions</a></div><h4>Whether or not to collect all secret versions</h4><span class="badge badge-dark value-type">Type: boolean</span><br/>
+    <a href="#sources_additionalProperties_oneOf_i5_fetch_all_versions" onclick="anchorLink('sources_additionalProperties_oneOf_i5_fetch_all_versions')">fetch_all_versions</a></div><h4>Whether or not to collect all secret versions (default: false)</h4><span class="badge badge-dark value-type">Type: boolean</span> <span class="badge badge-success default-value">Default: true</span><br/>
 
         
 
@@ -9136,7 +9630,7 @@ or by automatically calling GCP's metadata endpoint (if run as a GCE or GKE work
                 d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
             />
         </svg>
-    <a href="#sources_additionalProperties_oneOf_i5_mode" onclick="anchorLink('sources_additionalProperties_oneOf_i5_mode')">mode</a></div><span class="badge badge-dark value-type">Type: enum (of string)</span> <span class="badge badge-success default-value">Default: "read"</span><br/>
+    <a href="#sources_additionalProperties_oneOf_i5_mode" onclick="anchorLink('sources_additionalProperties_oneOf_i5_mode')">mode</a></div><h4>Mode of this source (read, write, read/write)</h4><span class="badge badge-dark value-type">Type: enum (of string)</span> <span class="badge badge-success default-value">Default: "read"</span><br/>
 <span class="description"><p>The mode gives an additional layer of permissions allowing to configure a Scout instance, giving read-only, write-only, or read and write permissions to that source. Default is read-only.</p>
 </span>
 
@@ -9144,6 +9638,67 @@ or by automatically calling GCP's metadata endpoint (if run as a GCE or GKE work
             <h4>Must be one of:</h4>
             <ul class="list-group"><li class="list-group-item enum-item">"read"</li><li class="list-group-item enum-item">"write"</li><li class="list-group-item enum-item">"read/write"</li></ul>
             </div>
+        
+
+        
+        
+
+        
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="accordionsources_additionalProperties_oneOf_i5_owner">
+    <div class="card">
+        <div class="card-header" id="headingsources_additionalProperties_oneOf_i5_owner">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#sources_additionalProperties_oneOf_i5_owner"
+                        aria-expanded="" aria-controls="sources_additionalProperties_oneOf_i5_owner" onclick="setAnchor('#sources_additionalProperties_oneOf_i5_owner')"><span class="property-name">owner</span></button>
+            </h2>
+        </div>
+
+        <div id="sources_additionalProperties_oneOf_i5_owner"
+             class="collapse property-definition-div" aria-labelledby="headingsources_additionalProperties_oneOf_i5_owner"
+             data-parent="#accordionsources_additionalProperties_oneOf_i5_owner">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources" onclick="anchorLink('sources')">sources</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties" onclick="anchorLink('sources_additionalProperties')">additionalProperties</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf" onclick="anchorLink('sources_additionalProperties_oneOf')">oneOf</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i5" onclick="anchorLink('sources_additionalProperties_oneOf_i5')">item 5</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i5_owner" onclick="anchorLink('sources_additionalProperties_oneOf_i5_owner')">owner</a></div><h4>Owner of this source (an email, usually of an employee or a team)</h4><span class="badge badge-dark value-type">Type: string</span><br/>
+
         
 
         
@@ -9368,7 +9923,7 @@ or by automatically calling GCP's metadata endpoint (if run as a GCE or GKE work
                 d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
             />
         </svg>
-    <a href="#sources_additionalProperties_oneOf_i6_env" onclick="anchorLink('sources_additionalProperties_oneOf_i6_env')">env</a></div><br/>
+    <a href="#sources_additionalProperties_oneOf_i6_env" onclick="anchorLink('sources_additionalProperties_oneOf_i6_env')">env</a></div><h4>Environment of this source (prod, pre-prod, staging, test, dev)</h4><br/>
 <div class="any-of-value" id="sources_additionalProperties_oneOf_i6_env_anyOf"><h2 class="handle">
   <label>Any of</label>
 </h2><ul class="nav nav-tabs" id="tabssources_additionalProperties_oneOf_i6_env_anyOf_anyOf" role="tablist"><li class="nav-item">
@@ -9621,6 +10176,67 @@ or by automatically calling GCP's metadata endpoint (if run as a GCE or GKE work
         </div>
     </div>
 </div>
+<div class="accordion" id="accordionsources_additionalProperties_oneOf_i6_fetch_all_versions">
+    <div class="card">
+        <div class="card-header" id="headingsources_additionalProperties_oneOf_i6_fetch_all_versions">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#sources_additionalProperties_oneOf_i6_fetch_all_versions"
+                        aria-expanded="" aria-controls="sources_additionalProperties_oneOf_i6_fetch_all_versions" onclick="setAnchor('#sources_additionalProperties_oneOf_i6_fetch_all_versions')"><span class="property-name">fetch_all_versions</span></button>
+            </h2>
+        </div>
+
+        <div id="sources_additionalProperties_oneOf_i6_fetch_all_versions"
+             class="collapse property-definition-div" aria-labelledby="headingsources_additionalProperties_oneOf_i6_fetch_all_versions"
+             data-parent="#accordionsources_additionalProperties_oneOf_i6_fetch_all_versions">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources" onclick="anchorLink('sources')">sources</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties" onclick="anchorLink('sources_additionalProperties')">additionalProperties</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf" onclick="anchorLink('sources_additionalProperties_oneOf')">oneOf</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i6" onclick="anchorLink('sources_additionalProperties_oneOf_i6')">item 6</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i6_fetch_all_versions" onclick="anchorLink('sources_additionalProperties_oneOf_i6_fetch_all_versions')">fetch_all_versions</a></div><h4>Whether or not to collect all secret versions (default: false)</h4><span class="badge badge-dark value-type">Type: boolean</span> <span class="badge badge-success default-value">Default: true</span><br/>
+
+        
+
+        
+        
+
+        
+            </div>
+        </div>
+    </div>
+</div>
 <div class="accordion" id="accordionsources_additionalProperties_oneOf_i6_include">
     <div class="card">
         <div class="card-header" id="headingsources_additionalProperties_oneOf_i6_include">
@@ -9728,6 +10344,134 @@ or by automatically calling GCP's metadata endpoint (if run as a GCE or GKE work
 <a href="#sources_additionalProperties_oneOf_i0_exclude_items" onclick="anchorLink('sources_additionalProperties_oneOf_i0_exclude_items')" class="ref-link">Same definition as sources_additionalProperties_oneOf_i0_exclude_items</a>
         </div>
     </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="accordionsources_additionalProperties_oneOf_i6_mode">
+    <div class="card">
+        <div class="card-header" id="headingsources_additionalProperties_oneOf_i6_mode">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#sources_additionalProperties_oneOf_i6_mode"
+                        aria-expanded="" aria-controls="sources_additionalProperties_oneOf_i6_mode" onclick="setAnchor('#sources_additionalProperties_oneOf_i6_mode')"><span class="property-name">mode</span></button>
+            </h2>
+        </div>
+
+        <div id="sources_additionalProperties_oneOf_i6_mode"
+             class="collapse property-definition-div" aria-labelledby="headingsources_additionalProperties_oneOf_i6_mode"
+             data-parent="#accordionsources_additionalProperties_oneOf_i6_mode">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources" onclick="anchorLink('sources')">sources</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties" onclick="anchorLink('sources_additionalProperties')">additionalProperties</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf" onclick="anchorLink('sources_additionalProperties_oneOf')">oneOf</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i6" onclick="anchorLink('sources_additionalProperties_oneOf_i6')">item 6</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i6_mode" onclick="anchorLink('sources_additionalProperties_oneOf_i6_mode')">mode</a></div><h4>Mode of this source (read, write, read/write)</h4><span class="badge badge-dark value-type">Type: enum (of string)</span> <span class="badge badge-success default-value">Default: "read"</span><br/>
+<span class="description"><p>The mode gives an additional layer of permissions allowing to configure a Scout instance, giving read-only, write-only, or read and write permissions to that source. Default is read-only.</p>
+</span>
+
+    <div class="enum-value" id="sources_additionalProperties_oneOf_i0_mode_enum">
+            <h4>Must be one of:</h4>
+            <ul class="list-group"><li class="list-group-item enum-item">"read"</li><li class="list-group-item enum-item">"write"</li><li class="list-group-item enum-item">"read/write"</li></ul>
+            </div>
+        
+
+        
+        
+
+        
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="accordionsources_additionalProperties_oneOf_i6_owner">
+    <div class="card">
+        <div class="card-header" id="headingsources_additionalProperties_oneOf_i6_owner">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#sources_additionalProperties_oneOf_i6_owner"
+                        aria-expanded="" aria-controls="sources_additionalProperties_oneOf_i6_owner" onclick="setAnchor('#sources_additionalProperties_oneOf_i6_owner')"><span class="property-name">owner</span></button>
+            </h2>
+        </div>
+
+        <div id="sources_additionalProperties_oneOf_i6_owner"
+             class="collapse property-definition-div" aria-labelledby="headingsources_additionalProperties_oneOf_i6_owner"
+             data-parent="#accordionsources_additionalProperties_oneOf_i6_owner">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources" onclick="anchorLink('sources')">sources</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties" onclick="anchorLink('sources_additionalProperties')">additionalProperties</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf" onclick="anchorLink('sources_additionalProperties_oneOf')">oneOf</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i6" onclick="anchorLink('sources_additionalProperties_oneOf_i6')">item 6</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i6_owner" onclick="anchorLink('sources_additionalProperties_oneOf_i6_owner')">owner</a></div><h4>Owner of this source (an email, usually of an employee or a team)</h4><span class="badge badge-dark value-type">Type: string</span><br/>
+
+        
+
+        
+        
+
+        
             </div>
         </div>
     </div>
@@ -10069,9 +10813,8 @@ or by automatically calling GCP's metadata endpoint (if run as a GCE or GKE work
                 d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
             />
         </svg>
-    <a href="#sources_additionalProperties_oneOf_i7_env" onclick="anchorLink('sources_additionalProperties_oneOf_i7_env')">env</a></div><br/>
-<span class="description"><p>Environment designation for this configuration</p>
-</span><div class="any-of-value" id="sources_additionalProperties_oneOf_i7_env_anyOf"><h2 class="handle">
+    <a href="#sources_additionalProperties_oneOf_i7_env" onclick="anchorLink('sources_additionalProperties_oneOf_i7_env')">env</a></div><h4>Environment of this source (prod, pre-prod, staging, test, dev)</h4><br/>
+<div class="any-of-value" id="sources_additionalProperties_oneOf_i7_env_anyOf"><h2 class="handle">
   <label>Any of</label>
 </h2><ul class="nav nav-tabs" id="tabssources_additionalProperties_oneOf_i7_env_anyOf_anyOf" role="tablist"><li class="nav-item">
             <a class="nav-link active anyOf-option"
@@ -10323,6 +11066,67 @@ or by automatically calling GCP's metadata endpoint (if run as a GCE or GKE work
         </div>
     </div>
 </div>
+<div class="accordion" id="accordionsources_additionalProperties_oneOf_i7_fetch_all_versions">
+    <div class="card">
+        <div class="card-header" id="headingsources_additionalProperties_oneOf_i7_fetch_all_versions">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#sources_additionalProperties_oneOf_i7_fetch_all_versions"
+                        aria-expanded="" aria-controls="sources_additionalProperties_oneOf_i7_fetch_all_versions" onclick="setAnchor('#sources_additionalProperties_oneOf_i7_fetch_all_versions')"><span class="property-name">fetch_all_versions</span></button>
+            </h2>
+        </div>
+
+        <div id="sources_additionalProperties_oneOf_i7_fetch_all_versions"
+             class="collapse property-definition-div" aria-labelledby="headingsources_additionalProperties_oneOf_i7_fetch_all_versions"
+             data-parent="#accordionsources_additionalProperties_oneOf_i7_fetch_all_versions">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources" onclick="anchorLink('sources')">sources</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties" onclick="anchorLink('sources_additionalProperties')">additionalProperties</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf" onclick="anchorLink('sources_additionalProperties_oneOf')">oneOf</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i7" onclick="anchorLink('sources_additionalProperties_oneOf_i7')">item 7</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i7_fetch_all_versions" onclick="anchorLink('sources_additionalProperties_oneOf_i7_fetch_all_versions')">fetch_all_versions</a></div><h4>Whether or not to collect all secret versions (default: false)</h4><span class="badge badge-dark value-type">Type: boolean</span> <span class="badge badge-success default-value">Default: true</span><br/>
+
+        
+
+        
+        
+
+        
+            </div>
+        </div>
+    </div>
+</div>
 <div class="accordion" id="accordionsources_additionalProperties_oneOf_i7_include">
     <div class="card">
         <div class="card-header" id="headingsources_additionalProperties_oneOf_i7_include">
@@ -10430,6 +11234,134 @@ or by automatically calling GCP's metadata endpoint (if run as a GCE or GKE work
 <a href="#sources_additionalProperties_oneOf_i0_exclude_items" onclick="anchorLink('sources_additionalProperties_oneOf_i0_exclude_items')" class="ref-link">Same definition as sources_additionalProperties_oneOf_i0_exclude_items</a>
         </div>
     </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="accordionsources_additionalProperties_oneOf_i7_mode">
+    <div class="card">
+        <div class="card-header" id="headingsources_additionalProperties_oneOf_i7_mode">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#sources_additionalProperties_oneOf_i7_mode"
+                        aria-expanded="" aria-controls="sources_additionalProperties_oneOf_i7_mode" onclick="setAnchor('#sources_additionalProperties_oneOf_i7_mode')"><span class="property-name">mode</span></button>
+            </h2>
+        </div>
+
+        <div id="sources_additionalProperties_oneOf_i7_mode"
+             class="collapse property-definition-div" aria-labelledby="headingsources_additionalProperties_oneOf_i7_mode"
+             data-parent="#accordionsources_additionalProperties_oneOf_i7_mode">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources" onclick="anchorLink('sources')">sources</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties" onclick="anchorLink('sources_additionalProperties')">additionalProperties</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf" onclick="anchorLink('sources_additionalProperties_oneOf')">oneOf</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i7" onclick="anchorLink('sources_additionalProperties_oneOf_i7')">item 7</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i7_mode" onclick="anchorLink('sources_additionalProperties_oneOf_i7_mode')">mode</a></div><h4>Mode of this source (read, write, read/write)</h4><span class="badge badge-dark value-type">Type: enum (of string)</span> <span class="badge badge-success default-value">Default: "read"</span><br/>
+<span class="description"><p>The mode gives an additional layer of permissions allowing to configure a Scout instance, giving read-only, write-only, or read and write permissions to that source. Default is read-only.</p>
+</span>
+
+    <div class="enum-value" id="sources_additionalProperties_oneOf_i0_mode_enum">
+            <h4>Must be one of:</h4>
+            <ul class="list-group"><li class="list-group-item enum-item">"read"</li><li class="list-group-item enum-item">"write"</li><li class="list-group-item enum-item">"read/write"</li></ul>
+            </div>
+        
+
+        
+        
+
+        
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="accordionsources_additionalProperties_oneOf_i7_owner">
+    <div class="card">
+        <div class="card-header" id="headingsources_additionalProperties_oneOf_i7_owner">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#sources_additionalProperties_oneOf_i7_owner"
+                        aria-expanded="" aria-controls="sources_additionalProperties_oneOf_i7_owner" onclick="setAnchor('#sources_additionalProperties_oneOf_i7_owner')"><span class="property-name">owner</span></button>
+            </h2>
+        </div>
+
+        <div id="sources_additionalProperties_oneOf_i7_owner"
+             class="collapse property-definition-div" aria-labelledby="headingsources_additionalProperties_oneOf_i7_owner"
+             data-parent="#accordionsources_additionalProperties_oneOf_i7_owner">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources" onclick="anchorLink('sources')">sources</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties" onclick="anchorLink('sources_additionalProperties')">additionalProperties</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf" onclick="anchorLink('sources_additionalProperties_oneOf')">oneOf</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i7" onclick="anchorLink('sources_additionalProperties_oneOf_i7')">item 7</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i7_owner" onclick="anchorLink('sources_additionalProperties_oneOf_i7_owner')">owner</a></div><h4>Owner of this source (an email, usually of an employee or a team)</h4><span class="badge badge-dark value-type">Type: string</span><br/>
+
+        
+
+        
+        
+
+        
             </div>
         </div>
     </div>
@@ -11993,7 +12925,7 @@ or by automatically calling GCP's metadata endpoint (if run as a GCE or GKE work
                 d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
             />
         </svg>
-    <a href="#sources_additionalProperties_oneOf_i8_env" onclick="anchorLink('sources_additionalProperties_oneOf_i8_env')">env</a></div><br/>
+    <a href="#sources_additionalProperties_oneOf_i8_env" onclick="anchorLink('sources_additionalProperties_oneOf_i8_env')">env</a></div><h4>Environment of this source (prod, pre-prod, staging, test, dev)</h4><br/>
 <div class="any-of-value" id="sources_additionalProperties_oneOf_i8_env_anyOf"><h2 class="handle">
   <label>Any of</label>
 </h2><ul class="nav nav-tabs" id="tabssources_additionalProperties_oneOf_i8_env_anyOf_anyOf" role="tablist"><li class="nav-item">
@@ -12251,7 +13183,7 @@ or by automatically calling GCP's metadata endpoint (if run as a GCE or GKE work
         <div class="card-header" id="headingsources_additionalProperties_oneOf_i8_fetch_all_versions">
             <h2 class="mb-0">
                 <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#sources_additionalProperties_oneOf_i8_fetch_all_versions"
-                        aria-expanded="" aria-controls="sources_additionalProperties_oneOf_i8_fetch_all_versions" onclick="setAnchor('#sources_additionalProperties_oneOf_i8_fetch_all_versions')"><span class="property-name">fetch_all_versions</span> <span class="badge badge-warning required-property">Required</span></button>
+                        aria-expanded="" aria-controls="sources_additionalProperties_oneOf_i8_fetch_all_versions" onclick="setAnchor('#sources_additionalProperties_oneOf_i8_fetch_all_versions')"><span class="property-name">fetch_all_versions</span></button>
             </h2>
         </div>
 
@@ -12295,7 +13227,7 @@ or by automatically calling GCP's metadata endpoint (if run as a GCE or GKE work
                 d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
             />
         </svg>
-    <a href="#sources_additionalProperties_oneOf_i8_fetch_all_versions" onclick="anchorLink('sources_additionalProperties_oneOf_i8_fetch_all_versions')">fetch_all_versions</a></div><h4>Whether or not to collect all secret versions</h4><span class="badge badge-dark value-type">Type: boolean</span><br/>
+    <a href="#sources_additionalProperties_oneOf_i8_fetch_all_versions" onclick="anchorLink('sources_additionalProperties_oneOf_i8_fetch_all_versions')">fetch_all_versions</a></div><h4>Whether or not to collect all secret versions (default: false)</h4><span class="badge badge-dark value-type">Type: boolean</span> <span class="badge badge-success default-value">Default: true</span><br/>
 
         
 
@@ -12467,7 +13399,7 @@ or by automatically calling GCP's metadata endpoint (if run as a GCE or GKE work
                 d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
             />
         </svg>
-    <a href="#sources_additionalProperties_oneOf_i8_mode" onclick="anchorLink('sources_additionalProperties_oneOf_i8_mode')">mode</a></div><span class="badge badge-dark value-type">Type: enum (of string)</span> <span class="badge badge-success default-value">Default: "read"</span><br/>
+    <a href="#sources_additionalProperties_oneOf_i8_mode" onclick="anchorLink('sources_additionalProperties_oneOf_i8_mode')">mode</a></div><h4>Mode of this source (read, write, read/write)</h4><span class="badge badge-dark value-type">Type: enum (of string)</span> <span class="badge badge-success default-value">Default: "read"</span><br/>
 <span class="description"><p>The mode gives an additional layer of permissions allowing to configure a Scout instance, giving read-only, write-only, or read and write permissions to that source. Default is read-only.</p>
 </span>
 
@@ -12475,6 +13407,67 @@ or by automatically calling GCP's metadata endpoint (if run as a GCE or GKE work
             <h4>Must be one of:</h4>
             <ul class="list-group"><li class="list-group-item enum-item">"read"</li><li class="list-group-item enum-item">"write"</li><li class="list-group-item enum-item">"read/write"</li></ul>
             </div>
+        
+
+        
+        
+
+        
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="accordionsources_additionalProperties_oneOf_i8_owner">
+    <div class="card">
+        <div class="card-header" id="headingsources_additionalProperties_oneOf_i8_owner">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#sources_additionalProperties_oneOf_i8_owner"
+                        aria-expanded="" aria-controls="sources_additionalProperties_oneOf_i8_owner" onclick="setAnchor('#sources_additionalProperties_oneOf_i8_owner')"><span class="property-name">owner</span></button>
+            </h2>
+        </div>
+
+        <div id="sources_additionalProperties_oneOf_i8_owner"
+             class="collapse property-definition-div" aria-labelledby="headingsources_additionalProperties_oneOf_i8_owner"
+             data-parent="#accordionsources_additionalProperties_oneOf_i8_owner">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources" onclick="anchorLink('sources')">sources</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties" onclick="anchorLink('sources_additionalProperties')">additionalProperties</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf" onclick="anchorLink('sources_additionalProperties_oneOf')">oneOf</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i8" onclick="anchorLink('sources_additionalProperties_oneOf_i8')">item 8</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i8_owner" onclick="anchorLink('sources_additionalProperties_oneOf_i8_owner')">owner</a></div><h4>Owner of this source (an email, usually of an employee or a team)</h4><span class="badge badge-dark value-type">Type: string</span><br/>
+
         
 
         
@@ -13399,7 +14392,7 @@ or by automatically calling GCP's metadata endpoint (if run as a GCE or GKE work
                 d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
             />
         </svg>
-    <a href="#sources_additionalProperties_oneOf_i9_env" onclick="anchorLink('sources_additionalProperties_oneOf_i9_env')">env</a></div><br/>
+    <a href="#sources_additionalProperties_oneOf_i9_env" onclick="anchorLink('sources_additionalProperties_oneOf_i9_env')">env</a></div><h4>Environment of this source (prod, pre-prod, staging, test, dev)</h4><br/>
 <div class="any-of-value" id="sources_additionalProperties_oneOf_i9_env_anyOf"><h2 class="handle">
   <label>Any of</label>
 </h2><ul class="nav nav-tabs" id="tabssources_additionalProperties_oneOf_i9_env_anyOf_anyOf" role="tablist"><li class="nav-item">
@@ -13657,7 +14650,7 @@ or by automatically calling GCP's metadata endpoint (if run as a GCE or GKE work
         <div class="card-header" id="headingsources_additionalProperties_oneOf_i9_fetch_all_versions">
             <h2 class="mb-0">
                 <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#sources_additionalProperties_oneOf_i9_fetch_all_versions"
-                        aria-expanded="" aria-controls="sources_additionalProperties_oneOf_i9_fetch_all_versions" onclick="setAnchor('#sources_additionalProperties_oneOf_i9_fetch_all_versions')"><span class="property-name">fetch_all_versions</span> <span class="badge badge-warning required-property">Required</span></button>
+                        aria-expanded="" aria-controls="sources_additionalProperties_oneOf_i9_fetch_all_versions" onclick="setAnchor('#sources_additionalProperties_oneOf_i9_fetch_all_versions')"><span class="property-name">fetch_all_versions</span></button>
             </h2>
         </div>
 
@@ -13701,7 +14694,7 @@ or by automatically calling GCP's metadata endpoint (if run as a GCE or GKE work
                 d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
             />
         </svg>
-    <a href="#sources_additionalProperties_oneOf_i9_fetch_all_versions" onclick="anchorLink('sources_additionalProperties_oneOf_i9_fetch_all_versions')">fetch_all_versions</a></div><h4>Whether or not to collect all secret versions</h4><span class="badge badge-dark value-type">Type: boolean</span><br/>
+    <a href="#sources_additionalProperties_oneOf_i9_fetch_all_versions" onclick="anchorLink('sources_additionalProperties_oneOf_i9_fetch_all_versions')">fetch_all_versions</a></div><h4>Whether or not to collect all secret versions (default: false)</h4><span class="badge badge-dark value-type">Type: boolean</span> <span class="badge badge-success default-value">Default: true</span><br/>
 
         
 
@@ -13873,7 +14866,7 @@ or by automatically calling GCP's metadata endpoint (if run as a GCE or GKE work
                 d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
             />
         </svg>
-    <a href="#sources_additionalProperties_oneOf_i9_mode" onclick="anchorLink('sources_additionalProperties_oneOf_i9_mode')">mode</a></div><span class="badge badge-dark value-type">Type: enum (of string)</span> <span class="badge badge-success default-value">Default: "read"</span><br/>
+    <a href="#sources_additionalProperties_oneOf_i9_mode" onclick="anchorLink('sources_additionalProperties_oneOf_i9_mode')">mode</a></div><h4>Mode of this source (read, write, read/write)</h4><span class="badge badge-dark value-type">Type: enum (of string)</span> <span class="badge badge-success default-value">Default: "read"</span><br/>
 <span class="description"><p>The mode gives an additional layer of permissions allowing to configure a Scout instance, giving read-only, write-only, or read and write permissions to that source. Default is read-only.</p>
 </span>
 
@@ -13881,6 +14874,67 @@ or by automatically calling GCP's metadata endpoint (if run as a GCE or GKE work
             <h4>Must be one of:</h4>
             <ul class="list-group"><li class="list-group-item enum-item">"read"</li><li class="list-group-item enum-item">"write"</li><li class="list-group-item enum-item">"read/write"</li></ul>
             </div>
+        
+
+        
+        
+
+        
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="accordionsources_additionalProperties_oneOf_i9_owner">
+    <div class="card">
+        <div class="card-header" id="headingsources_additionalProperties_oneOf_i9_owner">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#sources_additionalProperties_oneOf_i9_owner"
+                        aria-expanded="" aria-controls="sources_additionalProperties_oneOf_i9_owner" onclick="setAnchor('#sources_additionalProperties_oneOf_i9_owner')"><span class="property-name">owner</span></button>
+            </h2>
+        </div>
+
+        <div id="sources_additionalProperties_oneOf_i9_owner"
+             class="collapse property-definition-div" aria-labelledby="headingsources_additionalProperties_oneOf_i9_owner"
+             data-parent="#accordionsources_additionalProperties_oneOf_i9_owner">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources" onclick="anchorLink('sources')">sources</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties" onclick="anchorLink('sources_additionalProperties')">additionalProperties</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf" onclick="anchorLink('sources_additionalProperties_oneOf')">oneOf</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i9" onclick="anchorLink('sources_additionalProperties_oneOf_i9')">item 9</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i9_owner" onclick="anchorLink('sources_additionalProperties_oneOf_i9_owner')">owner</a></div><h4>Owner of this source (an email, usually of an employee or a team)</h4><span class="badge badge-dark value-type">Type: string</span><br/>
+
         
 
         
@@ -14360,7 +15414,7 @@ If you use an Akeyless Gateway, you must use the complete URL. Example: https://
                 d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
             />
         </svg>
-    <a href="#sources_additionalProperties_oneOf_i10_env" onclick="anchorLink('sources_additionalProperties_oneOf_i10_env')">env</a></div><br/>
+    <a href="#sources_additionalProperties_oneOf_i10_env" onclick="anchorLink('sources_additionalProperties_oneOf_i10_env')">env</a></div><h4>Environment of this source (prod, pre-prod, staging, test, dev)</h4><br/>
 <div class="any-of-value" id="sources_additionalProperties_oneOf_i10_env_anyOf"><h2 class="handle">
   <label>Any of</label>
 </h2><ul class="nav nav-tabs" id="tabssources_additionalProperties_oneOf_i10_env_anyOf_anyOf" role="tablist"><li class="nav-item">
@@ -14618,7 +15672,7 @@ If you use an Akeyless Gateway, you must use the complete URL. Example: https://
         <div class="card-header" id="headingsources_additionalProperties_oneOf_i10_fetch_all_versions">
             <h2 class="mb-0">
                 <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#sources_additionalProperties_oneOf_i10_fetch_all_versions"
-                        aria-expanded="" aria-controls="sources_additionalProperties_oneOf_i10_fetch_all_versions" onclick="setAnchor('#sources_additionalProperties_oneOf_i10_fetch_all_versions')"><span class="property-name">fetch_all_versions</span> <span class="badge badge-warning required-property">Required</span></button>
+                        aria-expanded="" aria-controls="sources_additionalProperties_oneOf_i10_fetch_all_versions" onclick="setAnchor('#sources_additionalProperties_oneOf_i10_fetch_all_versions')"><span class="property-name">fetch_all_versions</span></button>
             </h2>
         </div>
 
@@ -14662,7 +15716,7 @@ If you use an Akeyless Gateway, you must use the complete URL. Example: https://
                 d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
             />
         </svg>
-    <a href="#sources_additionalProperties_oneOf_i10_fetch_all_versions" onclick="anchorLink('sources_additionalProperties_oneOf_i10_fetch_all_versions')">fetch_all_versions</a></div><h4>Whether or not to collect all secret versions</h4><span class="badge badge-dark value-type">Type: boolean</span><br/>
+    <a href="#sources_additionalProperties_oneOf_i10_fetch_all_versions" onclick="anchorLink('sources_additionalProperties_oneOf_i10_fetch_all_versions')">fetch_all_versions</a></div><h4>Whether or not to collect all secret versions (default: false)</h4><span class="badge badge-dark value-type">Type: boolean</span> <span class="badge badge-success default-value">Default: true</span><br/>
 
         
 
@@ -14834,7 +15888,7 @@ If you use an Akeyless Gateway, you must use the complete URL. Example: https://
                 d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
             />
         </svg>
-    <a href="#sources_additionalProperties_oneOf_i10_mode" onclick="anchorLink('sources_additionalProperties_oneOf_i10_mode')">mode</a></div><span class="badge badge-dark value-type">Type: enum (of string)</span> <span class="badge badge-success default-value">Default: "read"</span><br/>
+    <a href="#sources_additionalProperties_oneOf_i10_mode" onclick="anchorLink('sources_additionalProperties_oneOf_i10_mode')">mode</a></div><h4>Mode of this source (read, write, read/write)</h4><span class="badge badge-dark value-type">Type: enum (of string)</span> <span class="badge badge-success default-value">Default: "read"</span><br/>
 <span class="description"><p>The mode gives an additional layer of permissions allowing to configure a Scout instance, giving read-only, write-only, or read and write permissions to that source. Default is read-only.</p>
 </span>
 
@@ -14852,12 +15906,73 @@ If you use an Akeyless Gateway, you must use the complete URL. Example: https://
         </div>
     </div>
 </div>
+<div class="accordion" id="accordionsources_additionalProperties_oneOf_i10_owner">
+    <div class="card">
+        <div class="card-header" id="headingsources_additionalProperties_oneOf_i10_owner">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#sources_additionalProperties_oneOf_i10_owner"
+                        aria-expanded="" aria-controls="sources_additionalProperties_oneOf_i10_owner" onclick="setAnchor('#sources_additionalProperties_oneOf_i10_owner')"><span class="property-name">owner</span></button>
+            </h2>
+        </div>
+
+        <div id="sources_additionalProperties_oneOf_i10_owner"
+             class="collapse property-definition-div" aria-labelledby="headingsources_additionalProperties_oneOf_i10_owner"
+             data-parent="#accordionsources_additionalProperties_oneOf_i10_owner">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources" onclick="anchorLink('sources')">sources</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties" onclick="anchorLink('sources_additionalProperties')">additionalProperties</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf" onclick="anchorLink('sources_additionalProperties_oneOf')">oneOf</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i10" onclick="anchorLink('sources_additionalProperties_oneOf_i10')">item 10</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i10_owner" onclick="anchorLink('sources_additionalProperties_oneOf_i10_owner')">owner</a></div><h4>Owner of this source (an email, usually of an employee or a team)</h4><span class="badge badge-dark value-type">Type: string</span><br/>
+
+        
+
+        
+        
+
+        
+            </div>
+        </div>
+    </div>
+</div>
 <div class="accordion" id="accordionsources_additionalProperties_oneOf_i10_auth_mode">
     <div class="card">
         <div class="card-header" id="headingsources_additionalProperties_oneOf_i10_auth_mode">
             <h2 class="mb-0">
                 <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#sources_additionalProperties_oneOf_i10_auth_mode"
-                        aria-expanded="" aria-controls="sources_additionalProperties_oneOf_i10_auth_mode" onclick="setAnchor('#sources_additionalProperties_oneOf_i10_auth_mode')"><span class="property-name">auth_mode</span></button>
+                        aria-expanded="" aria-controls="sources_additionalProperties_oneOf_i10_auth_mode" onclick="setAnchor('#sources_additionalProperties_oneOf_i10_auth_mode')"><span class="property-name">auth_mode</span> <span class="badge badge-warning required-property">Required</span></button>
             </h2>
         </div>
 
@@ -15190,7 +16305,7 @@ If you use an Akeyless Gateway, you must use the complete URL. Example: https://
                 d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
             />
         </svg>
-    <a href="#sources_additionalProperties_oneOf_i11_env" onclick="anchorLink('sources_additionalProperties_oneOf_i11_env')">env</a></div><br/>
+    <a href="#sources_additionalProperties_oneOf_i11_env" onclick="anchorLink('sources_additionalProperties_oneOf_i11_env')">env</a></div><h4>Environment of this source (prod, pre-prod, staging, test, dev)</h4><br/>
 <div class="any-of-value" id="sources_additionalProperties_oneOf_i11_env_anyOf"><h2 class="handle">
   <label>Any of</label>
 </h2><ul class="nav nav-tabs" id="tabssources_additionalProperties_oneOf_i11_env_anyOf_anyOf" role="tablist"><li class="nav-item">
@@ -15443,6 +16558,67 @@ If you use an Akeyless Gateway, you must use the complete URL. Example: https://
         </div>
     </div>
 </div>
+<div class="accordion" id="accordionsources_additionalProperties_oneOf_i11_fetch_all_versions">
+    <div class="card">
+        <div class="card-header" id="headingsources_additionalProperties_oneOf_i11_fetch_all_versions">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#sources_additionalProperties_oneOf_i11_fetch_all_versions"
+                        aria-expanded="" aria-controls="sources_additionalProperties_oneOf_i11_fetch_all_versions" onclick="setAnchor('#sources_additionalProperties_oneOf_i11_fetch_all_versions')"><span class="property-name">fetch_all_versions</span></button>
+            </h2>
+        </div>
+
+        <div id="sources_additionalProperties_oneOf_i11_fetch_all_versions"
+             class="collapse property-definition-div" aria-labelledby="headingsources_additionalProperties_oneOf_i11_fetch_all_versions"
+             data-parent="#accordionsources_additionalProperties_oneOf_i11_fetch_all_versions">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources" onclick="anchorLink('sources')">sources</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties" onclick="anchorLink('sources_additionalProperties')">additionalProperties</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf" onclick="anchorLink('sources_additionalProperties_oneOf')">oneOf</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i11" onclick="anchorLink('sources_additionalProperties_oneOf_i11')">item 11</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i11_fetch_all_versions" onclick="anchorLink('sources_additionalProperties_oneOf_i11_fetch_all_versions')">fetch_all_versions</a></div><h4>Whether or not to collect all secret versions (default: false)</h4><span class="badge badge-dark value-type">Type: boolean</span> <span class="badge badge-success default-value">Default: true</span><br/>
+
+        
+
+        
+        
+
+        
+            </div>
+        </div>
+    </div>
+</div>
 <div class="accordion" id="accordionsources_additionalProperties_oneOf_i11_include">
     <div class="card">
         <div class="card-header" id="headingsources_additionalProperties_oneOf_i11_include">
@@ -15603,7 +16779,7 @@ If you use an Akeyless Gateway, you must use the complete URL. Example: https://
                 d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
             />
         </svg>
-    <a href="#sources_additionalProperties_oneOf_i11_mode" onclick="anchorLink('sources_additionalProperties_oneOf_i11_mode')">mode</a></div><span class="badge badge-dark value-type">Type: enum (of string)</span> <span class="badge badge-success default-value">Default: "read"</span><br/>
+    <a href="#sources_additionalProperties_oneOf_i11_mode" onclick="anchorLink('sources_additionalProperties_oneOf_i11_mode')">mode</a></div><h4>Mode of this source (read, write, read/write)</h4><span class="badge badge-dark value-type">Type: enum (of string)</span> <span class="badge badge-success default-value">Default: "read"</span><br/>
 <span class="description"><p>The mode gives an additional layer of permissions allowing to configure a Scout instance, giving read-only, write-only, or read and write permissions to that source. Default is read-only.</p>
 </span>
 
@@ -15611,6 +16787,67 @@ If you use an Akeyless Gateway, you must use the complete URL. Example: https://
             <h4>Must be one of:</h4>
             <ul class="list-group"><li class="list-group-item enum-item">"read"</li><li class="list-group-item enum-item">"write"</li><li class="list-group-item enum-item">"read/write"</li></ul>
             </div>
+        
+
+        
+        
+
+        
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accordion" id="accordionsources_additionalProperties_oneOf_i11_owner">
+    <div class="card">
+        <div class="card-header" id="headingsources_additionalProperties_oneOf_i11_owner">
+            <h2 class="mb-0">
+                <button class="btn btn-link property-name-button" type="button" data-toggle="collapse" data-target="#sources_additionalProperties_oneOf_i11_owner"
+                        aria-expanded="" aria-controls="sources_additionalProperties_oneOf_i11_owner" onclick="setAnchor('#sources_additionalProperties_oneOf_i11_owner')"><span class="property-name">owner</span></button>
+            </h2>
+        </div>
+
+        <div id="sources_additionalProperties_oneOf_i11_owner"
+             class="collapse property-definition-div" aria-labelledby="headingsources_additionalProperties_oneOf_i11_owner"
+             data-parent="#accordionsources_additionalProperties_oneOf_i11_owner">
+            <div class="card-body pl-5">
+
+    <div class="breadcrumbs">root
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources" onclick="anchorLink('sources')">sources</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties" onclick="anchorLink('sources_additionalProperties')">additionalProperties</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf" onclick="anchorLink('sources_additionalProperties_oneOf')">oneOf</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i11" onclick="anchorLink('sources_additionalProperties_oneOf_i11')">item 11</a>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fill-rule="evenodd"
+                d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"
+            />
+        </svg>
+    <a href="#sources_additionalProperties_oneOf_i11_owner" onclick="anchorLink('sources_additionalProperties_oneOf_i11_owner')">owner</a></div><h4>Owner of this source (an email, usually of an employee or a team)</h4><span class="badge badge-dark value-type">Type: string</span><br/>
+
         
 
         

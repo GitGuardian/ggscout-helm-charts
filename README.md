@@ -30,6 +30,8 @@ inventory:
           token: "${HASHICORP_VAULT_TOKEN}"
         fetch_all_versions: true
         mode: "read/write" # Can be `read`, `write` or `read/write` depending on wether fetch and/or sync are enabled
+        env: "production" # Can be 'production', 'pre-production', 'staging', 'test', or 'dev'
+        owner: "contact@mydomain.com" # Optional: email of the person or team responsible for this source
       gitlabci:
         type: gitlabci
         token: "${GITLAB_TOKEN}"
