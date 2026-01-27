@@ -69,6 +69,7 @@
           }
         },
         "AWSIAMConfig": {
+          "description": "Common configuration fields shared by all source configs",
           "type": "object",
           "required": [
             "aws_account_id"
@@ -78,6 +79,7 @@
               "type": "string"
             },
             "env": {
+              "title": "Environment of this source (prod, pre-prod, staging, test, dev)",
               "anyOf": [
                 {
                   "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
@@ -99,6 +101,11 @@
               "type": "string",
               "nullable": true
             },
+            "fetch_all_versions": {
+              "title": "Whether or not to collect all secret versions (default: false)",
+              "default": true,
+              "type": "boolean"
+            },
             "include": {
               "type": "array",
               "items": {
@@ -114,7 +121,13 @@
                 "write",
                 "read/write"
               ],
+              "title": "Mode of this source (read, write, read/write)",
               "default": "read"
+            },
+            "owner": {
+              "title": "Owner of this source (an email, usually of an employee or a team)",
+              "type": "string",
+              "nullable": true
             },
             "profile_name": {
               "type": "string",
@@ -170,8 +183,7 @@
               "required": [
                 "access_id",
                 "access_key",
-                "auth_mode",
-                "fetch_all_versions"
+                "auth_mode"
               ],
               "properties": {
                 "access_id": {
@@ -197,6 +209,7 @@
                   "format": "uri"
                 },
                 "env": {
+                  "title": "Environment of this source (prod, pre-prod, staging, test, dev)",
                   "anyOf": [
                     {
                       "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
@@ -215,7 +228,8 @@
                   "nullable": true
                 },
                 "fetch_all_versions": {
-                  "title": "Whether or not to collect all secret versions",
+                  "title": "Whether or not to collect all secret versions (default: false)",
+                  "default": true,
                   "type": "boolean"
                 },
                 "include": {
@@ -226,8 +240,14 @@
                   "nullable": true
                 },
                 "mode": {
+                  "title": "Mode of this source (read, write, read/write)",
                   "default": "read",
                   "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Mode"
+                },
+                "owner": {
+                  "title": "Owner of this source (an email, usually of an employee or a team)",
+                  "type": "string",
+                  "nullable": true
                 }
               }
             }
@@ -504,13 +524,14 @@
           ]
         },
         "AzureKeyVaultConfig": {
+          "description": "Common configuration fields shared by all source configs",
           "type": "object",
           "required": [
-            "subscription_id",
-            "fetch_all_versions"
+            "subscription_id"
           ],
           "properties": {
             "env": {
+              "title": "Environment of this source (prod, pre-prod, staging, test, dev)",
               "anyOf": [
                 {
                   "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
@@ -529,7 +550,8 @@
               "nullable": true
             },
             "fetch_all_versions": {
-              "title": "Whether or not to collect all secret versions",
+              "title": "Whether or not to collect all secret versions (default: false)",
+              "default": true,
               "type": "boolean"
             },
             "include": {
@@ -547,7 +569,13 @@
                 "write",
                 "read/write"
               ],
+              "title": "Mode of this source (read, write, read/write)",
               "default": "read"
+            },
+            "owner": {
+              "title": "Owner of this source (an email, usually of an employee or a team)",
+              "type": "string",
+              "nullable": true
             },
             "subscription_id": {
               "type": "string"
@@ -577,17 +605,18 @@
           }
         },
         "CyberArkSaaSConfig": {
+          "description": "Common configuration fields shared by all source configs",
           "type": "object",
           "required": [
             "auth",
-            "subdomain",
-            "fetch_all_versions"
+            "subdomain"
           ],
           "properties": {
             "auth": {
               "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/AuthMode3"
             },
             "env": {
+              "title": "Environment of this source (prod, pre-prod, staging, test, dev)",
               "anyOf": [
                 {
                   "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
@@ -606,7 +635,8 @@
               "nullable": true
             },
             "fetch_all_versions": {
-              "title": "Whether or not to collect all secret versions",
+              "title": "Whether or not to collect all secret versions (default: false)",
+              "default": true,
               "type": "boolean"
             },
             "include": {
@@ -624,7 +654,13 @@
                 "write",
                 "read/write"
               ],
+              "title": "Mode of this source (read, write, read/write)",
               "default": "read"
+            },
+            "owner": {
+              "title": "Owner of this source (an email, usually of an employee or a team)",
+              "type": "string",
+              "nullable": true
             },
             "subdomain": {
               "title": "The CyberArk SaaS subdomain",
@@ -659,8 +695,7 @@
                 "password",
                 "auth_mode",
                 "server_url",
-                "account",
-                "fetch_all_versions"
+                "account"
               ],
               "properties": {
                 "password": {
@@ -684,6 +719,7 @@
                   "type": "string"
                 },
                 "env": {
+                  "title": "Environment of this source (prod, pre-prod, staging, test, dev)",
                   "anyOf": [
                     {
                       "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
@@ -702,7 +738,8 @@
                   "nullable": true
                 },
                 "fetch_all_versions": {
-                  "title": "Whether or not to collect all secret versions",
+                  "title": "Whether or not to collect all secret versions (default: false)",
+                  "default": true,
                   "type": "boolean"
                 },
                 "include": {
@@ -713,8 +750,14 @@
                   "nullable": true
                 },
                 "mode": {
+                  "title": "Mode of this source (read, write, read/write)",
                   "default": "read",
                   "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Mode"
+                },
+                "owner": {
+                  "title": "Owner of this source (an email, usually of an employee or a team)",
+                  "type": "string",
+                  "nullable": true
                 },
                 "server_url": {
                   "title": "The CyberArk Self-Hosted server URL",
@@ -730,8 +773,7 @@
                 "api_key",
                 "auth_mode",
                 "server_url",
-                "account",
-                "fetch_all_versions"
+                "account"
               ],
               "properties": {
                 "api_key": {
@@ -756,6 +798,7 @@
                   "type": "string"
                 },
                 "env": {
+                  "title": "Environment of this source (prod, pre-prod, staging, test, dev)",
                   "anyOf": [
                     {
                       "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
@@ -774,7 +817,8 @@
                   "nullable": true
                 },
                 "fetch_all_versions": {
-                  "title": "Whether or not to collect all secret versions",
+                  "title": "Whether or not to collect all secret versions (default: false)",
+                  "default": true,
                   "type": "boolean"
                 },
                 "include": {
@@ -785,8 +829,14 @@
                   "nullable": true
                 },
                 "mode": {
+                  "title": "Mode of this source (read, write, read/write)",
                   "default": "read",
                   "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Mode"
+                },
+                "owner": {
+                  "title": "Owner of this source (an email, usually of an employee or a team)",
+                  "type": "string",
+                  "nullable": true
                 },
                 "server_url": {
                   "title": "The CyberArk Self-Hosted server URL",
@@ -820,6 +870,7 @@
                   "const": "oauth"
                 },
                 "env": {
+                  "title": "Environment of this source (prod, pre-prod, staging, test, dev)",
                   "anyOf": [
                     {
                       "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
@@ -837,6 +888,11 @@
                   },
                   "nullable": true
                 },
+                "fetch_all_versions": {
+                  "title": "Whether or not to collect all secret versions (default: false)",
+                  "default": true,
+                  "type": "boolean"
+                },
                 "include": {
                   "type": "array",
                   "items": {
@@ -845,8 +901,14 @@
                   "nullable": true
                 },
                 "mode": {
+                  "title": "Mode of this source (read, write, read/write)",
                   "default": "read",
                   "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Mode"
+                },
+                "owner": {
+                  "title": "Owner of this source (an email, usually of an employee or a team)",
+                  "type": "string",
+                  "nullable": true
                 },
                 "tenant": {
                   "description": "Delinea tenant",
@@ -912,10 +974,10 @@
         "FetcherConfig": {
           "oneOf": [
             {
+              "description": "This fetcher fetches secrets from [HashiCorp Vault](https://www.hashicorp.com/products/vault)",
               "type": "object",
               "required": [
                 "vault_address",
-                "fetch_all_versions",
                 "type"
               ],
               "properties": {
@@ -1011,6 +1073,7 @@
                   "nullable": true
                 },
                 "env": {
+                  "title": "Environment of this source (prod, pre-prod, staging, test, dev)",
                   "anyOf": [
                     {
                       "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
@@ -1029,7 +1092,8 @@
                   "nullable": true
                 },
                 "fetch_all_versions": {
-                  "title": "Whether or not to collect all secret versions",
+                  "title": "Whether or not to collect all secret versions (default: false)",
+                  "default": true,
                   "type": "boolean"
                 },
                 "include": {
@@ -1047,6 +1111,7 @@
                     "write",
                     "read/write"
                   ],
+                  "title": "Mode of this source (read, write, read/write)",
                   "default": "read"
                 },
                 "namespaces": {
@@ -1055,6 +1120,11 @@
                   "items": {
                     "type": "string"
                   },
+                  "nullable": true
+                },
+                "owner": {
+                  "title": "Owner of this source (an email, usually of an employee or a team)",
+                  "type": "string",
                   "nullable": true
                 },
                 "path": {
@@ -1070,8 +1140,7 @@
                   "const": "hashicorpvault"
                 }
               },
-              "title": "HashiCorp Vault",
-              "description": "This fetcher fetches secrets from [HashiCorp Vault](https://www.hashicorp.com/products/vault)"
+              "title": "HashiCorp Vault"
             },
             {
               "type": "object",
@@ -1097,6 +1166,7 @@
                       "const": "kubeconfigfile"
                     },
                     "env": {
+                      "title": "Environment of this source (prod, pre-prod, staging, test, dev)",
                       "anyOf": [
                         {
                           "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
@@ -1114,6 +1184,11 @@
                       },
                       "nullable": true
                     },
+                    "fetch_all_versions": {
+                      "title": "Whether or not to collect all secret versions (default: false)",
+                      "default": true,
+                      "type": "boolean"
+                    },
                     "include": {
                       "type": "array",
                       "items": {
@@ -1121,12 +1196,22 @@
                       },
                       "nullable": true
                     },
+                    "mode": {
+                      "title": "Mode of this source (read, write, read/write)",
+                      "default": "read",
+                      "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Mode"
+                    },
                     "namespaces": {
                       "description": "Namespaces to read from. Can be a literal string or a glob expression to match\nmultiple namespaces.",
                       "type": "array",
                       "items": {
                         "type": "string"
                       },
+                      "nullable": true
+                    },
+                    "owner": {
+                      "title": "Owner of this source (an email, usually of an employee or a team)",
+                      "type": "string",
                       "nullable": true
                     },
                     "type": {
@@ -1157,6 +1242,7 @@
                       "const": "incluster"
                     },
                     "env": {
+                      "title": "Environment of this source (prod, pre-prod, staging, test, dev)",
                       "anyOf": [
                         {
                           "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
@@ -1174,6 +1260,11 @@
                       },
                       "nullable": true
                     },
+                    "fetch_all_versions": {
+                      "title": "Whether or not to collect all secret versions (default: false)",
+                      "default": true,
+                      "type": "boolean"
+                    },
                     "include": {
                       "type": "array",
                       "items": {
@@ -1181,12 +1272,22 @@
                       },
                       "nullable": true
                     },
+                    "mode": {
+                      "title": "Mode of this source (read, write, read/write)",
+                      "default": "read",
+                      "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Mode"
+                    },
                     "namespaces": {
                       "description": "Namespaces to read from. Can be a literal string or a glob expression to match\nmultiple namespaces.",
                       "type": "array",
                       "items": {
                         "type": "string"
                       },
+                      "nullable": true
+                    },
+                    "owner": {
+                      "title": "Owner of this source (an email, usually of an employee or a team)",
+                      "type": "string",
                       "nullable": true
                     },
                     "type": {
@@ -1199,6 +1300,7 @@
               ]
             },
             {
+              "description": "AWS IAM fetcher for IAM users, roles, groups, and policies",
               "type": "object",
               "required": [
                 "aws_account_id",
@@ -1209,6 +1311,7 @@
                   "type": "string"
                 },
                 "env": {
+                  "title": "Environment of this source (prod, pre-prod, staging, test, dev)",
                   "anyOf": [
                     {
                       "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
@@ -1230,6 +1333,11 @@
                   "type": "string",
                   "nullable": true
                 },
+                "fetch_all_versions": {
+                  "title": "Whether or not to collect all secret versions (default: false)",
+                  "default": true,
+                  "type": "boolean"
+                },
                 "include": {
                   "type": "array",
                   "items": {
@@ -1245,7 +1353,13 @@
                     "write",
                     "read/write"
                   ],
+                  "title": "Mode of this source (read, write, read/write)",
                   "default": "read"
+                },
+                "owner": {
+                  "title": "Owner of this source (an email, usually of an employee or a team)",
+                  "type": "string",
+                  "nullable": true
                 },
                 "profile_name": {
                   "type": "string",
@@ -1272,17 +1386,14 @@
                   "const": "awsiam"
                 }
               },
-              "title": "AWS IAM",
-              "description": "AWS IAM fetcher for IAM users, roles, groups, and policies"
+              "title": "AWS IAM"
             },
             {
+              "description": "AWS Secrets Manager fetcher",
               "type": "object",
-              "required": [
-                "fetch_all_versions",
-                "type"
-              ],
               "properties": {
                 "env": {
+                  "title": "Environment of this source (prod, pre-prod, staging, test, dev)",
                   "anyOf": [
                     {
                       "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
@@ -1301,7 +1412,8 @@
                   "nullable": true
                 },
                 "fetch_all_versions": {
-                  "title": "Whether or not to collect all secret versions",
+                  "title": "Whether or not to collect all secret versions (default: false)",
+                  "default": true,
                   "type": "boolean"
                 },
                 "include": {
@@ -1319,7 +1431,13 @@
                     "write",
                     "read/write"
                   ],
+                  "title": "Mode of this source (read, write, read/write)",
                   "default": "read"
+                },
+                "owner": {
+                  "title": "Owner of this source (an email, usually of an employee or a team)",
+                  "type": "string",
+                  "nullable": true
                 },
                 "profile_name": {
                   "type": "string",
@@ -1338,14 +1456,13 @@
                 }
               },
               "title": "AWS Secrets Manager",
-              "description": "AWS Secrets Manager fetcher"
+              "required": [
+                "type"
+              ]
             },
             {
+              "description": "GCP Secret Manager fetcher",
               "type": "object",
-              "required": [
-                "fetch_all_versions",
-                "type"
-              ],
               "properties": {
                 "auth": {
                   "oneOf": [
@@ -1448,6 +1565,7 @@
                   }
                 },
                 "env": {
+                  "title": "Environment of this source (prod, pre-prod, staging, test, dev)",
                   "anyOf": [
                     {
                       "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
@@ -1466,7 +1584,8 @@
                   "nullable": true
                 },
                 "fetch_all_versions": {
-                  "title": "Whether or not to collect all secret versions",
+                  "title": "Whether or not to collect all secret versions (default: false)",
+                  "default": true,
                   "type": "boolean"
                 },
                 "include": {
@@ -1484,7 +1603,13 @@
                     "write",
                     "read/write"
                   ],
+                  "title": "Mode of this source (read, write, read/write)",
                   "default": "read"
+                },
+                "owner": {
+                  "title": "Owner of this source (an email, usually of an employee or a team)",
+                  "type": "string",
+                  "nullable": true
                 },
                 "projects": {
                   "type": "array",
@@ -1499,17 +1624,20 @@
                 }
               },
               "title": "GCP Secret Manager",
-              "description": "GCP Secret Manager fetcher"
+              "required": [
+                "type"
+              ]
             },
             {
+              "description": "Azure Key Vault fetcher",
               "type": "object",
               "required": [
                 "subscription_id",
-                "fetch_all_versions",
                 "type"
               ],
               "properties": {
                 "env": {
+                  "title": "Environment of this source (prod, pre-prod, staging, test, dev)",
                   "anyOf": [
                     {
                       "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
@@ -1528,7 +1656,8 @@
                   "nullable": true
                 },
                 "fetch_all_versions": {
-                  "title": "Whether or not to collect all secret versions",
+                  "title": "Whether or not to collect all secret versions (default: false)",
+                  "default": true,
                   "type": "boolean"
                 },
                 "include": {
@@ -1546,7 +1675,13 @@
                     "write",
                     "read/write"
                   ],
+                  "title": "Mode of this source (read, write, read/write)",
                   "default": "read"
+                },
+                "owner": {
+                  "title": "Owner of this source (an email, usually of an employee or a team)",
+                  "type": "string",
+                  "nullable": true
                 },
                 "subscription_id": {
                   "type": "string"
@@ -1556,10 +1691,10 @@
                   "const": "azurekeyvault"
                 }
               },
-              "title": "Azure Key Vault",
-              "description": "Azure Key Vault fetcher"
+              "title": "Azure Key Vault"
             },
             {
+              "description": "GitLab CI fetcher",
               "type": "object",
               "required": [
                 "url",
@@ -1568,6 +1703,7 @@
               ],
               "properties": {
                 "env": {
+                  "title": "Environment of this source (prod, pre-prod, staging, test, dev)",
                   "anyOf": [
                     {
                       "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
@@ -1585,11 +1721,32 @@
                   },
                   "nullable": true
                 },
+                "fetch_all_versions": {
+                  "title": "Whether or not to collect all secret versions (default: false)",
+                  "default": true,
+                  "type": "boolean"
+                },
                 "include": {
                   "type": "array",
                   "items": {
                     "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
                   },
+                  "nullable": true
+                },
+                "mode": {
+                  "description": "The mode gives an additional layer of permissions allowing to configure a Scout instance, giving read-only, write-only, or read and write permissions to that source. Default is read-only.",
+                  "type": "string",
+                  "enum": [
+                    "read",
+                    "write",
+                    "read/write"
+                  ],
+                  "title": "Mode of this source (read, write, read/write)",
+                  "default": "read"
+                },
+                "owner": {
+                  "title": "Owner of this source (an email, usually of an employee or a team)",
+                  "type": "string",
                   "nullable": true
                 },
                 "token": {
@@ -1604,8 +1761,7 @@
                   "const": "gitlabci"
                 }
               },
-              "title": "GitLab CI",
-              "description": "GitLab CI fetcher"
+              "title": "GitLab CI"
             },
             {
               "description": "GitLab Personal Access Token fetcher",
@@ -1621,56 +1777,7 @@
                   "type": "string"
                 },
                 "env": {
-                  "description": "Environment designation for this configuration",
-                  "anyOf": [
-                    {
-                      "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
-                    },
-                    {
-                      "const": null,
-                      "nullable": true
-                    }
-                  ]
-                },
-                "exclude": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
-                  },
-                  "nullable": true
-                },
-                "include": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
-                  },
-                  "nullable": true
-                },
-                "url": {
-                  "description": "GitLab instance URL (e.g., \"https://gitlab.com\" or \"https://gitlab.example.com\")",
-                  "type": "string",
-                  "format": "uri"
-                },
-                "type": {
-                  "type": "string",
-                  "const": "gitlabpat"
-                }
-              },
-              "title": "GitLab Personal Access Tokens"
-            },
-            {
-              "type": "object",
-              "required": [
-                "auth",
-                "subdomain",
-                "fetch_all_versions",
-                "type"
-              ],
-              "properties": {
-                "auth": {
-                  "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/AuthMode3"
-                },
-                "env": {
+                  "title": "Environment of this source (prod, pre-prod, staging, test, dev)",
                   "anyOf": [
                     {
                       "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
@@ -1689,7 +1796,8 @@
                   "nullable": true
                 },
                 "fetch_all_versions": {
-                  "title": "Whether or not to collect all secret versions",
+                  "title": "Whether or not to collect all secret versions (default: false)",
+                  "default": true,
                   "type": "boolean"
                 },
                 "include": {
@@ -1707,7 +1815,84 @@
                     "write",
                     "read/write"
                   ],
+                  "title": "Mode of this source (read, write, read/write)",
                   "default": "read"
+                },
+                "owner": {
+                  "title": "Owner of this source (an email, usually of an employee or a team)",
+                  "type": "string",
+                  "nullable": true
+                },
+                "url": {
+                  "description": "GitLab instance URL (e.g., \"https://gitlab.com\" or \"https://gitlab.example.com\")",
+                  "type": "string",
+                  "format": "uri"
+                },
+                "type": {
+                  "type": "string",
+                  "const": "gitlabpat"
+                }
+              },
+              "title": "GitLab Personal Access Tokens"
+            },
+            {
+              "description": "CyberArk SaaS fetcher",
+              "type": "object",
+              "required": [
+                "auth",
+                "subdomain",
+                "type"
+              ],
+              "properties": {
+                "auth": {
+                  "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/AuthMode3"
+                },
+                "env": {
+                  "title": "Environment of this source (prod, pre-prod, staging, test, dev)",
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
+                    },
+                    {
+                      "const": null,
+                      "nullable": true
+                    }
+                  ]
+                },
+                "exclude": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+                  },
+                  "nullable": true
+                },
+                "fetch_all_versions": {
+                  "title": "Whether or not to collect all secret versions (default: false)",
+                  "default": true,
+                  "type": "boolean"
+                },
+                "include": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+                  },
+                  "nullable": true
+                },
+                "mode": {
+                  "description": "The mode gives an additional layer of permissions allowing to configure a Scout instance, giving read-only, write-only, or read and write permissions to that source. Default is read-only.",
+                  "type": "string",
+                  "enum": [
+                    "read",
+                    "write",
+                    "read/write"
+                  ],
+                  "title": "Mode of this source (read, write, read/write)",
+                  "default": "read"
+                },
+                "owner": {
+                  "title": "Owner of this source (an email, usually of an employee or a team)",
+                  "type": "string",
+                  "nullable": true
                 },
                 "subdomain": {
                   "title": "The CyberArk SaaS subdomain",
@@ -1718,8 +1903,7 @@
                   "const": "cyberarksaas"
                 }
               },
-              "title": "CyberArk SaaS",
-              "description": "CyberArk SaaS fetcher"
+              "title": "CyberArk SaaS"
             },
             {
               "type": "object",
@@ -1732,7 +1916,6 @@
                     "auth_mode",
                     "server_url",
                     "account",
-                    "fetch_all_versions",
                     "type"
                   ],
                   "properties": {
@@ -1757,6 +1940,7 @@
                       "type": "string"
                     },
                     "env": {
+                      "title": "Environment of this source (prod, pre-prod, staging, test, dev)",
                       "anyOf": [
                         {
                           "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
@@ -1775,7 +1959,8 @@
                       "nullable": true
                     },
                     "fetch_all_versions": {
-                      "title": "Whether or not to collect all secret versions",
+                      "title": "Whether or not to collect all secret versions (default: false)",
+                      "default": true,
                       "type": "boolean"
                     },
                     "include": {
@@ -1786,8 +1971,14 @@
                       "nullable": true
                     },
                     "mode": {
+                      "title": "Mode of this source (read, write, read/write)",
                       "default": "read",
                       "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Mode"
+                    },
+                    "owner": {
+                      "title": "Owner of this source (an email, usually of an employee or a team)",
+                      "type": "string",
+                      "nullable": true
                     },
                     "server_url": {
                       "title": "The CyberArk Self-Hosted server URL",
@@ -1808,7 +1999,6 @@
                     "auth_mode",
                     "server_url",
                     "account",
-                    "fetch_all_versions",
                     "type"
                   ],
                   "properties": {
@@ -1834,6 +2024,7 @@
                       "type": "string"
                     },
                     "env": {
+                      "title": "Environment of this source (prod, pre-prod, staging, test, dev)",
                       "anyOf": [
                         {
                           "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
@@ -1852,7 +2043,8 @@
                       "nullable": true
                     },
                     "fetch_all_versions": {
-                      "title": "Whether or not to collect all secret versions",
+                      "title": "Whether or not to collect all secret versions (default: false)",
+                      "default": true,
                       "type": "boolean"
                     },
                     "include": {
@@ -1863,8 +2055,14 @@
                       "nullable": true
                     },
                     "mode": {
+                      "title": "Mode of this source (read, write, read/write)",
                       "default": "read",
                       "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Mode"
+                    },
+                    "owner": {
+                      "title": "Owner of this source (an email, usually of an employee or a team)",
+                      "type": "string",
+                      "nullable": true
                     },
                     "server_url": {
                       "title": "The CyberArk Self-Hosted server URL",
@@ -1888,7 +2086,6 @@
                     "access_id",
                     "access_key",
                     "auth_mode",
-                    "fetch_all_versions",
                     "type"
                   ],
                   "properties": {
@@ -1915,6 +2112,7 @@
                       "format": "uri"
                     },
                     "env": {
+                      "title": "Environment of this source (prod, pre-prod, staging, test, dev)",
                       "anyOf": [
                         {
                           "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
@@ -1933,7 +2131,8 @@
                       "nullable": true
                     },
                     "fetch_all_versions": {
-                      "title": "Whether or not to collect all secret versions",
+                      "title": "Whether or not to collect all secret versions (default: false)",
+                      "default": true,
                       "type": "boolean"
                     },
                     "include": {
@@ -1944,8 +2143,14 @@
                       "nullable": true
                     },
                     "mode": {
+                      "title": "Mode of this source (read, write, read/write)",
                       "default": "read",
                       "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Mode"
+                    },
+                    "owner": {
+                      "title": "Owner of this source (an email, usually of an employee or a team)",
+                      "type": "string",
+                      "nullable": true
                     },
                     "type": {
                       "type": "string",
@@ -1979,6 +2184,7 @@
                       "const": "oauth"
                     },
                     "env": {
+                      "title": "Environment of this source (prod, pre-prod, staging, test, dev)",
                       "anyOf": [
                         {
                           "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
@@ -1996,6 +2202,11 @@
                       },
                       "nullable": true
                     },
+                    "fetch_all_versions": {
+                      "title": "Whether or not to collect all secret versions (default: false)",
+                      "default": true,
+                      "type": "boolean"
+                    },
                     "include": {
                       "type": "array",
                       "items": {
@@ -2004,8 +2215,14 @@
                       "nullable": true
                     },
                     "mode": {
+                      "title": "Mode of this source (read, write, read/write)",
                       "default": "read",
                       "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Mode"
+                    },
+                    "owner": {
+                      "title": "Owner of this source (an email, usually of an employee or a team)",
+                      "type": "string",
+                      "nullable": true
                     },
                     "tenant": {
                       "description": "Delinea tenant",
@@ -2046,10 +2263,8 @@
           }
         },
         "GCPSecretManagerConfig": {
+          "description": "Common configuration fields shared by all source configs",
           "type": "object",
-          "required": [
-            "fetch_all_versions"
-          ],
           "properties": {
             "auth": {
               "oneOf": [
@@ -2152,6 +2367,7 @@
               }
             },
             "env": {
+              "title": "Environment of this source (prod, pre-prod, staging, test, dev)",
               "anyOf": [
                 {
                   "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
@@ -2170,7 +2386,8 @@
               "nullable": true
             },
             "fetch_all_versions": {
-              "title": "Whether or not to collect all secret versions",
+              "title": "Whether or not to collect all secret versions (default: false)",
+              "default": true,
               "type": "boolean"
             },
             "include": {
@@ -2188,7 +2405,13 @@
                 "write",
                 "read/write"
               ],
+              "title": "Mode of this source (read, write, read/write)",
               "default": "read"
+            },
+            "owner": {
+              "title": "Owner of this source (an email, usually of an employee or a team)",
+              "type": "string",
+              "nullable": true
             },
             "projects": {
               "type": "array",
@@ -2220,6 +2443,7 @@
           }
         },
         "GitLabCIConfig": {
+          "description": "Common configuration fields shared by all source configs",
           "type": "object",
           "required": [
             "url",
@@ -2227,6 +2451,7 @@
           ],
           "properties": {
             "env": {
+              "title": "Environment of this source (prod, pre-prod, staging, test, dev)",
               "anyOf": [
                 {
                   "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
@@ -2244,11 +2469,32 @@
               },
               "nullable": true
             },
+            "fetch_all_versions": {
+              "title": "Whether or not to collect all secret versions (default: false)",
+              "default": true,
+              "type": "boolean"
+            },
             "include": {
               "type": "array",
               "items": {
                 "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
               },
+              "nullable": true
+            },
+            "mode": {
+              "description": "The mode gives an additional layer of permissions allowing to configure a Scout instance, giving read-only, write-only, or read and write permissions to that source. Default is read-only.",
+              "type": "string",
+              "enum": [
+                "read",
+                "write",
+                "read/write"
+              ],
+              "title": "Mode of this source (read, write, read/write)",
+              "default": "read"
+            },
+            "owner": {
+              "title": "Owner of this source (an email, usually of an employee or a team)",
+              "type": "string",
               "nullable": true
             },
             "token": {
@@ -2273,7 +2519,7 @@
               "type": "string"
             },
             "env": {
-              "description": "Environment designation for this configuration",
+              "title": "Environment of this source (prod, pre-prod, staging, test, dev)",
               "anyOf": [
                 {
                   "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
@@ -2291,11 +2537,32 @@
               },
               "nullable": true
             },
+            "fetch_all_versions": {
+              "title": "Whether or not to collect all secret versions (default: false)",
+              "default": true,
+              "type": "boolean"
+            },
             "include": {
               "type": "array",
               "items": {
                 "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
               },
+              "nullable": true
+            },
+            "mode": {
+              "description": "The mode gives an additional layer of permissions allowing to configure a Scout instance, giving read-only, write-only, or read and write permissions to that source. Default is read-only.",
+              "type": "string",
+              "enum": [
+                "read",
+                "write",
+                "read/write"
+              ],
+              "title": "Mode of this source (read, write, read/write)",
+              "default": "read"
+            },
+            "owner": {
+              "title": "Owner of this source (an email, usually of an employee or a team)",
+              "type": "string",
               "nullable": true
             },
             "url": {
@@ -2306,10 +2573,10 @@
           }
         },
         "HashiCorpVaultConfig": {
+          "description": "Common configuration fields shared by all source configs",
           "type": "object",
           "required": [
-            "vault_address",
-            "fetch_all_versions"
+            "vault_address"
           ],
           "properties": {
             "auth": {
@@ -2404,6 +2671,7 @@
               "nullable": true
             },
             "env": {
+              "title": "Environment of this source (prod, pre-prod, staging, test, dev)",
               "anyOf": [
                 {
                   "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
@@ -2422,7 +2690,8 @@
               "nullable": true
             },
             "fetch_all_versions": {
-              "title": "Whether or not to collect all secret versions",
+              "title": "Whether or not to collect all secret versions (default: false)",
+              "default": true,
               "type": "boolean"
             },
             "include": {
@@ -2440,6 +2709,7 @@
                 "write",
                 "read/write"
               ],
+              "title": "Mode of this source (read, write, read/write)",
               "default": "read"
             },
             "namespaces": {
@@ -2448,6 +2718,11 @@
               "items": {
                 "type": "string"
               },
+              "nullable": true
+            },
+            "owner": {
+              "title": "Owner of this source (an email, usually of an employee or a team)",
+              "type": "string",
               "nullable": true
             },
             "path": {
@@ -2496,6 +2771,7 @@
                   "const": "kubeconfigfile"
                 },
                 "env": {
+                  "title": "Environment of this source (prod, pre-prod, staging, test, dev)",
                   "anyOf": [
                     {
                       "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
@@ -2513,6 +2789,11 @@
                   },
                   "nullable": true
                 },
+                "fetch_all_versions": {
+                  "title": "Whether or not to collect all secret versions (default: false)",
+                  "default": true,
+                  "type": "boolean"
+                },
                 "include": {
                   "type": "array",
                   "items": {
@@ -2520,12 +2801,22 @@
                   },
                   "nullable": true
                 },
+                "mode": {
+                  "title": "Mode of this source (read, write, read/write)",
+                  "default": "read",
+                  "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Mode"
+                },
                 "namespaces": {
                   "description": "Namespaces to read from. Can be a literal string or a glob expression to match\nmultiple namespaces.",
                   "type": "array",
                   "items": {
                     "type": "string"
                   },
+                  "nullable": true
+                },
+                "owner": {
+                  "title": "Owner of this source (an email, usually of an employee or a team)",
+                  "type": "string",
                   "nullable": true
                 }
               },
@@ -2550,6 +2841,7 @@
                   "const": "incluster"
                 },
                 "env": {
+                  "title": "Environment of this source (prod, pre-prod, staging, test, dev)",
                   "anyOf": [
                     {
                       "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
@@ -2567,6 +2859,11 @@
                   },
                   "nullable": true
                 },
+                "fetch_all_versions": {
+                  "title": "Whether or not to collect all secret versions (default: false)",
+                  "default": true,
+                  "type": "boolean"
+                },
                 "include": {
                   "type": "array",
                   "items": {
@@ -2574,12 +2871,22 @@
                   },
                   "nullable": true
                 },
+                "mode": {
+                  "title": "Mode of this source (read, write, read/write)",
+                  "default": "read",
+                  "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Mode"
+                },
                 "namespaces": {
                   "description": "Namespaces to read from. Can be a literal string or a glob expression to match\nmultiple namespaces.",
                   "type": "array",
                   "items": {
                     "type": "string"
                   },
+                  "nullable": true
+                },
+                "owner": {
+                  "title": "Owner of this source (an email, usually of an employee or a team)",
+                  "type": "string",
                   "nullable": true
                 }
               },
@@ -2639,12 +2946,11 @@
           "type": "string"
         },
         "SecretsManagerConfig": {
+          "description": "Common configuration fields shared by all source configs",
           "type": "object",
-          "required": [
-            "fetch_all_versions"
-          ],
           "properties": {
             "env": {
+              "title": "Environment of this source (prod, pre-prod, staging, test, dev)",
               "anyOf": [
                 {
                   "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
@@ -2663,7 +2969,8 @@
               "nullable": true
             },
             "fetch_all_versions": {
-              "title": "Whether or not to collect all secret versions",
+              "title": "Whether or not to collect all secret versions (default: false)",
+              "default": true,
               "type": "boolean"
             },
             "include": {
@@ -2681,7 +2988,13 @@
                 "write",
                 "read/write"
               ],
+              "title": "Mode of this source (read, write, read/write)",
               "default": "read"
+            },
+            "owner": {
+              "title": "Owner of this source (an email, usually of an employee or a team)",
+              "type": "string",
+              "nullable": true
             },
             "profile_name": {
               "type": "string",
