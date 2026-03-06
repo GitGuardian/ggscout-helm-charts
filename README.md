@@ -86,6 +86,41 @@ To apply the secrets to your cluster/namespace, run the following command: `kube
 
 Other examples can be found in [charts/ggscout/examples](charts/ggscout/examples).
 
+## Hash Cache Persistence
+
+ggscout uses scrypt to hash secrets before sending them to GitGuardian. By default, hashes are recomputed from scratch on every CronJob run. For large vaults this can be slow.
+
+Enabling persistence creates a PVC that stores the hash cache across runs, so only new or changed secrets need to be hashed:
+
+```yaml
+persistence:
+  enabled: true
+```
+
+On the first run the cache is empty (all misses). On subsequent runs, unchanged secrets are served from cache (hits), skipping expensive scrypt computation.
+
+### Configuration
+
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `persistence.enabled` | Enable persistent hash cache | `false` |
+| `persistence.storageClassName` | StorageClass name (empty = cluster default) | `""` |
+| `persistence.size` | PVC size (64 bytes/entry, 100Mi handles ~1.6M secrets) | `100Mi` |
+| `persistence.existingClaim` | Use an existing PVC instead of creating one | `""` |
+
+### Using an existing PVC
+
+If you already have a PVC you want to reuse:
+
+```yaml
+persistence:
+  enabled: true
+  existingClaim: my-existing-pvc
+```
+
+> [!NOTE]
+> The cache is only mounted on the inventory CronJob (fetch/fetch-and-send). The ping and sync CronJobs do not perform hashing and are unaffected.
+
 > [!IMPORTANT]
 > If you want to only fetch the identities without sending them, please see this [example](charts/ggscout/examples/fetch-only)
 
