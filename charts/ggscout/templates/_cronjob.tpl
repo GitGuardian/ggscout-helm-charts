@@ -67,6 +67,10 @@ spec:
                 - name: SSL_CERT_FILE
                   value: /etc/ssl/custom-certs/ca-bundle.crt
               {{- end }}
+              {{- if and .use_cache_pvc .Values.persistence.enabled }}
+                - name: HASH_CACHE_PATH
+                  value: /var/cache/ggscout/hashcache
+              {{- end }}
               {{- range .Values.env }}
                 - {{ toJson . }}
               {{- end }}
@@ -76,6 +80,10 @@ spec:
                 - name: ssl-custom-certs
                   mountPath: /etc/ssl/custom-certs
                   readOnly: true
+                {{- if and .use_cache_pvc .Values.persistence.enabled }}
+                - name: hashcache
+                  mountPath: /var/cache/ggscout
+                {{- end }}
                 {{- range .Values.volumeMounts }}
                 - {{ toJson . }}
                 {{- end }}
@@ -112,6 +120,11 @@ spec:
                   - key: {{ default "ca.crt" .Values.caBundle.existingSecretKey }}
                     path: ca-bundle.crt
                 {{- end }}
+            {{- end }}
+            {{- if and .use_cache_pvc .Values.persistence.enabled }}
+            - name: hashcache
+              persistentVolumeClaim:
+                claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{ else }}{{ include "ggscout.fullname" . }}-hashcache{{ end }}
             {{- end }}
             {{- range .Values.volumes }}
             - {{ toJson . }}

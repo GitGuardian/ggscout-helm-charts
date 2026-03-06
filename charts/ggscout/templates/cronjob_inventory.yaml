@@ -6,5 +6,5 @@
 {{ $command = "fetch-and-send" -}}
 {{- end }}
 
-{{ include "ggscout.cronjob" (merge (dict "cronjob_name" "inventory" "command" $command "schedule" .Values.inventory.jobs.fetch.schedule "backOffLimit" .Values.inventory.jobs.fetch.backOffLimit "ttlSecondsAfterFinished" .Values.inventory.jobs.fetch.ttlSecondsAfterFinished ) .) -}}
+{{ include "ggscout.cronjob" (merge (dict "cronjob_name" "inventory" "command" $command "schedule" .Values.inventory.jobs.fetch.schedule "backOffLimit" .Values.inventory.jobs.fetch.backOffLimit "ttlSecondsAfterFinished" .Values.inventory.jobs.fetch.ttlSecondsAfterFinished "use_cache_pvc" true ) .) -}}
 {{- end }}

@@ -28,6 +28,18 @@ inventory:
       backOffLimit: 2
       ttlSecondsAfterFinished: 2592000 #30 days
 
+# Hash cache persistence. When enabled, a PVC is created and mounted into
+# the inventory CronJob so the scrypt hash cache survives across runs.
+persistence:
+  # -- Enable persistent hash cache
+  enabled: false
+  # -- StorageClass name. Empty uses the cluster default.
+  storageClassName: ""
+  # -- PVC size (64 bytes/entry, 100Mi handles ~1.6M secrets)
+  size: 100Mi
+  # -- Use an existing PVC instead of creating one
+  existingClaim: ""
+
 caBundle:
   # -- Specify CA certificates to inject (PEM format)
   certs: ""
