@@ -17,6 +17,33 @@
        }
       },
       "required": ["config"]
+    },
+    "persistence": {
+      "type": "object",
+      "description": "Hash cache persistence. Creates a PVC for the scrypt hash cache so it survives across CronJob runs.",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable persistent hash cache",
+          "default": false
+        },
+        "storageClassName": {
+          "type": "string",
+          "description": "StorageClass name. Empty uses the cluster default.",
+          "default": ""
+        },
+        "size": {
+          "type": "string",
+          "description": "PVC size (64 bytes/entry, 100Mi handles ~1.6M secrets)",
+          "default": "100Mi"
+        },
+        "existingClaim": {
+          "type": "string",
+          "description": "Use an existing PVC instead of creating one",
+          "default": ""
+        }
+      },
+      "additionalProperties": false
     }
   },
   "required": [
