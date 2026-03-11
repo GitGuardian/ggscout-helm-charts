@@ -25,8 +25,11 @@ spec:
             {{- end }}
         spec:
           {{- include "ggscout.securityContext" $ | indent 10 }}
-          {{- if or $.Values.caBundle.certs $.Values.caBundle.existingSecret }}
+          {{- $needsCaInit := or $.Values.caBundle.certs $.Values.caBundle.existingSecret }}
+          {{- $needsCacheTTL := and .use_cache_pvc .Values.persistence.enabled (gt (int .Values.persistence.cacheTTLSeconds) 0) }}
+          {{- if or $needsCaInit $needsCacheTTL }}
           initContainers:
+            {{- if $needsCaInit }}
             - name: init-ca
               {{- include "ggscout.containerSecurityContext" . | indent 14 }}
               image: {{ include "ggscout.caBundle.image" . }}
@@ -47,6 +50,32 @@ spec:
                 - name: ssl-ca-bundle
                   mountPath: /etc/ssl/ca-bundle
                   readOnly: true
+            {{- end }}
+            {{- if $needsCacheTTL }}
+            - name: cache-ttl-check
+              {{- include "ggscout.containerSecurityContext" . | indent 14 }}
+              image: {{ include "ggscout.caBundle.image" . }}
+              imagePullPolicy: {{ .Values.imagePullPolicy }}
+              command: ["/bin/sh", "-c"]
+              args:
+                - |
+                  CACHE="/var/cache/ggscout/hashcache"
+                  TTL={{ .Values.persistence.cacheTTLSeconds }}
+                  if [ -f "$CACHE" ]; then
+                    AGE=$(( $(date +%s) - $(stat -c %Y "$CACHE") ))
+                    if [ "$AGE" -gt "$TTL" ]; then
+                      echo "Cache is ${AGE}s old (TTL=${TTL}s), flushing stale cache"
+                      rm -f "$CACHE"
+                    else
+                      echo "Cache is ${AGE}s old (TTL=${TTL}s), keeping"
+                    fi
+                  else
+                    echo "No cache file found, cold run"
+                  fi
+              volumeMounts:
+                - name: hashcache
+                  mountPath: /var/cache/ggscout
+            {{- end }}
           {{- end }}
           containers:
             - name: {{ .Chart.Name }}

@@ -41,6 +41,12 @@
           "type": "string",
           "description": "Use an existing PVC instead of creating one",
           "default": ""
+        },
+        "cacheTTLSeconds": {
+          "type": "integer",
+          "description": "Cache staleness TTL in seconds. If no inventory job has run for this duration, the cache is flushed on the next run. Set to 0 to disable.",
+          "default": 86400,
+          "minimum": 0
         }
       },
       "additionalProperties": false

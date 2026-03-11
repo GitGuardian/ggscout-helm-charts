@@ -6,6 +6,7 @@ suite: test persistence
 templates:
 - persistentvolumeclaim.yaml
 set:
+  inventory.jobs.fetch.enabled: true
   inventory.config.gitguardian.api_token: "foobar"
   inventory.config.gitguardian.endpoint: "https://some-url.com"
 tests:
@@ -43,6 +44,14 @@ tests:
   set:
     persistence.enabled: true
     persistence.existingClaim: my-existing-pvc
+  asserts:
+  - hasDocuments:
+      count: 0
+
+- it: should not create PVC when inventory fetch is disabled
+  set:
+    persistence.enabled: true
+    inventory.jobs.fetch.enabled: false
   asserts:
   - hasDocuments:
       count: 0
@@ -119,3 +128,45 @@ tests:
       content:
         name: hashcache
       any: true
+
+- it: should render cache-ttl-check initContainer when persistence is enabled with default TTL
+  set:
+    persistence.enabled: true
+  asserts:
+  - contains:
+      path: spec.jobTemplate.spec.template.spec.initContainers
+      content:
+        name: cache-ttl-check
+      any: true
+
+- it: should mount hashcache volume in cache-ttl-check initContainer
+  set:
+    persistence.enabled: true
+  asserts:
+  - contains:
+      path: spec.jobTemplate.spec.template.spec.initContainers[0].volumeMounts
+      content:
+        name: hashcache
+        mountPath: /var/cache/ggscout
+
+- it: should include TTL value in cache-ttl-check args
+  set:
+    persistence.enabled: true
+    persistence.cacheTTLSeconds: 3600
+  asserts:
+  - matchRegex:
+      path: spec.jobTemplate.spec.template.spec.initContainers[0].args[0]
+      pattern: "TTL=3600"
+
+- it: should not render cache-ttl-check initContainer when cacheTTLSeconds is 0
+  set:
+    persistence.enabled: true
+    persistence.cacheTTLSeconds: 0
+  asserts:
+  - isNull:
+      path: spec.jobTemplate.spec.template.spec.initContainers
+
+- it: should not render cache-ttl-check initContainer when persistence is disabled
+  asserts:
+  - isNull:
+      path: spec.jobTemplate.spec.template.spec.initContainers

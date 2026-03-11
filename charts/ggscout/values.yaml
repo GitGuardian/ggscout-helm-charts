@@ -39,6 +39,10 @@ persistence:
   size: 100Mi
   # -- Use an existing PVC instead of creating one
   existingClaim: ""
+  # -- Cache staleness TTL in seconds. If no inventory job has run for this
+  # duration, the cache is flushed on the next run. Default 86400 = 24 hours.
+  # Set to 0 to disable (cache never expires).
+  cacheTTLSeconds: 86400
 
 caBundle:
   # -- Specify CA certificates to inject (PEM format)
