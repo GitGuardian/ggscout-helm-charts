@@ -2240,6 +2240,72 @@
                   }
                 }
               ]
+            },
+            {
+              "description": "GitHub Actions fetcher",
+              "type": "object",
+              "properties": {
+                "env": {
+                  "title": "Environment of this source (prod, pre-prod, staging, test, dev)",
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
+                    },
+                    {
+                      "const": null,
+                      "nullable": true
+                    }
+                  ]
+                },
+                "exclude": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+                  },
+                  "nullable": true
+                },
+                "fetch_all_versions": {
+                  "title": "Whether or not to collect all secret versions (default: false)",
+                  "default": true,
+                  "type": "boolean"
+                },
+                "include": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+                  },
+                  "nullable": true
+                },
+                "mode": {
+                  "description": "The mode gives an additional layer of permissions allowing to configure a Scout instance, giving read-only, write-only, or read and write permissions to that source. Default is read-only.",
+                  "type": "string",
+                  "enum": [
+                    "read",
+                    "write",
+                    "read/write"
+                  ],
+                  "title": "Mode of this source (read, write, read/write)",
+                  "default": "read"
+                },
+                "owner": {
+                  "title": "Owner of this source (an email, usually of an employee or a team)",
+                  "type": "string",
+                  "nullable": true
+                },
+                "token": {
+                  "description": "Optional GitHub API token for metadata enrichment via the GitHub REST API.\nWhen provided, enriches inventory items with `created_at`, `updated_at`,\nscope, visibility, and the repository owner's email.\nGraceful degradation: if absent, the fetcher operates on in-workflow data only.\n\nRequired token scopes by API endpoint:\n- **Repo secrets** (`/repos/{owner}/{repo}/actions/secrets`): `repo` scope\n- **Org secrets** (`/orgs/{org}/actions/secrets`): `admin:org` scope\n- **Environment secrets**: `repo` scope\n- **Owner email** (`/users/{owner}`): no scope required (public data)\n\nMissing scopes result in 403 warnings in logs; the fetcher continues without\nthe corresponding metadata.",
+                  "type": "string",
+                  "nullable": true
+                },
+                "type": {
+                  "type": "string",
+                  "const": "githubactions"
+                }
+              },
+              "title": "GitHub Actions",
+              "required": [
+                "type"
+              ]
             }
           ]
         },
@@ -2439,6 +2505,64 @@
               "description": "Example: https://gitguardian.internal/",
               "type": "string",
               "format": "uri"
+            }
+          }
+        },
+        "GitHubActionsConfig": {
+          "description": "Common configuration fields shared by all source configs",
+          "type": "object",
+          "properties": {
+            "env": {
+              "title": "Environment of this source (prod, pre-prod, staging, test, dev)",
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/Env"
+                },
+                {
+                  "const": null,
+                  "nullable": true
+                }
+              ]
+            },
+            "exclude": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+              },
+              "nullable": true
+            },
+            "fetch_all_versions": {
+              "title": "Whether or not to collect all secret versions (default: false)",
+              "default": true,
+              "type": "boolean"
+            },
+            "include": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
+              },
+              "nullable": true
+            },
+            "mode": {
+              "description": "The mode gives an additional layer of permissions allowing to configure a Scout instance, giving read-only, write-only, or read and write permissions to that source. Default is read-only.",
+              "type": "string",
+              "enum": [
+                "read",
+                "write",
+                "read/write"
+              ],
+              "title": "Mode of this source (read, write, read/write)",
+              "default": "read"
+            },
+            "owner": {
+              "title": "Owner of this source (an email, usually of an employee or a team)",
+              "type": "string",
+              "nullable": true
+            },
+            "token": {
+              "description": "Optional GitHub API token for metadata enrichment via the GitHub REST API.\nWhen provided, enriches inventory items with `created_at`, `updated_at`,\nscope, visibility, and the repository owner's email.\nGraceful degradation: if absent, the fetcher operates on in-workflow data only.\n\nRequired token scopes by API endpoint:\n- **Repo secrets** (`/repos/{owner}/{repo}/actions/secrets`): `repo` scope\n- **Org secrets** (`/orgs/{org}/actions/secrets`): `admin:org` scope\n- **Environment secrets**: `repo` scope\n- **Owner email** (`/users/{owner}`): no scope required (public data)\n\nMissing scopes result in 403 warnings in logs; the fetcher continues without\nthe corresponding metadata.",
+              "type": "string",
+              "nullable": true
             }
           }
         },
