@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "$id": "https://gitguardian.com/jobs",
+  "minProperties": 0,
+  "properties": {
+    "ping": {
+      "type": "object",
+      "properties": {
+        "schedule": {
+          "type": "string",
+          "default": "* * * * *"
+        }
+      }
+    },
+    "fetch": {
+      "description": "Job that fetches data from defined sources. If send is set to `true`, send collected data to the configured GitGuardian instance.",
+      "type": "object",
+      "properties": {
+        "schedule": {
+          "type": "string",
+          "default": "*/15 * * * *"
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "send": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "sync": {
+      "type": "object",
+      "properties": {
+        "schedule": {
+          "type": "string",
+          "default": "* * * * *"
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    }
+  }
+}
