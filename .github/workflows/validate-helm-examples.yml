@@ -115,7 +115,7 @@ jobs:
       matrix:
         example-group:
           - secret_manager_group_1: ["akeyless", "cyberarksaas", "hashicorpvault", "azurekeyvault"]
-          - secret_manager_group_2: ["delinea", "gcpsecretmanager", "awssecretsmanager"]  # TODO: add fetch-only
+          - secret_manager_group_2: ["gcpsecretmanager", "awssecretsmanager"]  # TODO: add fetch-only, delinea (credentials expired)
           # - consumers: ["k8s_incluster", "k8s_kubeconfigfile", "gitlabci"]
 
     steps:
@@ -170,6 +170,35 @@ jobs:
           echo "${{ secrets.GCP_SA_KEY }}" | base64 --decode > gcp_key.json
           kubectl create secret generic gcp-key-secret --namespace ggscout-test --from-file=gcp_key.json
           echo "✅ Secret gcp-key-secret created with GCP credentials"
+
+      # Verify GitGuardian API credentials before deploying
+      - name: Verify GitGuardian API credentials
+        env:
+          GITGUARDIAN_API_URL: ${{ secrets.GITGUARDIAN_API_URL }}
+          GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
+        run: |
+          echo "🔍 Testing GitGuardian API connectivity..."
+          echo "Endpoint: ${GITGUARDIAN_API_URL}"
+
+          # Test the ping endpoint (POST) which requires the same auth
+          HTTP_STATUS=$(curl -s -o /tmp/gg_response.json -w "%{http_code}" \
+            -X POST \
+            -H "Authorization: Token ${GITGUARDIAN_API_KEY}" \
+            -H "Content-Type: application/json" \
+            -d '[]' \
+            "${GITGUARDIAN_API_URL%/}/nhi/ping")
+
+          echo "HTTP Status: $HTTP_STATUS"
+          echo "Response body:"
+          cat /tmp/gg_response.json
+          echo ""
+
+          if [ "$HTTP_STATUS" -ge 400 ]; then
+            echo "❌ GitGuardian API authentication failed (HTTP $HTTP_STATUS)"
+            echo "Check that GITGUARDIAN_API_KEY and GITGUARDIAN_API_URL secrets are correct"
+            exit 1
+          fi
+          echo "✅ GitGuardian API credentials verified"
 
       # Deploy and validate each example in the cluster
       - name: Deploy and validate examples

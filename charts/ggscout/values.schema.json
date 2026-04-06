@@ -22,6 +22,39 @@
         }
       },
       "additionalProperties": false
+    },
+    "persistence": {
+      "description": "Hash cache persistence. Creates a PVC for the scrypt hash cache so it survives across CronJob runs.",
+      "type": "object",
+      "properties": {
+        "cacheTTLSeconds": {
+          "description": "Cache staleness TTL in seconds. If no inventory job has run for this duration, the cache is flushed on the next run. Set to 0 to disable.",
+          "default": 86400,
+          "type": "integer",
+          "minimum": 0
+        },
+        "enabled": {
+          "description": "Enable persistent hash cache",
+          "default": false,
+          "type": "boolean"
+        },
+        "existingClaim": {
+          "description": "Use an existing PVC instead of creating one",
+          "default": "",
+          "type": "string"
+        },
+        "size": {
+          "description": "PVC size (64 bytes/entry, 100Mi handles ~1.6M secrets)",
+          "default": "100Mi",
+          "type": "string"
+        },
+        "storageClassName": {
+          "description": "StorageClass name. Empty uses the cluster default.",
+          "default": "",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
     }
   },
   "additionalProperties": true,

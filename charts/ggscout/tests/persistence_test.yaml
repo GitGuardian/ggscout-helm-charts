@@ -1,0 +1,172 @@
+---
+# Test docs: https://github.com/helm-unittest/helm-unittest/blob/main/DOCUMENT.md
+
+# --- PVC tests ---
+suite: test persistence
+templates:
+- persistentvolumeclaim.yaml
+set:
+  inventory.jobs.fetch.enabled: true
+  inventory.config.gitguardian.api_token: "foobar"
+  inventory.config.gitguardian.endpoint: "https://some-url.com"
+tests:
+- it: should not create PVC when persistence is disabled (default)
+  asserts:
+  - hasDocuments:
+      count: 0
+
+- it: should create PVC when persistence is enabled
+  set:
+    persistence.enabled: true
+  asserts:
+  - isKind:
+      of: PersistentVolumeClaim
+  - matchRegex:
+      path: metadata.name
+      pattern: .*-hashcache$
+  - equal:
+      path: spec.accessModes[0]
+      value: ReadWriteOnce
+  - equal:
+      path: spec.resources.requests.storage
+      value: 100Mi
+
+- it: should apply custom storageClassName
+  set:
+    persistence.enabled: true
+    persistence.storageClassName: fast-ssd
+  asserts:
+  - equal:
+      path: spec.storageClassName
+      value: fast-ssd
+
+- it: should not create PVC when existingClaim is set
+  set:
+    persistence.enabled: true
+    persistence.existingClaim: my-existing-pvc
+  asserts:
+  - hasDocuments:
+      count: 0
+
+- it: should not create PVC when inventory fetch is disabled
+  set:
+    persistence.enabled: true
+    inventory.jobs.fetch.enabled: false
+  asserts:
+  - hasDocuments:
+      count: 0
+---
+# --- Inventory CronJob persistence tests ---
+suite: test persistence in inventory cronjob
+templates:
+- cronjob_inventory.yaml
+set:
+  inventory.jobs.fetch.enabled: true
+  inventory.config.gitguardian.api_token: "foobar"
+  inventory.config.gitguardian.endpoint: "https://some-url.com"
+tests:
+- it: should inject HASH_CACHE_PATH env var when persistence is enabled
+  set:
+    persistence.enabled: true
+  asserts:
+  - contains:
+      path: spec.jobTemplate.spec.template.spec.containers[0].env
+      content:
+        name: HASH_CACHE_PATH
+        value: /var/cache/ggscout/hashcache
+
+- it: should not inject HASH_CACHE_PATH env var when persistence is disabled
+  asserts:
+  - notContains:
+      path: spec.jobTemplate.spec.template.spec.containers[0].env
+      content:
+        name: HASH_CACHE_PATH
+        value: /var/cache/ggscout/hashcache
+
+- it: should add hashcache volumeMount when persistence is enabled
+  set:
+    persistence.enabled: true
+  asserts:
+  - contains:
+      path: spec.jobTemplate.spec.template.spec.containers[0].volumeMounts
+      content:
+        name: hashcache
+        mountPath: /var/cache/ggscout
+
+- it: should add hashcache volume with generated claimName when persistence is enabled
+  set:
+    persistence.enabled: true
+  asserts:
+  - contains:
+      path: spec.jobTemplate.spec.template.spec.volumes
+      content:
+        name: hashcache
+        persistentVolumeClaim:
+          claimName: RELEASE-NAME-ggscout-hashcache
+
+- it: should use existingClaim as claimName when specified
+  set:
+    persistence.enabled: true
+    persistence.existingClaim: my-existing-pvc
+  asserts:
+  - contains:
+      path: spec.jobTemplate.spec.template.spec.volumes
+      content:
+        name: hashcache
+        persistentVolumeClaim:
+          claimName: my-existing-pvc
+
+- it: should not add hashcache volume or mount when persistence is disabled
+  asserts:
+  - notContains:
+      path: spec.jobTemplate.spec.template.spec.containers[0].volumeMounts
+      content:
+        name: hashcache
+        mountPath: /var/cache/ggscout
+  - notContains:
+      path: spec.jobTemplate.spec.template.spec.volumes
+      content:
+        name: hashcache
+      any: true
+
+- it: should render cache-ttl-check initContainer when persistence is enabled with default TTL
+  set:
+    persistence.enabled: true
+  asserts:
+  - contains:
+      path: spec.jobTemplate.spec.template.spec.initContainers
+      content:
+        name: cache-ttl-check
+      any: true
+
+- it: should mount hashcache volume in cache-ttl-check initContainer
+  set:
+    persistence.enabled: true
+  asserts:
+  - contains:
+      path: spec.jobTemplate.spec.template.spec.initContainers[0].volumeMounts
+      content:
+        name: hashcache
+        mountPath: /var/cache/ggscout
+
+- it: should include TTL value in cache-ttl-check args
+  set:
+    persistence.enabled: true
+    persistence.cacheTTLSeconds: 3600
+  asserts:
+  - matchRegex:
+      path: spec.jobTemplate.spec.template.spec.initContainers[0].args[0]
+      pattern: "TTL=3600"
+
+- it: should not render cache-ttl-check initContainer when cacheTTLSeconds is 0
+  set:
+    persistence.enabled: true
+    persistence.cacheTTLSeconds: 0
+  asserts:
+  - isNull:
+      path: spec.jobTemplate.spec.template.spec.initContainers
+
+- it: should not render cache-ttl-check initContainer when persistence is disabled
+  asserts:
+  - isNull:
+      path: spec.jobTemplate.spec.template.spec.initContainers
