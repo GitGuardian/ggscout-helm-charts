@@ -1,3 +1,16 @@
+## ggscout-0.5.18 (2026-06-18)
+
+### Feat
+
+- update schemas and appVersion for GGScout v0.29.0
+
+### Fix
+
+- **ci**: build example-validation secret via array, not eval
+- **ci**: pin helm 4 toolchain and align secret test with it
+- **docs**: generate schema docs from pinned GGScout version
+- **release**: fix mise not using uv and unable to find dependencies
+
 ## ggscout-0.5.17 (2026-04-22)
 
 ### Feat
