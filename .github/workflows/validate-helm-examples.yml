@@ -181,7 +181,17 @@ jobs:
           GROUP="${{ steps.set-examples.outputs.group }}"
           DIRS="${{ steps.set-examples.outputs.directories }}"
 
+          PASSED_EXAMPLES=()
+          FAILED_EXAMPLES=()
+
           for example in $DIRS; do
+            # Validate each example in a subshell so a failure (its internal
+            # `exit 1`) aborts only THIS example. We record the outcome and
+            # continue, so one failing integration no longer masks the status of
+            # the rest of the group (matches the matrix's `fail-fast: false`).
+            set +e
+            (
+            set -e
             echo "🔍 Validating example: $example"
             release_name="ggscout-test-${example}-${GITHUB_SHA::7}"
 
@@ -434,7 +444,27 @@ jobs:
             rm "charts/ggscout/examples/$example/values-ci.yaml"
 
             echo "✅ Example $example passed validation with successful job completion"
+            )
+            rc=$?
+            set -e
+            if [ $rc -eq 0 ]; then
+              PASSED_EXAMPLES+=("$example")
+            else
+              echo "❌ Example $example FAILED validation (exit $rc)"
+              FAILED_EXAMPLES+=("$example")
+              # Best-effort cleanup in case the subshell aborted before its own
+              helm uninstall "ggscout-test-${example}-${GITHUB_SHA::7}" --namespace ggscout-test 2>/dev/null || true
+              rm -f "charts/ggscout/examples/$example/values-ci.yaml" "charts/ggscout/examples/$example/values-fixed.yaml"
+            fi
           done
+
+          echo "================== VALIDATION SURFACE =================="
+          echo "✅ PASSED (${#PASSED_EXAMPLES[@]}): ${PASSED_EXAMPLES[*]:-none}"
+          echo "❌ FAILED (${#FAILED_EXAMPLES[@]}): ${FAILED_EXAMPLES[*]:-none}"
+          if [ ${#FAILED_EXAMPLES[@]} -ne 0 ]; then
+            echo "One or more examples failed validation"
+            exit 1
+          fi
 
       # Generate summary report
       - name: Generate summary
