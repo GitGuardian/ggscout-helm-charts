@@ -1,5 +1,9 @@
 [tools]
-helm = "latest"
+# Pinned (not "latest") so chart rendering is reproducible: helm 4 changed null
+# coalescing (e.g. `gitguardian: null` is now kept), which would otherwise drift
+# the helm-unittest output between local and CI. Must stay >=4 for the
+# helm-unittest plugin pinned below (its plugin.yaml uses helm-4-only fields).
+helm = "4.2.1"
 nodejs = "lts"
 # With uv installed, mise installs the pipx: tools below via uvx (uv tool
 # install) instead of pipx->pip.

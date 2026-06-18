@@ -2,8 +2,13 @@
 set -euo pipefail
 IFS=$'\n\t'
 
+# Pinned (not floating) so chart rendering stays reproducible between local and
+# CI: a newer helm-unittest embeds a newer helm SDK that can change rendering
+# (e.g. null coalescing). v1.1.1 requires helm >=4 (see helm pin in mise.toml).
+UNITTEST_VERSION="v1.1.1"
+
 plugins=$(helm plugin list)
 
 if ! echo "$plugins" | grep -q 'unittest'; then
-  helm plugin install https://github.com/helm-unittest/helm-unittest.git --verify=false  # `verify` flag was added in helm v4 - topic is dicussed here https://github.com/helm-unittest/helm-unittest/issues/777
+  helm plugin install https://github.com/helm-unittest/helm-unittest.git --version "${UNITTEST_VERSION}" --verify=false  # `verify` flag was added in helm v4 - topic is dicussed here https://github.com/helm-unittest/helm-unittest/issues/777
 fi
