@@ -114,8 +114,12 @@ jobs:
       fail-fast: false
       matrix:
         example-group:
-          - secret_manager_group_1: ["akeyless", "cyberarksaas", "hashicorpvault", "azurekeyvault"]
-          - secret_manager_group_2: ["delinea", "gcpsecretmanager", "awssecretsmanager"]  # TODO: add fetch-only
+          # cyberarksaas and delinea are excluded: we no longer have active
+          # CyberArk SaaS / Delinea subscriptions, so their inventory jobs can't
+          # reach a live tenant in CI and fail with "All fetchers failed".
+          # Re-add them here once valid CI test credentials are available again.
+          - secret_manager_group_1: ["akeyless", "hashicorpvault", "azurekeyvault"]
+          - secret_manager_group_2: ["gcpsecretmanager", "awssecretsmanager"]  # TODO: add fetch-only
           # - consumers: ["k8s_incluster", "k8s_kubeconfigfile", "gitlabci"]
 
     steps:
