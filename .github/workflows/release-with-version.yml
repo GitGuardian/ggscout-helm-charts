@@ -93,6 +93,11 @@ jobs:
           echo "Updated appVersion in ${CHART_FILE}:"
           grep "appVersion:" "${CHART_FILE}"
 
+      - name: Generate schema documentation
+        run: |
+          echo "Generating schema documentation for GGScout version: ${{ github.event.inputs.ggscout_version }}"
+          mise run generate-docs "${{ github.event.inputs.ggscout_version }}"
+
       - name: Run tests
         run: |
           echo "Running Helm chart tests..."

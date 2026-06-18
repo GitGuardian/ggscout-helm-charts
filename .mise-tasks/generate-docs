@@ -2,9 +2,16 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-#USAGE arg "ggscout_version" help="GGScout version to use for schema documentation" default="latest"
+#USAGE arg "ggscout_version" help="GGScout version to use for schema documentation" default="<Chart.yaml appVersion>"
 
-GGSCOUT_VERSION="${1:-latest}"
+# Default to the pinned GGScout version from the chart's appVersion (prefixed
+# with 'v', as the schema repository expects), NOT "latest". This keeps the
+# generated docs deterministic and tied to the released version, so the
+# generate-docs pre-commit/CI gate stays stable instead of floating.
+CHART_FILE="charts/ggscout/Chart.yaml"
+APP_VERSION="$(grep -E '^appVersion:' "${CHART_FILE}" | sed -E 's/^appVersion:[[:space:]]*"?([^"]+)"?.*/\1/')"
+APP_VERSION="${APP_VERSION#v}"
+GGSCOUT_VERSION="${1:-v${APP_VERSION}}"
 SCHEMA_CACHE_DIR=".cache/schemas/${GGSCOUT_VERSION}"
 
 echo "Generating documentation for GGScout version: ${GGSCOUT_VERSION}"
