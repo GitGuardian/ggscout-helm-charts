@@ -1031,6 +1031,19 @@
                   "title": "Mode of this source (read, write, read/write)",
                   "default": "read"
                 },
+                "mount_type": {
+                  "description": "Secret engine type/version of the configured mount(s), e.g. `kv-v1` or `kv-v2`.\nOptional: when omitted, ggscout auto-detects it. Set it to skip the `sys/*`\nmount-detection calls entirely — useful when the token is denied access to\n`sys/*`. Only applies when an `include`/`path` pins the mount(s).",
+                  "default": null,
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/MountType"
+                    },
+                    {
+                      "const": null,
+                      "nullable": true
+                    }
+                  ]
+                },
                 "namespaces": {
                   "description": "Vault namespaces to fetch from. If None, fetch from all accessible namespaces.\nIf Some(vec), only fetch from namespaces that are both accessible and in this list.",
                   "type": "array",
@@ -2664,6 +2677,19 @@
               "title": "Mode of this source (read, write, read/write)",
               "default": "read"
             },
+            "mount_type": {
+              "description": "Secret engine type/version of the configured mount(s), e.g. `kv-v1` or `kv-v2`.\nOptional: when omitted, ggscout auto-detects it. Set it to skip the `sys/*`\nmount-detection calls entirely — useful when the token is denied access to\n`sys/*`. Only applies when an `include`/`path` pins the mount(s).",
+              "default": null,
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/MountType"
+                },
+                {
+                  "const": null,
+                  "nullable": true
+                }
+              ]
+            },
             "namespaces": {
               "description": "Vault namespaces to fetch from. If None, fetch from all accessible namespaces.\nIf Some(vec), only fetch from namespaces that are both accessible and in this list.",
               "type": "array",
@@ -2871,6 +2897,21 @@
             "read",
             "write",
             "read/write"
+          ]
+        },
+        "MountType": {
+          "description": "Secret engine type of a configured mount, used to skip mount auto-detection.\nExtensible: new engine types can be added as variants in the future.",
+          "oneOf": [
+            {
+              "description": "KV secrets engine, version 1",
+              "type": "string",
+              "const": "kv-v1"
+            },
+            {
+              "description": "KV secrets engine, version 2",
+              "type": "string",
+              "const": "kv-v2"
+            }
           ]
         },
         "RuleElement": {
