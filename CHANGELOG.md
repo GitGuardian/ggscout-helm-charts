@@ -1,3 +1,9 @@
+## ggscout-0.5.21 (2026-08-31)
+
+### Feat
+
+- update schemas and appVersion for GGScout v0.32.0
+
 ## ggscout-0.5.20 (2026-08-04)
 
 ### Feat
