@@ -443,9 +443,6 @@
         "AzureKeyVaultConfig": {
           "description": "Common configuration fields shared by all source configs",
           "type": "object",
-          "required": [
-            "subscription_id"
-          ],
           "properties": {
             "env": {
               "title": "Environment of this source (prod, pre-prod, staging, test, dev)",
@@ -478,6 +475,13 @@
               },
               "nullable": true
             },
+            "management_group_id": {
+              "title": "Management group ID",
+              "description": "An Azure management group id. Every subscription nested under it (recursively,\nincluding subscriptions of child management groups) is discovered and its Key Vaults\nare fetched.",
+              "default": null,
+              "type": "string",
+              "nullable": true
+            },
             "mode": {
               "description": "The mode gives an additional layer of permissions allowing to configure a Scout instance, giving read-only, write-only, or read and write permissions to that source. Default is read-only.",
               "type": "string",
@@ -495,7 +499,20 @@
               "nullable": true
             },
             "subscription_id": {
-              "type": "string"
+              "title": "Subscription ID",
+              "description": "A single Azure subscription to fetch Key Vaults from.",
+              "default": null,
+              "type": "string",
+              "nullable": true
+            },
+            "subscription_ids": {
+              "title": "Subscription IDs",
+              "description": "Multiple Azure subscriptions to fetch Key Vaults from.",
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             }
           }
         },
@@ -1472,10 +1489,6 @@
             {
               "description": "Azure Key Vault fetcher",
               "type": "object",
-              "required": [
-                "subscription_id",
-                "type"
-              ],
               "properties": {
                 "env": {
                   "title": "Environment of this source (prod, pre-prod, staging, test, dev)",
@@ -1508,6 +1521,13 @@
                   },
                   "nullable": true
                 },
+                "management_group_id": {
+                  "title": "Management group ID",
+                  "description": "An Azure management group id. Every subscription nested under it (recursively,\nincluding subscriptions of child management groups) is discovered and its Key Vaults\nare fetched.",
+                  "default": null,
+                  "type": "string",
+                  "nullable": true
+                },
                 "mode": {
                   "description": "The mode gives an additional layer of permissions allowing to configure a Scout instance, giving read-only, write-only, or read and write permissions to that source. Default is read-only.",
                   "type": "string",
@@ -1525,14 +1545,30 @@
                   "nullable": true
                 },
                 "subscription_id": {
-                  "type": "string"
+                  "title": "Subscription ID",
+                  "description": "A single Azure subscription to fetch Key Vaults from.",
+                  "default": null,
+                  "type": "string",
+                  "nullable": true
+                },
+                "subscription_ids": {
+                  "title": "Subscription IDs",
+                  "description": "Multiple Azure subscriptions to fetch Key Vaults from.",
+                  "default": [],
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
                 },
                 "type": {
                   "type": "string",
                   "const": "azurekeyvault"
                 }
               },
-              "title": "Azure Key Vault"
+              "title": "Azure Key Vault",
+              "required": [
+                "type"
+              ]
             },
             {
               "description": "GitLab CI fetcher",
