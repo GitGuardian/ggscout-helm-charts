@@ -46,8 +46,8 @@ inventory:
     fetch:
         # Set to `false` to disable the job
         enabled: true
-        # Run every hour
-        schedule: '0 * * * *'
+        # Run every 4 hours
+        schedule: '0 */4 * * *'
         # If you wish to disable sending the fetched secrets to GitGuardian, we recommend
         # doing so by using docker run instead of a helm install
         # see https://docs.gitguardian.com/ggscout-docs/configuration#audit-mode for more details
@@ -149,8 +149,8 @@ inventory:
     fetch:
         # Set to `false` to disable the job
         enabled: true
-        # Run every hour
-        schedule: '0 * * * *'
+        # Run every 4 hours
+        schedule: '0 */4 * * *'
         # If you wish to disable sending the fetched secrets to GitGuardian, we recommend
         # doing so by using docker run instead of a helm install
         # see https://docs.gitguardian.com/ggscout-docs/configuration#audit-mode for more details

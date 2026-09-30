@@ -24,8 +24,8 @@ inventory:
     fetch:
       # Set to `false` to disable the job
       enabled: true
-      # Run every hour
-      schedule: '0 * * * *'
+      # Run every 4 hours
+      schedule: '0 */4 * * *'
       send: true
     # Job to be able to sync/write secrets from GitGuardian into you vault
     sync:
