@@ -3060,7 +3060,7 @@
               "type": "boolean"
             },
             "schedule": {
-              "default": "0 * * * *",
+              "default": "0 */4 * * *",
               "type": "string"
             },
             "send": {
