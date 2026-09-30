@@ -17,7 +17,7 @@ inventory:
       backOffLimit: 2
       ttlSecondsAfterFinished: 2592000 #30 days
     fetch:
-      schedule: "*/15 * * * *"
+      schedule: "0 * * * *"
       enabled: false
       send: false
       backOffLimit: 2

@@ -19,7 +19,7 @@
       "properties": {
         "schedule": {
           "type": "string",
-          "default": "*/15 * * * *"
+          "default": "0 * * * *"
         },
         "enabled": {
           "type": "boolean",
