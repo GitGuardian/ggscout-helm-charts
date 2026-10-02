@@ -1,3 +1,11 @@
+## ggscout-0.5.22 (2026-10-02)
+
+### Feat
+
+- update schemas and appVersion for GGScout v0.33.0
+- run fetch-and-send every 4 hours by default
+- run fetch-and-send hourly by default
+
 ## ggscout-0.5.21 (2026-08-31)
 
 ### Feat
