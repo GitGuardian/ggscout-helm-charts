@@ -31,6 +31,49 @@
       "title": "Config",
       "type": "object",
       "properties": {
+        "check": {
+          "title": "Secret validity check",
+          "description": "Checks each classified secret against its provider with the satori analyzers.\nOn by default; set `enabled = false` to skip it.",
+          "type": "object",
+          "properties": {
+            "concurrency": {
+              "title": "Checks run in parallel",
+              "description": "Capped at 512.",
+              "default": 64,
+              "type": "integer",
+              "minimum": 0,
+              "format": "uint"
+            },
+            "enabled": {
+              "title": "Whether to run the check stage",
+              "default": true,
+              "type": "boolean"
+            },
+            "timeout_seconds": {
+              "title": "Per-request timeout for the YAML analyzers, in seconds",
+              "description": "At least 1. Code analyzers (AWS, GCP, ...) keep their own timeout. Each check overall\nis capped at max(20, 2x this), which also bounds retries.",
+              "default": 10,
+              "type": "integer",
+              "minimum": 1,
+              "format": "uint64"
+            },
+            "total_timeout_seconds": {
+              "title": "Seconds allowed for the whole stage, 0 means no limit",
+              "description": "Checks still pending at the deadline come back failed_to_check. Checks run in\ninventory order, so a deadline too short for the inventory leaves the same tail\nfailed_to_check on every run. Keep fetch plus check under the scheduled run\ninterval: the Helm chart runs fetch-and-send on a schedule and replaces a run that\nis still going, which then uploads nothing.",
+              "default": 180,
+              "type": "integer",
+              "minimum": 0,
+              "format": "uint64"
+            }
+          },
+          "additionalProperties": false,
+          "default": {
+            "concurrency": 64,
+            "enabled": true,
+            "timeout_seconds": 10,
+            "total_timeout_seconds": 180
+          }
+        },
         "gitguardian": {
           "anyOf": [
             {
@@ -515,6 +558,43 @@
               }
             }
           }
+        },
+        "CheckConfig": {
+          "title": "Secret validity check",
+          "description": "Asks each classified secret's provider whether it is still valid, who owns it and what it\ncan reach, with the satori analyzers. Sends the credential to the provider from inside the\ncustomer network. On by default.",
+          "type": "object",
+          "properties": {
+            "concurrency": {
+              "title": "Checks run in parallel",
+              "description": "Capped at 512.",
+              "default": 64,
+              "type": "integer",
+              "minimum": 0,
+              "format": "uint"
+            },
+            "enabled": {
+              "title": "Whether to run the check stage",
+              "default": true,
+              "type": "boolean"
+            },
+            "timeout_seconds": {
+              "title": "Per-request timeout for the YAML analyzers, in seconds",
+              "description": "At least 1. Code analyzers (AWS, GCP, ...) keep their own timeout. Each check overall\nis capped at max(20, 2x this), which also bounds retries.",
+              "default": 10,
+              "type": "integer",
+              "minimum": 1,
+              "format": "uint64"
+            },
+            "total_timeout_seconds": {
+              "title": "Seconds allowed for the whole stage, 0 means no limit",
+              "description": "Checks still pending at the deadline come back failed_to_check. Checks run in\ninventory order, so a deadline too short for the inventory leaves the same tail\nfailed_to_check on every run. Keep fetch plus check under the scheduled run\ninterval: the Helm chart runs fetch-and-send on a schedule and replaces a run that\nis still going, which then uploads nothing.",
+              "default": 180,
+              "type": "integer",
+              "minimum": 0,
+              "format": "uint64"
+            }
+          },
+          "additionalProperties": false
         },
         "CyberArkAuth": {
           "type": "object",
