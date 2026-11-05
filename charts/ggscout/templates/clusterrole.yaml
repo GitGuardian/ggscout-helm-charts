@@ -28,5 +28,8 @@ rules:
   - apiGroups: ["external-secrets.io"]
     resources: ["secretstores"]
     verbs: ["get", "list"]
+  - apiGroups: ["external-secrets.io"]
+    resources: ["clustersecretstores"]
+    verbs: ["get", "list"]
 
 {{- end }}

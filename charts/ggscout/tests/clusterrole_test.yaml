@@ -15,6 +15,28 @@ tests:
   - matchRegex:
       path: metadata.name
       pattern: -ggscout$
+- it: "grants read access to the External Secrets Operator resources"
+  set:
+    clusterRole.create: true
+  asserts:
+  - contains:
+      path: rules
+      content:
+        apiGroups: ["external-secrets.io"]
+        resources: ["externalsecrets"]
+        verbs: ["get", "list"]
+  - contains:
+      path: rules
+      content:
+        apiGroups: ["external-secrets.io"]
+        resources: ["secretstores"]
+        verbs: ["get", "list"]
+  - contains:
+      path: rules
+      content:
+        apiGroups: ["external-secrets.io"]
+        resources: ["clustersecretstores"]
+        verbs: ["get", "list"]
 - it: "does not create a ClusterRole"
   set:
     clusterRole.create: false
