@@ -1,3 +1,10 @@
+## ggscout-0.5.25 (2026-11-12)
+
+### Feat
+
+- update schemas and appVersion for GGScout v0.36.1
+- grant read access to ClusterSecretStores
+
 ## ggscout-0.5.24 (2026-10-29)
 
 ### Feat
