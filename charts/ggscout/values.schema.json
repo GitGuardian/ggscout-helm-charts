@@ -1690,6 +1690,11 @@
                   },
                   "nullable": true
                 },
+                "include_archived": {
+                  "title": "Whether to also collect variables of archived projects (default: false)",
+                  "default": false,
+                  "type": "boolean"
+                },
                 "mode": {
                   "description": "The mode gives an additional layer of permissions allowing to configure a Scout instance, giving read-only, write-only, or read and write permissions to that source. Default is read-only.",
                   "type": "string",
@@ -2561,6 +2566,11 @@
                 "$ref": "#/definitions/https%3A~1~1gitguardian.com~1inventory-config/$defs/FilteringRule"
               },
               "nullable": true
+            },
+            "include_archived": {
+              "title": "Whether to also collect variables of archived projects (default: false)",
+              "default": false,
+              "type": "boolean"
             },
             "mode": {
               "description": "The mode gives an additional layer of permissions allowing to configure a Scout instance, giving read-only, write-only, or read and write permissions to that source. Default is read-only.",
